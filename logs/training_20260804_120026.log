@@ -1,0 +1,145 @@
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:410 | ======================================================================
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:411 |   CARIVIX AI - MODEL TRAINING PIPELINE
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:412 |   Started at: 2026-08-04 12:00:26
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:413 | ======================================================================
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:417 | Loading configuration from: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\config\config.yaml
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | utils:146 | Configuration loaded successfully from D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\config\config.yaml
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:428 | Algorithm: RandomForest
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:429 | Target column: target
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:232 | --------------------------------------------------
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:233 | STEP 1: Dataset Loading
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:234 | --------------------------------------------------
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | utils:487 | DataFrame loaded from D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/raw/dataset.csv (shape: (1010, 11))
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:246 | Dataset loaded successfully. Shape: (1010, 11)
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:247 | Columns: ['age', 'income', 'credit_score', 'loan_amount', 'years_employed', 'education', 'employment_status', 'marital_status', 'housing_type', 'application_date', 'target']
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:248 | Data types:
+age                  float64
+income               float64
+credit_score         float64
+loan_amount          float64
+years_employed       float64
+education             object
+employment_status     object
+marital_status        object
+housing_type          object
+application_date      object
+target                 int64
+dtype: object
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:437 | Raw data available at: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\raw\dataset.csv
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:263 | --------------------------------------------------
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:264 | STEP 2: Data Validation
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:265 | --------------------------------------------------
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:281 | Validation checks passed:
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:282 |   - Dataset is not empty (rows: 1010)
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:283 |   - Numeric columns: 6
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:284 |   - Categorical columns: 5
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:285 |   - Missing values: 94
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:286 |   - Duplicate rows: 10
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:303 | --------------------------------------------------
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:304 | STEP 3 & 4: Data Cleaning & Preprocessing
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | main:305 | --------------------------------------------------
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | preprocess:329 | ============================================================
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | preprocess:330 | STARTING PREPROCESSING PIPELINE
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | preprocess:331 | ============================================================
+2026-08-04 12:00:26 | INFO     | CARIVIX_AI | preprocess:49 | Handling missing values with strategy: 'mean'
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:92 | Missing value handling complete. Remaining nulls: 22
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:102 | Removing duplicate rows...
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:106 | Removed 10 duplicate rows. Shape: 1010 -> (1000, 11)
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:363 | Column types - Numeric: 5, Categorical: 5
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:236 | Applying Label Encoding to columns: ['education', 'employment_status', 'marital_status', 'housing_type']
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:245 | Label Encoding complete. Encoded 4 columns.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:255 | Applying One-Hot Encoding to columns: ['application_date'] (drop_first=True)
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:266 | One-Hot Encoding complete. Added 19 new columns.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:303 | Scaling features using 'standard' scaler for 9 columns.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:402 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:403 | PREPROCESSING PIPELINE COMPLETE
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | preprocess:404 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:309 | Preprocessed features shape: (1000, 28)
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:310 | Target distribution:
+target
+1    597
+0    403
+Name: count, dtype: int64
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | utils:436 | DataFrame saved to D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\processed\processed_20260804_120027.csv (shape: (1000, 29))
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:327 | --------------------------------------------------
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:328 | STEP 5: Feature Engineering
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:329 | --------------------------------------------------
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:421 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:422 | STARTING FEATURE ENGINEERING PIPELINE
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:423 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:437 | Feature types - Numeric: 28, Categorical: 0, Datetime: 0
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:41 | Creating polynomial features (degree=2, interaction_only=True) for 20 columns.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:69 | Created 190 new polynomial features.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:359 | Selecting features using variance threshold (threshold=0.0100).
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:366 | Dropping 55 constant columns.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:378 | Feature selection: 46 selected, 117 removed.
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:501 | Feature engineering complete. Final shape: (1000, 46)
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:502 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:503 | FEATURE ENGINEERING PIPELINE COMPLETE
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | feature_engineering:504 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:333 | Feature engineering complete. Shape: (1000, 28) -> (1000, 46)
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:346 | --------------------------------------------------
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:347 | STEP 6: Train-Test Split (handled in train_model)
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:348 | --------------------------------------------------
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:363 | --------------------------------------------------
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:364 | STEP 7, 8 & 9: Model Training, Evaluation & MLflow Tracking
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | main:365 | --------------------------------------------------
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | train:564 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | train:565 | STARTING MODEL TRAINING
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | train:566 | ============================================================
+2026-08-04 12:00:27 | INFO     | CARIVIX_AI | train:451 | Configuring MLflow tracking URI: sqlite:///mlflow.db
+2026-08-04 12:00:30 | INFO     | CARIVIX_AI | train:480 | Using existing MLflow experiment 'CARIVIX_AI' with artifact location: file:///D:/CARIVIX/CARIVIX%20AI/CARIVIX_AI_Model_Training/experiments
+2026-08-04 12:00:30 | INFO     | CARIVIX_AI | train:582 | Splitting data: test_size=0.20, random_state=42
+2026-08-04 12:00:30 | INFO     | CARIVIX_AI | train:585 | Train: (800, 46), Test: (200, 46)
+2026-08-04 12:00:30 | INFO     | CARIVIX_AI | train:591 | MLflow Run started: RandomForest_dataset_20260804_120027 (ID: 95a3db96ff424634aac0bedf0fed8a6b)
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | train:103 | Initializing model: 'RandomForest' (task: classification)
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | train:358 | Hyperparameter tuning disabled. Using default parameters.
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | train:623 | Training RandomForest model...
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | train:628 | Training completed in 0.54 seconds
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-04 12:00:31 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-04 12:00:32 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260804_120032.png
+2026-08-04 12:00:32 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-04 12:00:33 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260804_120032.png
+2026-08-04 12:00:33 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-04 12:00:33 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260804_120033.png
+2026-08-04 12:00:33 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-04 12:00:34 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260804_120033.png
+2026-08-04 12:00:34 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-04 12:00:57 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260804_120056.png
+2026-08-04 12:00:57 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | evaluate:439 | SHAP summary plot saved to: experiments\shap_summary_20260804_120115.png
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | train:637 | accuracy: 0.5500
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | train:637 | precision: 0.5002
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | train:637 | recall: 0.5500
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | train:637 | f1_score: 0.4972
+2026-08-04 12:01:16 | INFO     | CARIVIX_AI | train:637 | roc_auc: 0.5009
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | train:667 | Model saved to: models/RandomForest_dataset_20260804_120027.pkl
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | train:690 | ============================================================
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | train:691 | MODEL TRAINING COMPLETE
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | train:692 | ============================================================
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:377 | --------------------------------------------------
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:378 | STEP 10: Save Model (handled by train_model)
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:379 | --------------------------------------------------
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:475 | ======================================================================
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:476 |   PIPELINE EXECUTION COMPLETE
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:477 | ======================================================================
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:481 | Final Metrics:
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:483 |   accuracy: 0.5500
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:483 |   precision: 0.5002
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:483 |   recall: 0.5500
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:483 |   f1_score: 0.4972
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:483 |   roc_auc: 0.5009
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:484 | 
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:485 | Model saved in: models/
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:486 | Experiment logs in: experiments/
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:487 | Training logs in: logs/
+2026-08-04 12:02:28 | INFO     | CARIVIX_AI | main:488 | ======================================================================

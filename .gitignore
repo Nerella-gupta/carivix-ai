@@ -1,0 +1,4 @@
+venv_rag/
+__pycache__/
+*.pyc
+data/arxiv_data.csv

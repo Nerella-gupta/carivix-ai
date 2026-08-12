@@ -1,0 +1,454 @@
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | evaluate_rag:269 | ======================================================================
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | evaluate_rag:270 |   CARIVIX AI - RAG EVALUATION & OPTIMIZATION
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | evaluate_rag:271 |   Mode: optimize
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | evaluate_rag:272 | ======================================================================
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | loader:63 | DocumentLoader initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | splitter:53 | TextPreprocessor initialized. Remove special chars: False
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | embeddings:85 | EmbeddingGenerator initialized. Model: all-MiniLM-L6-v2, Device: cpu, Batch: 32
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | performance_evaluator:129 | PerformanceEvaluator initialized. Chunk sizes: [300, 500, 800], Overlaps: [30, 50, 100], Top-k: [3, 5, 10]
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | performance_evaluator:285 | ======================================================================
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | performance_evaluator:286 |   RETRIEVAL PERFORMANCE OPTIMIZATION SWEEP
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | performance_evaluator:287 | ======================================================================
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | loader:103 | Loaded sample_about_carivix.txt → 1 document(s)
+2026-08-04 11:27:51 | INFO     | CARIVIX_AI | loader:103 | Loaded sample_economics.txt → 1 document(s)
+2026-08-04 11:27:52 | ERROR    | CARIVIX_AI | loader:257 | Error reading DOCX 'sample_report.docx': Package not found at 'D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents\sample_report.docx'
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | loader:103 | Loaded sample_report.docx → 0 document(s)
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | loader:113 | Document loading complete. 3 file(s), 2 document(s) loaded.
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | splitter:128 | Text cleaning complete. 2 → 2 documents.
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | performance_evaluator:290 | Loaded 2 cleaned documents.
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 30
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 30
+2026-08-04 11:27:52 | INFO     | CARIVIX_AI | embeddings:117 | Loading SentenceTransformer model: all-MiniLM-L6-v2 (device: cpu)...
+2026-08-04 11:28:02 | INFO     | CARIVIX_AI | embeddings:136 | Model loaded. Embedding dimension: 384
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0702 seconds (embed: 0.0661s, search: 0.0040s).
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.1170 seconds (embed: 0.1160s, search: 0.0010s).
+2026-08-04 11:28:03 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.1968 seconds (embed: 0.1958s, search: 0.0010s).
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0711 seconds (embed: 0.0711s, search: 0.0000s).
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0413 seconds (embed: 0.0406s, search: 0.0007s).
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/30/k=3) -> chunks=22, embed=11.515s, index=0.009s, retrieval=0.1002s, avg_sim=0.5510, lexical=0.5500
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 30
+2026-08-04 11:28:04 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 30
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0699 seconds (embed: 0.0689s, search: 0.0010s).
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0821 seconds (embed: 0.0821s, search: 0.0000s).
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1032 seconds (embed: 0.1032s, search: 0.0000s).
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0880 seconds (embed: 0.0880s, search: 0.0000s).
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0635 seconds (embed: 0.0635s, search: 0.0000s).
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/30/k=5) -> chunks=22, embed=1.232s, index=0.001s, retrieval=0.0822s, avg_sim=0.5167, lexical=0.4900
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 30
+2026-08-04 11:28:05 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 30
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0472 seconds (embed: 0.0472s, search: 0.0000s).
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0550 seconds (embed: 0.0540s, search: 0.0010s).
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0460 seconds (embed: 0.0460s, search: 0.0000s).
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0314 seconds (embed: 0.0314s, search: 0.0000s).
+2026-08-04 11:28:06 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:07 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.3454 seconds (embed: 0.3454s, search: 0.0000s).
+2026-08-04 11:28:07 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/30/k=10) -> chunks=22, embed=0.960s, index=0.001s, retrieval=0.1065s, avg_sim=0.4676, lexical=0.3250
+2026-08-04 11:28:07 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 50
+2026-08-04 11:28:07 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 50
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0356 seconds (embed: 0.0356s, search: 0.0000s).
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0268 seconds (embed: 0.0268s, search: 0.0000s).
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0351 seconds (embed: 0.0351s, search: 0.0000s).
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0360 seconds (embed: 0.0350s, search: 0.0010s).
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0368 seconds (embed: 0.0358s, search: 0.0010s).
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/50/k=3) -> chunks=22, embed=1.047s, index=0.001s, retrieval=0.0346s, avg_sim=0.5510, lexical=0.5500
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 50
+2026-08-04 11:28:08 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 50
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0394 seconds (embed: 0.0394s, search: 0.0000s).
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0586 seconds (embed: 0.0586s, search: 0.0000s).
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0599 seconds (embed: 0.0599s, search: 0.0000s).
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0313 seconds (embed: 0.0313s, search: 0.0000s).
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0308 seconds (embed: 0.0298s, search: 0.0010s).
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/50/k=5) -> chunks=22, embed=0.833s, index=0.000s, retrieval=0.0448s, avg_sim=0.5167, lexical=0.4900
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 50
+2026-08-04 11:28:09 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 50
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0426 seconds (embed: 0.0426s, search: 0.0000s).
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0495 seconds (embed: 0.0475s, search: 0.0020s).
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0530 seconds (embed: 0.0530s, search: 0.0000s).
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0335 seconds (embed: 0.0325s, search: 0.0010s).
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0396 seconds (embed: 0.0383s, search: 0.0013s).
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/50/k=10) -> chunks=22, embed=0.820s, index=0.000s, retrieval=0.0447s, avg_sim=0.4676, lexical=0.3250
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 100
+2026-08-04 11:28:10 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 100
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0394 seconds (embed: 0.0394s, search: 0.0000s).
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0394 seconds (embed: 0.0385s, search: 0.0010s).
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0475 seconds (embed: 0.0475s, search: 0.0000s).
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0405 seconds (embed: 0.0405s, search: 0.0000s).
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0410 seconds (embed: 0.0410s, search: 0.0000s).
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/100/k=3) -> chunks=22, embed=0.884s, index=0.000s, retrieval=0.0426s, avg_sim=0.5510, lexical=0.5500
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 100
+2026-08-04 11:28:11 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 100
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0464 seconds (embed: 0.0454s, search: 0.0010s).
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0454 seconds (embed: 0.0454s, search: 0.0000s).
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0518 seconds (embed: 0.0508s, search: 0.0010s).
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0980 seconds (embed: 0.0980s, search: 0.0000s).
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0333 seconds (embed: 0.0333s, search: 0.0000s).
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/100/k=5) -> chunks=22, embed=0.761s, index=0.001s, retrieval=0.0559s, avg_sim=0.5159, lexical=0.4900
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 300, Overlap: 100
+2026-08-04 11:28:12 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 22 chunks. Chunk size: 300, Overlap: 100
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 22
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0392 seconds (embed: 0.0392s, search: 0.0000s).
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0425 seconds (embed: 0.0425s, search: 0.0000s).
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.1584 seconds (embed: 0.1574s, search: 0.0010s).
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0470 seconds (embed: 0.0470s, search: 0.0000s).
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0417 seconds (embed: 0.0417s, search: 0.0000s).
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (300/100/k=10) -> chunks=22, embed=0.824s, index=0.000s, retrieval=0.0672s, avg_sim=0.4672, lexical=0.3250
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 30
+2026-08-04 11:28:13 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 30
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0418 seconds (embed: 0.0418s, search: 0.0000s).
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0413 seconds (embed: 0.0373s, search: 0.0040s).
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0533 seconds (embed: 0.0533s, search: 0.0000s).
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0400 seconds (embed: 0.0389s, search: 0.0010s).
+2026-08-04 11:28:14 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0645 seconds (embed: 0.0639s, search: 0.0007s).
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/30/k=3) -> chunks=12, embed=0.831s, index=0.000s, retrieval=0.0493s, avg_sim=0.5139, lexical=0.5833
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 30
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 30
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0504 seconds (embed: 0.0493s, search: 0.0010s).
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0619 seconds (embed: 0.0614s, search: 0.0005s).
+2026-08-04 11:28:15 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0790 seconds (embed: 0.0790s, search: 0.0000s).
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1213 seconds (embed: 0.1213s, search: 0.0000s).
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0416 seconds (embed: 0.0416s, search: 0.0000s).
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/30/k=5) -> chunks=12, embed=0.755s, index=0.000s, retrieval=0.0722s, avg_sim=0.4774, lexical=0.4500
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 30
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 30
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0402 seconds (embed: 0.0402s, search: 0.0000s).
+2026-08-04 11:28:16 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0357 seconds (embed: 0.0357s, search: 0.0000s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0418 seconds (embed: 0.0413s, search: 0.0005s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0347 seconds (embed: 0.0347s, search: 0.0000s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0377 seconds (embed: 0.0367s, search: 0.0010s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/30/k=10) -> chunks=12, embed=0.733s, index=0.000s, retrieval=0.0387s, avg_sim=0.4325, lexical=0.3100
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 50
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 50
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0339 seconds (embed: 0.0328s, search: 0.0011s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0362 seconds (embed: 0.0362s, search: 0.0000s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0435 seconds (embed: 0.0435s, search: 0.0000s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0325 seconds (embed: 0.0314s, search: 0.0010s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0276 seconds (embed: 0.0276s, search: 0.0000s).
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/50/k=3) -> chunks=12, embed=0.611s, index=0.000s, retrieval=0.0357s, avg_sim=0.5139, lexical=0.5833
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 50
+2026-08-04 11:28:17 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 50
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0409 seconds (embed: 0.0354s, search: 0.0055s).
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0356 seconds (embed: 0.0346s, search: 0.0010s).
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0408 seconds (embed: 0.0398s, search: 0.0010s).
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0404 seconds (embed: 0.0399s, search: 0.0005s).
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0326 seconds (embed: 0.0326s, search: 0.0000s).
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/50/k=5) -> chunks=12, embed=0.614s, index=0.000s, retrieval=0.0382s, avg_sim=0.4774, lexical=0.4500
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 50
+2026-08-04 11:28:18 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 50
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0312 seconds (embed: 0.0312s, search: 0.0000s).
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0300 seconds (embed: 0.0290s, search: 0.0010s).
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0393 seconds (embed: 0.0393s, search: 0.0000s).
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0340 seconds (embed: 0.0330s, search: 0.0010s).
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0316 seconds (embed: 0.0316s, search: 0.0000s).
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/50/k=10) -> chunks=12, embed=0.605s, index=0.000s, retrieval=0.0341s, avg_sim=0.4325, lexical=0.3100
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 100
+2026-08-04 11:28:19 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 100
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0518 seconds (embed: 0.0518s, search: 0.0000s).
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0810 seconds (embed: 0.0810s, search: 0.0000s).
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0980 seconds (embed: 0.0970s, search: 0.0010s).
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.2903 seconds (embed: 0.2903s, search: 0.0000s).
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0838 seconds (embed: 0.0838s, search: 0.0000s).
+2026-08-04 11:28:21 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/100/k=3) -> chunks=12, embed=0.865s, index=0.000s, retrieval=0.1222s, avg_sim=0.5139, lexical=0.5833
+2026-08-04 11:28:21 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 100
+2026-08-04 11:28:21 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 100
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1526 seconds (embed: 0.1526s, search: 0.0000s).
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1191 seconds (embed: 0.1191s, search: 0.0000s).
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1173 seconds (embed: 0.1173s, search: 0.0000s).
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0621 seconds (embed: 0.0611s, search: 0.0010s).
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0597 seconds (embed: 0.0587s, search: 0.0010s).
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/100/k=5) -> chunks=12, embed=1.051s, index=0.001s, retrieval=0.1033s, avg_sim=0.4774, lexical=0.4500
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 100
+2026-08-04 11:28:22 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 100
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0481 seconds (embed: 0.0481s, search: 0.0000s).
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0635 seconds (embed: 0.0635s, search: 0.0000s).
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.1069 seconds (embed: 0.1047s, search: 0.0023s).
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0752 seconds (embed: 0.0752s, search: 0.0000s).
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 10 results in 0.0845 seconds (embed: 0.0835s, search: 0.0010s).
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (500/100/k=10) -> chunks=12, embed=1.651s, index=0.001s, retrieval=0.0770s, avg_sim=0.4325, lexical=0.3100
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 30
+2026-08-04 11:28:24 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 30
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0484 seconds (embed: 0.0484s, search: 0.0000s).
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0912 seconds (embed: 0.0912s, search: 0.0000s).
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.1448 seconds (embed: 0.1448s, search: 0.0000s).
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.1048 seconds (embed: 0.1038s, search: 0.0010s).
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.1256 seconds (embed: 0.1246s, search: 0.0010s).
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/30/k=3) -> chunks=7, embed=0.744s, index=0.001s, retrieval=0.1036s, avg_sim=0.4696, lexical=0.5667
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 30
+2026-08-04 11:28:25 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 30
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0311 seconds (embed: 0.0311s, search: 0.0000s).
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0341 seconds (embed: 0.0341s, search: 0.0000s).
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0304 seconds (embed: 0.0304s, search: 0.0000s).
+2026-08-04 11:28:26 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0282 seconds (embed: 0.0282s, search: 0.0000s).
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1924 seconds (embed: 0.1924s, search: 0.0000s).
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/30/k=5) -> chunks=7, embed=0.974s, index=0.000s, retrieval=0.0643s, avg_sim=0.4413, lexical=0.4100
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 30
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 30
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0487 seconds (embed: 0.0476s, search: 0.0012s).
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0541 seconds (embed: 0.0531s, search: 0.0010s).
+2026-08-04 11:28:27 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0519 seconds (embed: 0.0519s, search: 0.0000s).
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0374 seconds (embed: 0.0359s, search: 0.0015s).
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0408 seconds (embed: 0.0408s, search: 0.0000s).
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/30/k=10) -> chunks=7, embed=0.656s, index=0.001s, retrieval=0.0486s, avg_sim=0.4170, lexical=0.3214
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 50
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 50
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0489 seconds (embed: 0.0489s, search: 0.0000s).
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0395 seconds (embed: 0.0385s, search: 0.0010s).
+2026-08-04 11:28:28 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0398 seconds (embed: 0.0398s, search: 0.0000s).
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0325 seconds (embed: 0.0325s, search: 0.0000s).
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0429 seconds (embed: 0.0429s, search: 0.0000s).
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/50/k=3) -> chunks=7, embed=0.758s, index=0.001s, retrieval=0.0416s, avg_sim=0.4696, lexical=0.5667
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 50
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 50
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0380 seconds (embed: 0.0370s, search: 0.0010s).
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0348 seconds (embed: 0.0348s, search: 0.0000s).
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0339 seconds (embed: 0.0339s, search: 0.0000s).
+2026-08-04 11:28:29 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0438 seconds (embed: 0.0438s, search: 0.0000s).
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0571 seconds (embed: 0.0571s, search: 0.0000s).
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/50/k=5) -> chunks=7, embed=0.780s, index=0.000s, retrieval=0.0425s, avg_sim=0.4413, lexical=0.4100
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 50
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 50
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0411 seconds (embed: 0.0411s, search: 0.0000s).
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0480 seconds (embed: 0.0480s, search: 0.0000s).
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0454 seconds (embed: 0.0454s, search: 0.0000s).
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0353 seconds (embed: 0.0353s, search: 0.0000s).
+2026-08-04 11:28:30 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0450 seconds (embed: 0.0450s, search: 0.0000s).
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/50/k=10) -> chunks=7, embed=0.687s, index=0.000s, retrieval=0.0444s, avg_sim=0.4170, lexical=0.3214
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 100
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 100
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0342 seconds (embed: 0.0332s, search: 0.0010s).
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0302 seconds (embed: 0.0302s, search: 0.0000s).
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0329 seconds (embed: 0.0329s, search: 0.0000s).
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0326 seconds (embed: 0.0326s, search: 0.0000s).
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-3 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 3 results in 0.0472 seconds (embed: 0.0472s, search: 0.0000s).
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/100/k=3) -> chunks=7, embed=0.646s, index=0.000s, retrieval=0.0362s, avg_sim=0.4696, lexical=0.5667
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 100
+2026-08-04 11:28:31 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 100
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0475 seconds (embed: 0.0475s, search: 0.0000s).
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.1312 seconds (embed: 0.1312s, search: 0.0000s).
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0481 seconds (embed: 0.0466s, search: 0.0015s).
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0450 seconds (embed: 0.0450s, search: 0.0000s).
+2026-08-04 11:28:32 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0554 seconds (embed: 0.0554s, search: 0.0000s).
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/100/k=5) -> chunks=7, embed=0.825s, index=0.000s, retrieval=0.0669s, avg_sim=0.4413, lexical=0.4100
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 800, Overlap: 100
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 7 chunks. Chunk size: 800, Overlap: 100
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\:memory:, Index type: L2
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 7
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: :memory:
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0318 seconds (embed: 0.0318s, search: 0.0000s).
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0828 seconds (embed: 0.0828s, search: 0.0000s).
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0943 seconds (embed: 0.0933s, search: 0.0010s).
+2026-08-04 11:28:33 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'What is economic analysis?'
+2026-08-04 11:28:34 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.1320 seconds (embed: 0.1320s, search: 0.0000s).
+2026-08-04 11:28:34 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-10 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:28:34 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 7 results in 0.0509 seconds (embed: 0.0509s, search: 0.0000s).
+2026-08-04 11:28:34 | INFO     | CARIVIX_AI | performance_evaluator:258 | Config (800/100/k=10) -> chunks=7, embed=0.703s, index=0.000s, retrieval=0.0795s, avg_sim=0.4170, lexical=0.3214
+2026-08-04 11:28:34 | INFO     | CARIVIX_AI | performance_evaluator:331 | Sweep complete. 27 configurations evaluated. Best: {'chunk_size': 300, 'chunk_overlap': 50, 'top_k': 3, 'chunk_count': 22, 'embedding_time': 1.047225, 'indexing_time': 0.000773, 'retrieval_latency': 0.03458, 'total_query_time': 0.03458, 'avg_similarity': 0.550975, 'lexical_relevance': 0.55, 'num_queries': 5, 'num_results': 15, 'composite_score': 0.617074}
+2026-08-04 11:28:34 | INFO     | CARIVIX_AI | report:496 | Markdown report saved to: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\evaluation_report.md

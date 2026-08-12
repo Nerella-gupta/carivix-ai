@@ -1,0 +1,40 @@
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | main_rag:489 | ======================================================================
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | main_rag:490 |   CARIVIX AI - RAG PIPELINE
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | main_rag:491 |   Started at: 2026-08-11 12:48:53
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | main_rag:492 | ======================================================================
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | main_rag:500 | Initializing RAG pipeline...
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | loader:63 | DocumentLoader initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | splitter:53 | TextPreprocessor initialized. Remove special chars: False
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 50
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | embeddings:85 | EmbeddingGenerator initialized. Model: all-MiniLM-L6-v2, Device: cpu, Batch: 32
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store, Index type: L2
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | prompt_builder:90 | PromptBuilder initialized. Include metadata: False
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | pipeline:153 | RAGPipeline initialized. Documents: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents, Vector store: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store, Chunk size: 500/50, LLM: ollama/default, Retrieval k: 5
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | pipeline:211 | ============================================================
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | pipeline:212 |   RAG INDEXING PIPELINE
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | pipeline:213 | ============================================================
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | pipeline:216 | Step 1/5: Loading documents...
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | loader:103 | Loaded sample_about_carivix.txt → 1 document(s)
+2026-08-11 12:48:53 | INFO     | CARIVIX_AI | loader:103 | Loaded sample_economics.txt → 1 document(s)
+2026-08-11 12:48:54 | ERROR    | CARIVIX_AI | loader:257 | Error reading DOCX 'sample_report.docx': Package not found at 'D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents\sample_report.docx'
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | loader:103 | Loaded sample_report.docx → 0 document(s)
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | loader:113 | Document loading complete. 3 file(s), 2 document(s) loaded.
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | pipeline:223 | Step 2/5: Preprocessing and splitting documents...
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | splitter:128 | Text cleaning complete. 2 → 2 documents.
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | splitter:249 | Document splitting complete. 2 documents → 12 chunks. Chunk size: 500, Overlap: 50
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | pipeline:231 | Step 3/5: Generating embeddings for 12 chunks...
+2026-08-11 12:48:54 | INFO     | CARIVIX_AI | embeddings:117 | Loading SentenceTransformer model: all-MiniLM-L6-v2 (device: cpu)...
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | embeddings:136 | Model loaded. Embedding dimension: 384
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:237 | Step 4/5: Creating FAISS index...
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | vector_store:135 | FAISS index created. Type: L2, Dimension: 384, Vectors: 12
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:241 | Step 5/5: Saving index to 'D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store'...
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | vector_store:184 | Index saved. FAISS: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store\index.faiss, Metadata: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store\index.pkl (vectors: 12, dimension: 384)
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:266 | ============================================================
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:267 |   INDEXING COMPLETE
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:268 |   Documents: 2 | Chunks: 12 | Embeddings: 12 | Vectors: 12
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:271 |   Time: 6.77 seconds
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | pipeline:272 | ============================================================
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | main_rag:577 | ======================================================================
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | main_rag:578 |   RAG PIPELINE COMPLETED
+2026-08-11 12:49:00 | INFO     | CARIVIX_AI | main_rag:579 | ======================================================================

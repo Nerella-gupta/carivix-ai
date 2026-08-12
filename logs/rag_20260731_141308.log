@@ -1,0 +1,18 @@
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | main_rag:489 | ======================================================================
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | main_rag:490 |   CARIVIX AI - RAG PIPELINE
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | main_rag:491 |   Started at: 2026-07-31 14:13:08
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | main_rag:492 | ======================================================================
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | main_rag:500 | Initializing RAG pipeline...
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | loader:63 | DocumentLoader initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | splitter:53 | TextPreprocessor initialized. Remove special chars: False
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | splitter:208 | DocumentSplitter initialized. Chunk size: 500, Overlap: 50
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | embeddings:85 | EmbeddingGenerator initialized. Model: all-MiniLM-L6-v2, Device: cpu, Batch: 32
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store, Index type: L2
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | prompt_builder:90 | PromptBuilder initialized. Include metadata: False
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | pipeline:153 | RAGPipeline initialized. Documents: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\documents, Vector store: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store, Chunk size: 500/50, LLM: ollama/default, Retrieval k: 5
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | generator:127 | OllamaLLM initialized. Model: llama3.1, URL: http://localhost:11434
+2026-07-31 14:13:08 | INFO     | CARIVIX_AI | generator:447 | ResponseGenerator initialized. Backend: ollama, Model: llama3.1
+2026-07-31 14:13:11 | INFO     | CARIVIX_AI | main_rag:577 | ======================================================================
+2026-07-31 14:13:11 | INFO     | CARIVIX_AI | main_rag:578 |   RAG PIPELINE COMPLETED
+2026-07-31 14:13:11 | INFO     | CARIVIX_AI | main_rag:579 | ======================================================================

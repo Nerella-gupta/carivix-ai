@@ -1,0 +1,32 @@
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | evaluate_rag:269 | ======================================================================
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | evaluate_rag:270 |   CARIVIX AI - RAG EVALUATION & OPTIMIZATION
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | evaluate_rag:271 |   Mode: vector-db
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | evaluate_rag:272 | ======================================================================
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_db_evaluator:99 | VectorDBEvaluator initialized. Store: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store, Model: all-MiniLM-L6-v2, Top-k: 5
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_db_evaluator:296 | ======================================================================
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_db_evaluator:297 |   VECTOR DATABASE INTEGRATION EVALUATION
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_db_evaluator:298 | ======================================================================
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | embeddings:85 | EmbeddingGenerator initialized. Model: all-MiniLM-L6-v2, Device: cpu, Batch: 32
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_store:82 | VectorStore initialized. Directory: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store, Index type: L2
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | retriever:63 | Retriever initialized. Embedding model: all-MiniLM-L6-v2, Vector store: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\vector_store
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_store:228 | Index loaded. Vectors: 12, Dimension: 384, Type: L2
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | vector_db_evaluator:208 | Index validation: status=PASS, vectors=12, dimension=384
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is CARIVIX AI?'
+2026-08-04 11:24:11 | INFO     | CARIVIX_AI | embeddings:117 | Loading SentenceTransformer model: all-MiniLM-L6-v2 (device: cpu)...
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | embeddings:136 | Model loaded. Embedding dimension: 384
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 8.4051 seconds (embed: 8.4002s, search: 0.0048s).
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | vector_db_evaluator:270 | Query 'What is CARIVIX AI?' -> 5 results, avg_score=0.5231, dup=1
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What machine learning algorithms are supported?'
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0298 seconds (embed: 0.0298s, search: 0.0000s).
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | vector_db_evaluator:270 | Query 'What machine learning algorithms are supported?' -> 5 results, avg_score=0.5127, dup=0
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'How does the platform handle data preprocessing?'
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0304 seconds (embed: 0.0304s, search: 0.0000s).
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | vector_db_evaluator:270 | Query 'How does the platform handle data preprocessing?' -> 5 results, avg_score=0.3995, dup=1
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'What is economic analysis?'
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0268 seconds (embed: 0.0268s, search: 0.0000s).
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | vector_db_evaluator:270 | Query 'What is economic analysis?' -> 5 results, avg_score=0.4826, dup=1
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:104 | Retrieving top-5 chunks for query: 'Tell me about market prediction.'
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | retriever:141 | Retrieval complete. 5 results in 0.0306 seconds (embed: 0.0306s, search: 0.0000s).
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | vector_db_evaluator:270 | Query 'Tell me about market prediction.' -> 5 results, avg_score=0.4692, dup=0
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | vector_db_evaluator:344 | Vector DB evaluation complete. Status: WARN, Queries: 5, Duplicates: 3
+2026-08-04 11:24:20 | INFO     | CARIVIX_AI | report:496 | Markdown report saved to: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\evaluation_report.md

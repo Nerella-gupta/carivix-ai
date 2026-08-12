@@ -1,0 +1,360 @@
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | run_baseline_pipeline:285 | ======================================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | run_baseline_pipeline:286 |   CARIVIX AI - BASELINE MODEL PIPELINE
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | run_baseline_pipeline:287 |   Started at: 2026-08-03 17:24:40
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | run_baseline_pipeline:288 | ======================================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:473 | ======================================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:474 |   CARIVIX AI - BASELINE MODEL PIPELINE
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:475 | ======================================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:483 | Loading configuration from: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\config/config.yaml
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | utils:146 | Configuration loaded successfully from D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\config/config.yaml
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:486 | ✓ Configuration Loaded
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:84 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:85 | STEP: Dataset Loading
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:86 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:103 | Using latest processed dataset: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/processed\processed_20260731_165209.csv
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:117 | Loading dataset from: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/processed\processed_20260731_165209.csv
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | utils:487 | DataFrame loaded from D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/processed\processed_20260731_165209.csv (shape: (1000, 29))
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:119 | Dataset loaded. Shape: (1000, 29)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:135 | Features shape: (1000, 28), Target shape: (1000,)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:136 | Target dtype: int64
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:137 | Target unique values: 2
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:140 | Dataset name: processed_20260731_165209
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:142 | ✓ Dataset Loaded
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:157 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:158 | STEP: Data Validation
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:159 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:195 | Target class distribution - smallest class: 40.30%
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:200 | Dataset validation passed. Rows: 1000, Features: 28
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:201 | ✓ Data Validation Completed
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:227 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:228 | STEP: Preprocessing
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:229 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:241 | No missing values found.
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:272 | Scaling 9 numerical features...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | preprocess:303 | Scaling features using 'standard' scaler for 9 columns.
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:276 | Preprocessing complete. Shape: (1000, 28)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:277 | ✓ Preprocessing Completed
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:522 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:523 | STEP: Feature Engineering
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:524 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:421 | ============================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:422 | STARTING FEATURE ENGINEERING PIPELINE
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:423 | ============================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:437 | Feature types - Numeric: 28, Categorical: 0, Datetime: 0
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:41 | Creating polynomial features (degree=2, interaction_only=True) for 20 columns.
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:69 | Created 190 new polynomial features.
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:359 | Selecting features using variance threshold (threshold=0.0100).
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:366 | Dropping 55 constant columns.
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:378 | Feature selection: 46 selected, 117 removed.
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:501 | Feature engineering complete. Final shape: (1000, 46)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:502 | ============================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:503 | FEATURE ENGINEERING PIPELINE COMPLETE
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | feature_engineering:504 | ============================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:526 | Feature engineering complete. Shape: (1000, 46)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:527 | ✓ Feature Engineering Completed
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:531 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:532 | STEP: Train/Test Split
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:533 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:544 | Train: (800, 46), Test: (200, 46)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:547 | ✓ Train/Test Split Completed
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | model_dispatcher:107 | Detecting task type from target column...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | model_dispatcher:119 | Target has 2 unique values (≤2) → classification
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:553 | Auto-detected task type: classification
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:309 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:310 | STEP: Model Training
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:311 | --------------------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:321 | Training 8 baseline models for classification task...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 1/8: LogisticRegression
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'LogisticRegression' (task: classification)
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.0640 seconds
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating LogisticRegression...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:24:40 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172440.png
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172441.png
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172441.png
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172441.png
+2026-08-03 17:24:41 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:24:50 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172449.png
+2026-08-03 17:24:50 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:439 | SHAP summary plot saved to: experiments\shap_summary_20260803_172453.png
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.605, 'precision': 0.5845, 'recall': 0.605, 'f1_score': 0.5671018098877336, 'roc_auc': 0.5200746965452848}
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\LogisticRegression_processed_20260731_165209_20260803_172454.pkl
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for LogisticRegression
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 2/8: DecisionTree
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'DecisionTree' (task: classification)
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.0460 seconds
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating DecisionTree...
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172454.png
+2026-08-03 17:24:54 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:24:55 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172455.png
+2026-08-03 17:24:55 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:24:55 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172455.png
+2026-08-03 17:24:55 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:24:55 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172455.png
+2026-08-03 17:24:55 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172456.png
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:24:56 | WARNING  | CARIVIX_AI | evaluate:430 | Unable to compute SHAP values: Additivity check failed in TreeExplainer! Please ensure the data matrix you passed to the explainer is the same shape that the model was trained on. If your data shape is correct then please report this on GitHub. This check failed because for one of the samples the sum of the SHAP values was 1.000000, while the model output was 0.000000. If this difference is acceptable you can set check_additivity=False to disable this check.
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.565, 'precision': 0.560787351443124, 'recall': 0.565, 'f1_score': 0.5625485570496186, 'roc_auc': 0.5437804751530242}
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\DecisionTree_processed_20260731_165209_20260803_172456.pkl
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for DecisionTree
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 3/8: RandomForest
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'RandomForest' (task: classification)
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.3631 seconds
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating RandomForest...
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:24:56 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172457.png
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172457.png
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172457.png
+2026-08-03 17:24:57 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:24:58 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172457.png
+2026-08-03 17:24:58 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:25:00 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172459.png
+2026-08-03 17:25:00 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:25:08 | WARNING  | CARIVIX_AI | evaluate:430 | Unable to compute SHAP values: Additivity check failed in TreeExplainer! Please ensure the data matrix you passed to the explainer is the same shape that the model was trained on. If your data shape is correct then please report this on GitHub. This check failed because for one of the samples the sum of the SHAP values was 0.549900, while the model output was 0.570000. If this difference is acceptable you can set check_additivity=False to disable this check.
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.495, 'precision': 0.4508552631578947, 'recall': 0.495, 'f1_score': 0.4611542092165108, 'roc_auc': 0.4786803610333022}
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\RandomForest_processed_20260731_165209_20260803_172508.pkl
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for RandomForest
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 4/8: SVM
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'SVM' (task: classification)
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.3452 seconds
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating SVM...
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:25:08 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172509.png
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172509.png
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172509.png
+2026-08-03 17:25:09 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172509.png
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172510.png
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:25:10 | WARNING  | CARIVIX_AI | evaluate:430 | Unable to compute SHAP values: The passed model is not callable and cannot be analyzed directly with the given masker! Model: SVC(probability=True, random_state=42)
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.58, 'precision': 0.5292418196328811, 'recall': 0.58, 'f1_score': 0.49875246742992496, 'roc_auc': 0.4631185807656396}
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\SVM_processed_20260731_165209_20260803_172510.pkl
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for SVM
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 5/8: KNN
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'KNN' (task: classification)
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.0040 seconds
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating KNN...
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:25:10 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:25:14 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:25:14 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:25:14 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172514.png
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172515.png
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172515.png
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172515.png
+2026-08-03 17:25:15 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172516.png
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:25:16 | WARNING  | CARIVIX_AI | evaluate:430 | Unable to compute SHAP values: The passed model is not callable and cannot be analyzed directly with the given masker! Model: KNeighborsClassifier(n_jobs=-1)
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.495, 'precision': 0.494, 'recall': 0.495, 'f1_score': 0.49448816237428206, 'roc_auc': 0.4504616661479407}
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\KNN_processed_20260731_165209_20260803_172516.pkl
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for KNN
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 6/8: NaiveBayes
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'NaiveBayes' (task: classification)
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.0040 seconds
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating NaiveBayes...
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:25:16 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:25:17 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172516.png
+2026-08-03 17:25:17 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:25:17 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172517.png
+2026-08-03 17:25:17 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172517.png
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172518.png
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172518.png
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:25:18 | WARNING  | CARIVIX_AI | evaluate:430 | Unable to compute SHAP values: The passed model is not callable and cannot be analyzed directly with the given masker! Model: GaussianNB()
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.42, 'precision': 0.45396895787139685, 'recall': 0.42, 'f1_score': 0.4175630252100841, 'roc_auc': 0.46680153542898645}
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\NaiveBayes_processed_20260731_165209_20260803_172518.pkl
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for NaiveBayes
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 7/8: GradientBoosting
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:25:18 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'GradientBoosting' (task: classification)
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 1.0454 seconds
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating GradientBoosting...
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:25:19 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172519.png
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172520.png
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172520.png
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172520.png
+2026-08-03 17:25:20 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:25:22 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172521.png
+2026-08-03 17:25:22 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | evaluate:439 | SHAP summary plot saved to: experiments\shap_summary_20260803_172522.png
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.555, 'precision': 0.5249671052631579, 'recall': 0.555, 'f1_score': 0.5251754912897967, 'roc_auc': 0.5357402220147319}
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\GradientBoosting_processed_20260731_165209_20260803_172523.pkl
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for GradientBoosting
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:330 | ----------------------------------------
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:331 | Training model 8/8: XGBoost
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | baseline_pipeline:332 | ----------------------------------------
+2026-08-03 17:25:23 | INFO     | CARIVIX_AI | model_dispatcher:195 | Initializing model: 'XGBoost' (task: classification)
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | baseline_pipeline:348 | Training completed in 0.5767 seconds
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | baseline_pipeline:353 | Evaluating XGBoost...
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:471 | ============================================================
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:472 | STARTING MODEL EVALUATION
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:473 | ============================================================
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:484 | Generating predictions on test set...
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:490 | Evaluating classification model...
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:72 | Calculating classification metrics...
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:120 | Classification report generated for 2 classes.
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:633 | Confusion matrix saved to: experiments\confusion_matrix_20260803_172524.png
+2026-08-03 17:25:24 | INFO     | CARIVIX_AI | evaluate:175 | Generating ROC curve plot...
+2026-08-03 17:25:25 | INFO     | CARIVIX_AI | evaluate:202 | ROC curve saved to: experiments\roc_curve_20260803_172525.png
+2026-08-03 17:25:25 | INFO     | CARIVIX_AI | evaluate:300 | Generating precision-recall curve plot...
+2026-08-03 17:25:25 | INFO     | CARIVIX_AI | evaluate:321 | Precision-recall curve saved to: experiments\precision_recall_20260803_172525.png
+2026-08-03 17:25:25 | INFO     | CARIVIX_AI | evaluate:332 | Generating calibration curve plot...
+2026-08-03 17:25:25 | INFO     | CARIVIX_AI | evaluate:356 | Calibration curve saved to: experiments\calibration_curve_20260803_172525.png
+2026-08-03 17:25:25 | INFO     | CARIVIX_AI | evaluate:370 | Generating learning curve plot...
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | evaluate:411 | Learning curve saved to: experiments\learning_curve_20260803_172526.png
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | evaluate:418 | Generating SHAP summary plot...
+2026-08-03 17:25:26 | WARNING  | CARIVIX_AI | evaluate:430 | Unable to compute SHAP values: The passed model is not callable and cannot be analyzed directly with the given masker! Model: XGBClassifier(base_score=None, booster=None, callbacks=None,
+              colsample_bylevel=None, colsample_bynode=None,
+              colsample_bytree=0.8, device=None, early_stopping_rounds=None,
+              enable_categorical=False, eval_metric='logloss',
+              feature_types=None, feature_weights=None, gamma=None,
+              grow_policy=None, importance_type=None,
+              interaction_constraints=None, learning_rate=0.1, max_bin=None,
+              max_cat_threshold=None, max_cat_to_onehot=None,
+              max_delta_step=None, max_depth=6, max_leaves=None,
+              min_child_weight=None, missing=nan, monotone_constraints=None,
+              multi_strategy=None, n_estimators=100, n_jobs=-1,
+              num_parallel_tree=None, ...)
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | evaluate:566 | ============================================================
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | evaluate:567 | MODEL EVALUATION COMPLETE
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | evaluate:568 | ============================================================
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:358 | Metrics: {'accuracy': 0.525, 'precision': 0.50375, 'recall': 0.525, 'f1_score': 0.5088844163312248, 'roc_auc': 0.4843863471314451}
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | model_registry:73 | Model saved to: models\XGBoost_processed_20260731_165209_20260803_172526.pkl
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:370 | ✓ Model Saved
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | experiment_tracking:114 | Experiment record appended to: experiments\experiments.csv
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | experiment_tracking:136 | Experiment record appended to: experiments\model_metrics.json
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:398 | ✓ Experiment Tracking Saved
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:400 | ✓ Model Training Completed for XGBoost
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:437 | ✓ Model Training Completed for all models
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | experiment_tracking:184 | Loaded 17 model metrics records from: experiments\model_metrics.json
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | experiment_tracking:292 | Best model found: LogisticRegression (f1_score = 0.5671)
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | experiment_tracking:184 | Loaded 17 model metrics records from: experiments\model_metrics.json
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | experiment_tracking:361 | Generated comparison table with 17 models.
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:589 | ======================================================================
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:590 |   BASELINE PIPELINE COMPLETE - DATA FLOW TESTED SUCCESSFULLY
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | baseline_pipeline:591 | ======================================================================
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | run_baseline_pipeline:374 | ======================================================================
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | run_baseline_pipeline:375 |   BASELINE PIPELINE COMPLETED
+2026-08-03 17:25:26 | INFO     | CARIVIX_AI | run_baseline_pipeline:376 | ======================================================================

@@ -1,0 +1,42 @@
+# =============================================================================
+# CARIVIX AI - Model Training Dependencies
+# =============================================================================
+# Install with: pip install -r requirements.txt
+# =============================================================================
+
+# Core Data Processing
+pandas>=1.5.0
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Machine Learning
+scikit-learn>=1.2.0
+
+# Model Serialization
+joblib>=1.2.0
+
+# Experiment Tracking
+mlflow>=2.0.0
+
+# Visualization
+matplotlib>=3.6.0
+seaborn>=0.12.0
+
+# Configuration
+pyyaml>=6.0
+
+# Advanced ML Algorithms
+xgboost>=1.7.0
+
+# Model Explainability
+shap>=0.41.0
+
+# Imbalanced Data Handling
+imbalanced-learn>=0.10.0
+
+# Excel file support (for .xlsx datasets)
+openpyxl>=3.1.0
+
+# Progress bars
+tqdm>=4.65.0
+

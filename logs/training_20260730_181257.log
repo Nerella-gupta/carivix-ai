@@ -1,0 +1,3 @@
+2026-07-30 18:12:57 | INFO     | CARIVIX_AI | main:90 | Generating sample dataset...
+2026-07-30 18:12:57 | INFO     | CARIVIX_AI | main:146 | Sample dataset generated: d:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data\raw\dataset.csv (shape: (1010, 11), with missing values & duplicates)
+2026-07-30 18:12:57 | INFO     | CARIVIX_AI | main:576 | Sample data generated. You can now run: python main.py

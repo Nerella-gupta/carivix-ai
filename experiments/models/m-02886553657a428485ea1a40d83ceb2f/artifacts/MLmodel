@@ -1,0 +1,23 @@
+artifact_path: file:///D:/CARIVIX/CARIVIX%20AI/CARIVIX_AI_Model_Training/experiments/models/m-02886553657a428485ea1a40d83ceb2f/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.11.9
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+mlflow_version: 3.15.1
+model_id: m-02886553657a428485ea1a40d83ceb2f
+model_size_bytes: 2862778
+model_uuid: m-02886553657a428485ea1a40d83ceb2f
+prompts: null
+run_id: 95a3db96ff424634aac0bedf0fed8a6b
+utc_time_created: '2026-08-04 06:31:18.254997'
