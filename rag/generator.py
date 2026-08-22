@@ -1,4 +1,4 @@
-"""
+﻿"""
 Response Generator Module for CARIVIX AI RAG Pipeline
 ======================================================
 
@@ -38,7 +38,6 @@ from typing import Any, Dict, List, Optional, Generator
 from src.utils import ensure_directory
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Abstract Base Class for LLM Backends
@@ -88,7 +87,6 @@ class BaseLLM(ABC):
         """Return the model name identifier."""
         ...
 
-
 # =============================================================================
 # Ollama Backend
 # =============================================================================
@@ -110,7 +108,7 @@ class OllamaLLM(BaseLLM):
         self,
         model_name: str = "llama3.1",
         base_url: str = "http://localhost:11434",
-        timeout: int = 120,
+        timeout: int = 300,
     ) -> None:
         """
         Initialize the Ollama LLM backend.
@@ -231,7 +229,6 @@ class OllamaLLM(BaseLLM):
     @property
     def model_name(self) -> str:
         return self._model_name
-
 
 # =============================================================================
 # HuggingFace Backend
@@ -384,7 +381,6 @@ class HuggingFaceLLM(BaseLLM):
     def model_name(self) -> str:
         return self._model_name
 
-
 # =============================================================================
 # Response Generator (Facade)
 # =============================================================================
@@ -519,3 +515,4 @@ class ResponseGenerator:
             "model_name": self.llm.model_name,
             "available": self.is_available(),
         }
+
