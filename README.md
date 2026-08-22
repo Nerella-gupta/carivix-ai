@@ -35,86 +35,70 @@ A **production-ready AI platform** encompassing two major pipelines:
 
 ## 📁 Complete Folder Structure
 
+> This folder-tree section is kept up-to-date automatically. To refresh the tree in this README, run the update script included in the project root:
+
+PowerShell (Windows):
+
+```powershell
+.\update_readme_tree.ps1
 ```
-CARIVIX_AI_Model_Training/
-│
+
+The tree output is injected between the markers below. Do not edit the generated block manually; run the script instead.
+
+<!-- DIR_TREE_START -->
+```text
+CARIVIX_AI_Model_Training
+├── .gitignore
+├── api.py
+├── evaluate_rag.py
+├── main.py
+├── main_rag.py
+├── mlflow.db
+├── query_result.json
+├── README.md
+├── requirements.txt
+├── requirements_rag.txt
+├── run_baseline_pipeline.py
+├── update_readme_tree.ps1
 ├── config/
-│   └── config.yaml                          # Central configuration file (ML training)
-│
+│   └── config.yaml
 ├── data/
-│   ├── raw/                                 # Raw input datasets (auto-generated if missing)
-│   ├── processed/                           # Processed/cleaned datasets and predictions
-│   ├── documents/                           # Source documents for RAG pipeline
-│   │   ├── sample_about_carivix.txt         # Sample TXT document about CARIVIX AI
-│   │   ├── sample_economics.txt             # Sample TXT document about economics
-│   │   └── sample_report.docx               # Sample DOCX report document
-│   └── vector_store/                        # FAISS index and metadata (RAG pipeline)
-│       ├── index.faiss                      # FAISS vector index file
-│       └── index.pkl                        # Document metadata (pickled)
-│
-├── models/                                  # Saved trained ML models (.pkl files)
-│
-├── experiments/                             # MLflow & experiment artifacts
-│   ├── experiments.csv                      # Tabular experiment records
-│   ├── model_metrics.json                   # JSON experiment records
-│   ├── data_profile_*.json                  # Data profiling reports
-│   ├── confusion_matrix_*.png               # Confusion matrix plots
-│   ├── roc_curve_*.png                      # ROC curve plots
-│   ├── precision_recall_*.png               # Precision-recall curve plots
-│   ├── calibration_curve_*.png              # Calibration curve plots
-│   ├── learning_curve_*.png                 # Learning curve plots
-│   ├── feature_importance_*.png             # Feature importance plots
-│   ├── shap_summary_*.png                   # SHAP explanation plots
-│   ├── classification_report_*.csv          # Classification reports
-│   ├── baseline_comparison_*.csv            # Baseline model comparison
-│   └── baseline_summary_*.json              # Baseline pipeline summary
-│
-├── exports/                                 # Exported model artifacts
-│   └── YYYYMMDD_HHMMSS/
-│       ├── model.pkl                        # Exported model file
-│       └── metadata.json                    # Model metadata
-│
-├── logs/                                    # Log files
-│   ├── training_*.log                       # ML training pipeline logs
-│   ├── baseline_*.log                       # Baseline pipeline logs
-│   └── rag_*.log                            # RAG pipeline logs
-│
-├── src/                                     # ML Training Pipeline source code
-│   ├── __init__.py                          # Package marker (v1.2.0)
-│   ├── utils.py                             # Utilities: logging, config, data profiling, retry, timer
-│   ├── preprocess.py                        # Data preprocessing: missing values, encoding, scaling, SMOTE
-│   ├── feature_engineering.py               # Feature engineering: polynomial, PCA, binning, date, clustering
-│   ├── train.py                             # Model training: MLflow, hyperparameter tuning, CV, SHAP
-│   ├── evaluate.py                          # Model evaluation: metrics & plots (classification + regression)
-│   ├── predict.py                           # Prediction: single/batch, probabilities, intervals, comparison
-│   ├── model_dispatcher.py                  # Model registry: auto task detection, baseline model init
-│   ├── model_registry.py                    # Model save/load/list/delete registry
-│   ├── experiment_tracking.py               # Experiment tracking: CSV/JSON, best model, comparison table
-│   └── baseline_pipeline.py                 # Baseline pipeline: orchestrate all baseline models
-│
-├── rag/                                     # RAG Pipeline source code
-│   ├── __init__.py                          # Package marker (v1.0.0)
-│   ├── loader.py                            # Document loader: PDF, DOCX, TXT, CSV
-│   ├── splitter.py                          # Text preprocessor & semantic chunk splitter
-│   ├── embeddings.py                        # Embedding generator: Sentence Transformers (384-dim)
-│   ├── vector_store.py                      # FAISS vector database: create, save, load, search
-│   ├── retriever.py                         # Similarity search retriever: top-K chunk retrieval
-│   ├── prompt_builder.py                    # Prompt builder: context-aware LLM prompt construction
-│   ├── generator.py                         # Response generator: Ollama / HuggingFace LLM backends
-│   └── pipeline.py                          # RAG pipeline orchestrator: end-to-end coordination
-│
+│   ├── arxiv_data.csv
+│   ├── CARIVIX_Economic_Indicators_By_Dataset.xlsx
+│   ├── Economic_Trend_Analysis_Cleaned (1).csv
+│   ├── Market_Analysis_1981_2025_Final_Cleaned.csv
+│   ├── Public Program Evaluation_final.csv
+│   ├── Traffic Analysis_Final.csv
+│   ├── documents/
+│   │   ├── sample_about_carivix.txt
+│   │   ├── sample_economics.txt
+│   │   └── sample_report.docx
+│   ├── processed/
+│   │   └── processed_20260731_165209.csv
+│   └── raw/
+│       └── dataset.csv
+├── experiments/
+│   ├── baseline_comparison_20260731_170507.csv
+│   ├── baseline_comparison_20260803_172526.csv
+│   ├── baseline_summary_20260731_170507.json
+│   ├── baseline_summary_20260803_172526.json
+│   ├── model_path_20260731_165209.txt
+│   ├── model_path_20260804_120027.txt
+│   └── models/
+│       ├── m-02886553657a428485ea1a40d83ceb2f/
+│       │   └── artifacts/
+│       │       └── requirements.txt
+│       └── m-5c7b1296d8504c85b2b8ae2cea0a410b/
+│           └── artifacts/
+│               └── requirements.txt
+├── exports/
+├── logs/
+├── models/
+├── rag/
+├── src/
 ├── tests/
-│   ├── __init__.py                          # Test suite package marker
-│   └── test_rag_pipeline.py                 # RAG pipeline tests: loading, splitting, embeddings, FAISS, retrieval
-│
-├── main.py                                  # ML Training CLI entry point
-├── main_rag.py                              # RAG Pipeline CLI entry point
-├── run_baseline_pipeline.py                 # Baseline model pipeline CLI entry point
-├── requirements.txt                         # ML Training dependencies
-├── requirements_rag.txt                     # RAG Pipeline dependencies
-├── README.md                                # Project documentation (this file)
-└── TODO.md                                  # Development progress tracker
 ```
+<!-- DIR_TREE_END -->
 
 ---
 
@@ -147,62 +131,6 @@ pip install -r requirements.txt
 
 All dependencies (including XGBoost, SHAP, imbalanced-learn) are already listed in `requirements.txt` — no separate install steps needed.
 
----
-
-## 🔧 Configuration
-
-Edit `config/config.yaml` to customize your training pipeline:
-
-```yaml
-# Dataset
-dataset_path: "data/raw/dataset.csv"      # Path to your dataset
-target_column: "target"                    # Target column name
-task_type: "classification"               # "classification" or "regression"
-
-# Algorithm
-algorithm: "RandomForest"                  # See full list in Supported Algorithms section
-
-# Train-Test Split
-test_size: 0.2                             # Test split ratio
-random_state: 42                           # Random seed
-
-# Cross-Validation
-cross_validation:
-  enabled: false
-  n_folds: 5
-  scoring: "accuracy"
-
-# Hyperparameter Tuning
-hyperparameter_tuning:
-  enabled: false
-  method: "randomized"                     # "grid" or "randomized"
-  n_iter: 20
-
-# Preprocessing
-preprocessing:
-  handle_missing: true
-  missing_strategy: "mean"
-  scaling_method: "standard"
-  handle_outliers: false
-  handle_imbalanced: false
-
-# Feature Engineering
-feature_engineering:
-  extract_date_features: true
-  apply_pca: false
-
-# MLflow
-mlflow_experiment_name: "CARIVIX_AI"
-mlflow_tracking_uri: "sqlite:///mlflow.db"
-
-# Explainability
-explainability:
-  enabled: false
-```
-
-> **Tip:** Enable `hyperparameter_tuning.enabled: true` in the config file **or** pass `--tune` on the CLI to enable tuning for a single run.
-
----
 
 ## 🎯 CLI Commands & Usage
 
@@ -220,7 +148,6 @@ This will:
 5. Evaluate performance (metrics + plots)
 6. Log everything to MLflow
 7. Save the trained model
-
 
 ```bash
 # Run the full pipeline with default config
@@ -245,6 +172,210 @@ python main.py --tune --profile --export
 # Make predictions on new data
 python main.py --predict data/raw/new_data.csv
 ```
+
+### Model Service API
+
+The project includes a production-ready inference API powered by FastAPI. Use the project virtual environment and run the API from the project root so Python can resolve the `src` package and the `models/` directory correctly.
+
+#### 1) Create and activate the environment
+
+```powershell
+cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+#### 2) Start the API server
+
+```powershell
+cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
+.\venv\Scripts\Activate.ps1
+python api.py
+```
+
+Or run it with Uvicorn explicitly:
+
+```powershell
+cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
+.\venv\Scripts\Activate.ps1
+uvicorn api:app --host 127.0.0.1 --port 8000 --reload
+```
+
+The app exposes Swagger at:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+### AI / RAG + ML integrated query endpoint
+
+This repository exposes an integrated AI query endpoint that routes natural-language queries through the project NLP component, the RAG pipeline, and — when appropriate — the ML pipeline.
+
+- Endpoint: POST /api/v1/ai/query
+- Request JSON:
+
+```json
+{
+  "query": "Your natural language question or instruction",
+  "k": 5,                  // optional - number of RAG chunks to retrieve
+  "max_tokens": 512,       // optional - LLM max tokens
+  "temperature": 0.0,      // optional - LLM temperature
+  "auto_fill_missing": false // optional - if true, allow conservative auto-fill of missing ML base fields
+}
+```
+
+- Behavior:
+  - The endpoint runs the project's NLP entrypoint (nlp_module.py) to detect intent and a routing decision ("rag", "ml", or "combined").
+  - Routing decisions:
+    - rag: retrieve relevant document chunks and generate an LLM answer (RAG). Requires a built FAISS index (see below).
+    - ml: attempts a conservative NL→feature extraction for the model's required base fields. If extraction is incomplete it returns the extracted fields and a list of missing fields. If `auto_fill_missing` is set to true, the endpoint will fill missing base fields with conservative defaults (categorical defaults or safe numeric defaults) and attempt ModelService.predict. This auto-fill behavior is explicitly opt-in because ML preprocessing expects specific base fields and types.
+    - combined: retrieves context from RAG and attempts generation; ML inclusion is guarded and requires explicit structured input or auto-fill approval.
+
+- Response (RAG example):
+
+```json
+{
+  "success": true,
+  "nlp": { "processed_query": "what is carivix", "intent": "rag_query", "confidence": 0.6, "entities": {}, "route": "rag" },
+  "selected_route": "rag",
+  "rag_context": { /* top-k chunks with score and source, retrieval/generation times */ },
+  "ml_prediction": null,
+  "final_response": "Generated answer from the LLM"
+}
+```
+
+Notes and operational tips:
+- RAG index: create the FAISS index before using the RAG route. Use the included CLI: `python main_rag.py --index` (or call `RAGPipeline.index_documents()` programmatically). The index files are saved under `data/vector_store/` (index.faiss and index.pkl).
+- LLM backend: Ollama is the default. The repository default Ollama request timeout has been increased to 300s to reduce generation timeouts during long prompts; this can be tuned by passing `llm_kwargs` when constructing the RAGPipeline or by editing `rag/generator.py`.
+- ML route: ML inference expects structured tabular base fields (age, income, credit_score, loan_amount, years_employed, education, employment_status, marital_status, housing_type, application_date). If you want reliable automatic NL→feature mapping, provide example NL→feature pairs and the mapping will be refined.
+- Tests & examples:
+  - `run_api_test.py` exercises the `/api/v1/ai/query` flows (RAG + ML with/without `auto_fill_missing`).
+  - Use `main_rag.py --query "your question"` to test the RAG pipeline locally.
+
+- NLP entrypoint: `nlp_module.py` in the repository root. If you have a trained intent classifier, place it at `models/intent_classifier.joblib` or update the module's loading paths.
+
+Use the endpoint responsibly: automatic ML filling is conservative and opt-in (`auto_fill_missing: true`) because wrong defaults can produce misleading predictions.rypoint (nlp_module.analyze).
+  - Based on the NLP output, the request is routed to:
+    - RAG: retrieve relevant document chunks and generate an LLM answer (default), or
+    - ML: (route selected) instructs to call /api/v1/predict with structured features (ModelService expects tabular features), or
+    - Combined: returns retrieved context and attempts LLM generation; ML integration requires mapping and is left as a placeholder.
+
+- Response example (RAG):
+
+```json
+{
+  "success": true,
+  "nlp": { "processed_query": "what is carivix", "intent": "rag_query", "confidence": 0.6, "entities": {}, "route": "rag" },
+  "selected_route": "rag",
+  "rag_context": {
+    "retrieved_chunks": [ /* top-k chunks with score and source */ ],
+    "retrieval_time": 0.123,
+    "generation_time": 0.456,
+    "total_time": 0.579
+  },
+  "ml_prediction": null,
+  "final_response": "Generated answer from the LLM"
+}
+```
+
+Notes:
+- ML inference requires structured model inputs; the integrated endpoint does not attempt to guess the tabular feature mapping from free text. Use /api/v1/predict for ML model inference with explicit feature JSON.
+- The NLP module used is `nlp_module.py` in the project root. If you have a trained intent classifier, add its path to the module's _MODEL_PATHS or update the module to load it.
+
+
+#### 3) Health check
+
+```powershell
+curl http://127.0.0.1:8000/health
+```
+
+Example response:
+
+```json
+{
+  "status": "healthy",
+  "service": "CARIVIX AI Model Service",
+  "models_loaded": 8,
+  "models_failed": 0,
+  "failed_models": null
+}
+```
+
+#### 4) List available models
+
+```powershell
+curl http://127.0.0.1:8000/api/v1/models
+```
+
+#### 5) Get default model info
+
+```powershell
+curl http://127.0.0.1:8000/api/v1/model/info
+```
+
+#### 6) Single prediction request
+
+```powershell
+curl -X POST "http://127.0.0.1:8000/api/v1/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+   "age": 43,
+   "income": 67976.67,
+   "credit_score": 694,
+   "loan_amount": 14857.28,
+   "years_employed": 19,
+   "education": "Master",
+   "employment_status": "Employed",
+   "marital_status": "Married",
+   "housing_type": "Rent",
+   "application_date": "2024-09-21"
+  }'
+```
+
+#### 7) Batch prediction request
+
+```powershell
+curl -X POST "http://127.0.0.1:8000/api/v1/predict/batch" \
+  -H "Content-Type: application/json" \
+  -d '{
+   "records": [
+     {
+       "age": 43,
+       "income": 67976.67,
+       "credit_score": 694,
+       "loan_amount": 14857.28,
+       "years_employed": 19,
+       "education": "Master",
+       "employment_status": "Employed",
+       "marital_status": "Married",
+       "housing_type": "Rent",
+       "application_date": "2024-09-21"
+     },
+     {
+       "age": 35,
+       "income": 52000,
+       "credit_score": 710,
+       "loan_amount": 12000,
+       "years_employed": 8,
+       "education": "Bachelor",
+       "employment_status": "Self-Employed",
+       "marital_status": "Single",
+       "housing_type": "Own",
+       "application_date": "2024-10-05"
+     }
+   ]
+  }'
+```
+
+The API loads the trained models from `models/`, applies the same preprocessing and feature-engineering logic as the training pipeline, and returns prediction metadata and confidence.
+
+If a model file is incompatible or broken, the service will continue loading the working models and report the failed file names in `/health` under `failed_models`.
+
+### Data Cleanup & Canonical Files
+
+The project uses a single canonical set of data files under `data/` to avoid stale, duplicated, or copy-pasted CSV/Excel sources. Legacy duplicate files under the older Python dataset folders were removed and downstream scripts were updated to point to the canonical dataset locations instead of local copies.
 
 ---
 
@@ -787,4 +918,5 @@ This project is part of the CARIVIX AI platform.
 ## 🤝 Support
 
 For issues, questions, or contributions, please contact the CARIVIX AI team.
+
 
