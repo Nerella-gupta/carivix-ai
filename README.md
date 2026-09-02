@@ -131,6 +131,43 @@ pip install -r requirements.txt
 
 All dependencies (including XGBoost, SHAP, imbalanced-learn) are already listed in `requirements.txt` — no separate install steps needed.
 
+## ⚡ Quick Start: Run Each Pipeline
+
+Use these commands from the project root to run the main workflows directly.
+
+```powershell
+cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
+
+# 1) Baseline model comparison
+python .\run_baseline_pipeline.py
+
+# 2) Full ML training pipeline
+python .\main.py
+python .\main.py --generate-sample-data
+python .\main.py --compare
+python .\main.py --profile
+python .\main.py --predict .\data\raw\dataset.csv
+
+# 3) RAG pipeline
+python main_rag.py --index
+python main_rag.py --query "What is CARIVIX AI?"
+python main_rag.py --interactive
+
+# 4) NLP / full AI routing flow
+python nlp_module.py
+python api.py
+
+# Call the combined AI endpoint after the API is running
+curl.exe -X POST "http://127.0.0.1:8000/api/v1/ai/query" \
+  -H "Content-Type: application/json" \
+  -d '{"query":"Predict next quarter GDP for the project dataset","k":5,"max_tokens":512,"temperature":0.0}'
+```
+
+### Pipeline summary
+- Baseline: `run_baseline_pipeline.py` compares multiple baseline models and prints the best result.
+- ML pipeline: `main.py` runs the end-to-end training, validation, feature engineering, evaluation, and model export workflow.
+- RAG pipeline: `main_rag.py` indexes document chunks and answers queries using retrieval + generation.
+- NLP / integrated AI: `nlp_module.py` analyzes the query intent, and `api.py` exposes the full NLP + RAG + ML orchestration endpoint.
 
 ## 🎯 CLI Commands & Usage
 
