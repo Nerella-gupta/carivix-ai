@@ -1,4 +1,4 @@
-"""
+﻿"""
 Retriever Module for CARIVIX AI RAG Pipeline
 ==============================================
 
@@ -29,7 +29,6 @@ from rag.embeddings import EmbeddingGenerator
 from rag.vector_store import VectorStore
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 class Retriever:
     """
@@ -101,27 +100,25 @@ class Retriever:
             logger.warning("Empty query received.")
             return []
 
+        if self.vector_store is None or self.vector_store.index is None:
+            logger.warning("Retriever cannot run because the FAISS index is not loaded.")
+            return []
+
         logger.info("Retrieving top-%d chunks for query: '%s'", k, query[:100])
 
-        # Step 1: Generate query embedding
         start_time = time.time()
-        query_vector = self.embedding_generator.generate_query_embedding(
-            query
-        )
+        query_vector = self.embedding_generator.generate_query_embedding(query)
         embed_time = time.time() - start_time
-        logger.debug(
-            "Query embedding generated in %.4f seconds.", embed_time
-        )
+        logger.debug("Query embedding generated in %.4f seconds.", embed_time)
 
-        # Step 2: Search the vector store
         search_start = time.time()
-        results = self.vector_store.similarity_search(
-            query_vector, k=k
-        )
+        try:
+            results = self.vector_store.similarity_search(query_vector, k=k)
+        except ValueError as exc:
+            logger.warning("Retrieval failed: %s", exc)
+            return []
         search_time = time.time() - search_start
-        logger.debug(
-            "Vector search completed in %.4f seconds.", search_time
-        )
+        logger.debug("Vector search completed in %.4f seconds.", search_time)
 
         # Step 3: Apply score threshold
         if score_threshold is not None:
@@ -134,9 +131,17 @@ class Retriever:
                 len(results),
             )
 
-        # Step 4: Add text shortcut for convenience
         for result in results:
-            result["text"] = result["document"].page_content
+            document = result.get("document")
+            if document is not None:
+                result["text"] = document.page_content
+            if "metadata" not in result:
+                result["metadata"] = dict(getattr(document, "metadata", {}) or {})
+            result.setdefault("source", result["metadata"].get("source", "unknown"))
+            result.setdefault("document_id", result["metadata"].get("document_id"))
+            result.setdefault("file_name", result["metadata"].get("file_name") or result.get("source"))
+            result.setdefault("document_type", result["metadata"].get("document_type", "text"))
+            result.setdefault("chunk_index", result["metadata"].get("chunk_index"))
 
         logger.info(
             "Retrieval complete. %d results in %.4f seconds "
@@ -239,3 +244,4 @@ class Retriever:
             lines.append("-" * 70)
 
         return "\n".join(lines)
+

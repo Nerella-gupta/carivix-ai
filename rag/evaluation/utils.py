@@ -1,4 +1,4 @@
-"""
+﻿"""
 Shared utilities for the CARIVIX AI RAG evaluation module.
 
 Provides:
@@ -15,7 +15,6 @@ from contextlib import contextmanager
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Timing Utilities
@@ -46,7 +45,6 @@ def Timer(name: str = "Operation"):
     finally:
         timer["elapsed"] = time.perf_counter() - start
 
-
 def format_elapsed(seconds: float) -> str:
     """
     Format a duration in seconds into a human-readable string.
@@ -62,7 +60,6 @@ def format_elapsed(seconds: float) -> str:
     if seconds < 3600:
         return f"{seconds / 60:.2f}m"
     return f"{seconds / 3600:.2f}h"
-
 
 # =============================================================================
 # Console Table Rendering (dependency-free)
@@ -145,7 +142,6 @@ def render_table(
             lines.append(_row_line(row))
     return "\n".join(lines)
 
-
 # =============================================================================
 # Relevance Scoring (lexical proxy, no ground truth required)
 # =============================================================================
@@ -159,11 +155,9 @@ _STOPWORDS = {
     "has", "had", "about", "please", "tell", "explain", "describe", "give",
 }
 
-
 def tokenize(text: str) -> set:
     """Lowercase, strip punctuation, and split into word tokens."""
     return set(re.findall(r"[a-z0-9]+", text.lower()))
-
 
 def lexical_overlap(query: str, document_text: str) -> float:
     """
@@ -193,7 +187,6 @@ def lexical_overlap(query: str, document_text: str) -> float:
     # Weighted overlap: fraction of query tokens found in the document.
     return len(intersection) / len(q_tokens)
 
-
 def is_duplicate_chunk(self_chunk_id: Any, other_chunk_id: Any) -> bool:
     """
     Check whether two retrieved chunk identifiers refer to the same chunk.
@@ -209,7 +202,6 @@ def is_duplicate_chunk(self_chunk_id: Any, other_chunk_id: Any) -> bool:
         True if they represent the same chunk.
     """
     return self_chunk_id == other_chunk_id
-
 
 def summarize_metrics(values: Sequence[float]) -> Dict[str, float]:
     """
@@ -233,3 +225,4 @@ def summarize_metrics(values: Sequence[float]) -> Dict[str, float]:
         "max": round(max(values), 6),
         "std": round(variance ** 0.5, 6),
     }
+

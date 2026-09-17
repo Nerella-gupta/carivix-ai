@@ -31,6 +31,8 @@ Modules:
 __version__ = "1.0.0"
 __author__ = "CARIVIX AI"
 
+from rag.config import DEFAULT_RAG_CONFIG, RAGConfig, get_rag_config
+from rag.context_builder import ContextBuilder
 from rag.loader import DocumentLoader
 from rag.splitter import TextPreprocessor, DocumentSplitter
 from rag.embeddings import EmbeddingGenerator
@@ -39,8 +41,15 @@ from rag.retriever import Retriever
 from rag.prompt_builder import PromptBuilder
 from rag.generator import ResponseGenerator
 from rag.pipeline import RAGPipeline
+from rag.evaluation.relevance_evaluator import RelevanceEvaluator
+from rag.evaluation.factuality_evaluator import FactualityEvaluator
+from rag.evaluation.test_set_generator import TestSetGenerator, EvaluationCase
 
 __all__ = [
+    "RAGConfig",
+    "DEFAULT_RAG_CONFIG",
+    "get_rag_config",
+    "ContextBuilder",
     "DocumentLoader",
     "TextPreprocessor",
     "DocumentSplitter",
@@ -50,5 +59,9 @@ __all__ = [
     "PromptBuilder",
     "ResponseGenerator",
     "RAGPipeline",
+    "RelevanceEvaluator",
+    "FactualityEvaluator",
+    "TestSetGenerator",
+    "EvaluationCase",
 ]
 

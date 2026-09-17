@@ -28,6 +28,9 @@ from rag.evaluation.utils import Timer, format_elapsed, render_table
 from rag.evaluation.vector_db_evaluator import VectorDBEvaluator
 from rag.evaluation.performance_evaluator import PerformanceEvaluator
 from rag.evaluation.report import EvaluationReport
+from rag.evaluation.test_set_generator import TestSetGenerator, EvaluationCase
+from rag.evaluation.relevance_evaluator import RelevanceEvaluator
+from rag.evaluation.factuality_evaluator import FactualityEvaluator
 
 __version__ = "1.0.0"
 __author__ = "CARIVIX AI"
@@ -39,5 +42,9 @@ __all__ = [
     "VectorDBEvaluator",
     "PerformanceEvaluator",
     "EvaluationReport",
+    "TestSetGenerator",
+    "EvaluationCase",
+    "RelevanceEvaluator",
+    "FactualityEvaluator",
 ]
 

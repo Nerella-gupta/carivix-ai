@@ -1,4 +1,4 @@
-"""
+﻿"""
 CARIVIX AI - Model Training Pipeline
 =====================================
 
@@ -71,7 +71,6 @@ LOG_DIR = os.path.join(PROJECT_ROOT, "logs")
 DEFAULT_LOG_FILE = os.path.join(LOG_DIR, f"training_{get_timestamp()}.log")
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Sample Data Generator
@@ -149,7 +148,6 @@ def generate_sample_data(output_path: str) -> None:
         df.shape,
     )
 
-
 # =============================================================================
 # Pipeline Step Implementations
 # =============================================================================
@@ -183,7 +181,6 @@ def run_dataset_profile(config_path: str) -> tuple:
     logger.info("Data profile saved to: %s", profile_path)
     return profile, profile_path
 
-
 def compare_models(X: pd.DataFrame, y: pd.Series, config: dict, dataset_path: str) -> tuple:
     """Train several algorithms and compare their metrics."""
     algorithms = config.get("compare_algorithms", ["RandomForest", "GradientBoosting"])
@@ -204,7 +201,6 @@ def compare_models(X: pd.DataFrame, y: pd.Series, config: dict, dataset_path: st
 
     return comparison_df, comparison_path
 
-
 def export_trained_artifacts(model, metrics: dict, output_dir: str) -> tuple:
     """Export the trained model and evaluation metadata to disk."""
     ensure_directory(output_dir)
@@ -217,7 +213,6 @@ def export_trained_artifacts(model, metrics: dict, output_dir: str) -> tuple:
 
     logger.info("Exported model artifacts to: %s", output_dir)
     return model_path, metadata_path
-
 
 def step_dataset_loading(config: dict) -> pd.DataFrame:
     """
@@ -248,7 +243,6 @@ def step_dataset_loading(config: dict) -> pd.DataFrame:
     logger.info("Data types:\n%s", df.dtypes)
 
     return df
-
 
 def step_data_validation(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -287,7 +281,6 @@ def step_data_validation(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-
 def step_data_cleaning(df: pd.DataFrame, config: dict, target_column: str):
     """
     Step 3 & 4: Data cleaning (missing values, duplicates) and preprocessing.
@@ -310,7 +303,6 @@ def step_data_cleaning(df: pd.DataFrame, config: dict, target_column: str):
     logger.info("Target distribution:\n%s", y.value_counts())
 
     return X, y, transformers
-
 
 def step_feature_engineering(X: pd.DataFrame, y: pd.Series, config: dict):
     """
@@ -338,7 +330,6 @@ def step_feature_engineering(X: pd.DataFrame, y: pd.Series, config: dict):
 
     return X_engineered, fe_metadata
 
-
 def step_train_test_split():
     """
     Step 6: Train-test split (handled inside train_model).
@@ -346,7 +337,6 @@ def step_train_test_split():
     logger.info("-" * 50)
     logger.info("STEP 6: Train-Test Split (handled in train_model)")
     logger.info("-" * 50)
-
 
 def step_model_training(X: pd.DataFrame, y: pd.Series, config: dict):
     """
@@ -369,7 +359,6 @@ def step_model_training(X: pd.DataFrame, y: pd.Series, config: dict):
 
     return model, metrics
 
-
 def step_save_model():
     """
     Step 10: Save model (handled inside train_model).
@@ -377,7 +366,6 @@ def step_save_model():
     logger.info("-" * 50)
     logger.info("STEP 10: Save Model (handled by train_model)")
     logger.info("-" * 50)
-
 
 # =============================================================================
 # Main Pipeline Orchestrator
@@ -493,7 +481,6 @@ def run_pipeline(
         logger.error("  PIPELINE FAILED")
         logger.error("=" * 70)
         sys.exit(1)
-
 
 # =============================================================================
 # CLI Entry Point
@@ -612,7 +599,7 @@ Examples:
             export=args.export,
         )
 
-
 if __name__ == "__main__":
     main()
+
 

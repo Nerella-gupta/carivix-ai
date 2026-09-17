@@ -1,4 +1,4 @@
-"""
+﻿"""
 Data Preprocessing Module for CARIVIX AI Model Training pipeline.
 
 Provides:
@@ -31,7 +31,6 @@ from sklearn.preprocessing import (
 from src.utils import setup_logger
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Missing Value Handling
@@ -92,7 +91,6 @@ def handle_missing_values(
     logger.info("Missing value handling complete. Remaining nulls: %d", remaining_nulls)
     return df_clean
 
-
 # =============================================================================
 # Duplicate Removal
 # =============================================================================
@@ -105,7 +103,6 @@ def remove_duplicates(df: pd.DataFrame, subset: Optional[List[str]] = None, keep
     duplicates_removed = initial_rows - len(df_clean)
     logger.info("Removed %d duplicate rows. Shape: %s -> %s", duplicates_removed, initial_rows, df_clean.shape)
     return df_clean
-
 
 # =============================================================================
 # Outlier Detection & Handling
@@ -124,7 +121,6 @@ def detect_outliers_iqr(df: pd.DataFrame, columns: List[str], multiplier: float 
         outlier_masks[col] = mask.values
     return outlier_masks
 
-
 def detect_outliers_zscore(df: pd.DataFrame, columns: List[str], threshold: float = 3.0) -> Dict[str, np.ndarray]:
     """Detect outliers using the Z-score method."""
     logger.info("Detecting outliers using Z-score method (threshold=%.2f).", threshold)
@@ -137,7 +133,6 @@ def detect_outliers_zscore(df: pd.DataFrame, columns: List[str], threshold: floa
         mask.loc[df[col].dropna().index] = z_scores > threshold
         outlier_masks[col] = mask.values
     return outlier_masks
-
 
 def handle_outliers(df: pd.DataFrame, method: str = "iqr", threshold: float = 1.5, strategy: str = "clip", columns: Optional[List[str]] = None) -> pd.DataFrame:
     """Detect and handle outliers in numerical columns."""
@@ -169,7 +164,6 @@ def handle_outliers(df: pd.DataFrame, method: str = "iqr", threshold: float = 1.
     logger.info("Outlier handling complete. Shape: %s", df_clean.shape)
     return df_clean
 
-
 # =============================================================================
 # Feature Transformation (Log, Box-Cox)
 # =============================================================================
@@ -188,7 +182,6 @@ def apply_log_transform(df: pd.DataFrame, columns: List[str]) -> Tuple[pd.DataFr
     logger.info("Log transformation complete.")
     return df_transformed, shift_values
 
-
 def apply_boxcox_transform(df: pd.DataFrame, columns: List[str]) -> Tuple[pd.DataFrame, Dict[str, Any]]:
     """Apply Box-Cox transformation to make features more normally distributed."""
     logger.info("Applying Box-Cox transformation to %d columns.", len(columns))
@@ -203,7 +196,6 @@ def apply_boxcox_transform(df: pd.DataFrame, columns: List[str]) -> Tuple[pd.Dat
         transformers[col] = {"power_transformer": pt, "shift": shift}
     logger.info("Box-Cox transformation complete.")
     return df_transformed, transformers
-
 
 # =============================================================================
 # Imbalanced Data Handling (SMOTE)
@@ -226,7 +218,6 @@ def apply_smote(X: pd.DataFrame, y: pd.Series, method: str = "smote", random_sta
     logger.info("Resampling complete. %s -> %s", X.shape, X_resampled.shape)
     return X_resampled, y_resampled
 
-
 # =============================================================================
 # Label Encoding
 # =============================================================================
@@ -244,7 +235,6 @@ def label_encode(df: pd.DataFrame, columns: List[str]) -> Tuple[pd.DataFrame, Di
         encoders[col] = le
     logger.info("Label Encoding complete. Encoded %d columns.", len(encoders))
     return df_encoded, encoders
-
 
 # =============================================================================
 # One-Hot Encoding
@@ -265,7 +255,6 @@ def one_hot_encode(df: pd.DataFrame, columns: List[str], drop_first: bool = Fals
     df_encoded = pd.concat([df_encoded, encoded_df], axis=1)
     logger.info("One-Hot Encoding complete. Added %d new columns.", len(encoded_columns))
     return df_encoded, ohe
-
 
 # =============================================================================
 # Target Encoding
@@ -293,7 +282,6 @@ def target_encode(df: pd.DataFrame, columns: List[str], target: pd.Series, alpha
     logger.info("Target Encoding complete. Encoded %d columns.", len(encoding_maps))
     return df_encoded, encoding_maps
 
-
 # =============================================================================
 # Feature Scaling
 # =============================================================================
@@ -313,7 +301,6 @@ def scale_features(df: pd.DataFrame, columns: List[str], method: str = "standard
         raise ValueError(f"Invalid scaling method '{method}'.")
     df_scaled[valid_columns] = scaler.fit_transform(df_scaled[valid_columns])
     return df_scaled, scaler
-
 
 # =============================================================================
 # Complete Preprocessing Pipeline
@@ -403,3 +390,4 @@ def run_preprocessing_pipeline(df: pd.DataFrame, config: Dict[str, Any], target_
     logger.info("PREPROCESSING PIPELINE COMPLETE")
     logger.info("=" * 60)
     return X, y, transformers
+

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Experiment Tracking Module for CARIVIX AI Model Training pipeline.
 
 Manages experiment records across all baseline model runs:
@@ -21,7 +21,6 @@ from src.utils import ensure_directory, get_timestamp
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Constants
 # =============================================================================
@@ -29,7 +28,6 @@ logger = logging.getLogger("CARIVIX_AI")
 EXPERIMENTS_DIR = "experiments"
 EXPERIMENTS_CSV = os.path.join(EXPERIMENTS_DIR, "experiments.csv")
 MODEL_METRICS_JSON = os.path.join(EXPERIMENTS_DIR, "model_metrics.json")
-
 
 # =============================================================================
 # Serialization Helpers
@@ -60,7 +58,6 @@ def _serialize_value(value: Any) -> Any:
     if isinstance(value, (pd.Timestamp, datetime)):
         return str(value)
     return value
-
 
 # =============================================================================
 # Core Experiment Tracking Functions
@@ -135,7 +132,6 @@ def save_experiment_record(
         json.dump(existing_json, handle, indent=2, default=str)
     logger.info("Experiment record appended to: %s", json_path)
 
-
 def load_experiments_csv(
     experiments_dir: str = EXPERIMENTS_DIR,
 ) -> pd.DataFrame:
@@ -159,7 +155,6 @@ def load_experiments_csv(
     except Exception as exc:
         logger.error("Failed to load experiments CSV: %s", exc)
         return pd.DataFrame()
-
 
 def load_model_metrics_json(
     experiments_dir: str = EXPERIMENTS_DIR,
@@ -188,7 +183,6 @@ def load_model_metrics_json(
         logger.error("Failed to load model metrics JSON: %s", exc)
         return []
 
-
 # =============================================================================
 # Best Model Identification
 # =============================================================================
@@ -206,7 +200,6 @@ def get_primary_metric(task_type: str) -> str:
     if task_type == "classification":
         return "f1_score"
     return "r2_score"
-
 
 def is_higher_better(metric_name: str) -> bool:
     """
@@ -231,7 +224,6 @@ def is_higher_better(metric_name: str) -> bool:
         return False
     # Default: assume higher is better
     return True
-
 
 def find_best_model(
     experiments_dir: str = EXPERIMENTS_DIR,
@@ -301,7 +293,6 @@ def find_best_model(
 
     return best_record
 
-
 # =============================================================================
 # Summary Generation
 # =============================================================================
@@ -360,3 +351,4 @@ def generate_comparison_table(
 
     logger.info("Generated comparison table with %d models.", len(comparison_df))
     return comparison_df
+

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CARIVIX AI - RAG Pipeline Evaluation & Optimization CLI
 =========================================================
@@ -49,7 +49,6 @@ DEFAULT_VECTOR_STORE_DIR = os.path.join(PROJECT_ROOT, "data", "vector_store")
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Evaluation Orchestration
 # =============================================================================
@@ -72,7 +71,6 @@ def collect_system_config() -> Dict[str, Any]:
         "LLM Runtime": "Ollama",
         "Processing Device": "CPU",
     }
-
 
 def run_vector_db_evaluation(args) -> Dict[str, Any]:
     """
@@ -100,7 +98,6 @@ def run_vector_db_evaluation(args) -> Dict[str, Any]:
     summary = evaluator.run_evaluation()
     evaluator.print_summary()
     return summary
-
 
 def run_optimization_sweep(args) -> List[Dict[str, Any]]:
     """
@@ -147,7 +144,6 @@ def run_optimization_sweep(args) -> List[Dict[str, Any]]:
         print("=" * 70)
 
     return results
-
 
 # =============================================================================
 # Main Entry Point
@@ -308,6 +304,6 @@ Examples:
         print(f"\n  ❌ Evaluation failed: {exc}")
         raise
 
-
 if __name__ == "__main__":
     main()
+

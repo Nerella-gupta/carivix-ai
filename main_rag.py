@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CARIVIX AI - RAG Pipeline CLI Entry Point
 ===========================================
@@ -52,7 +52,6 @@ DEFAULT_VECTOR_STORE_DIR = os.path.join(PROJECT_ROOT, "data", "vector_store")
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Display Utilities
 # =============================================================================
@@ -62,7 +61,6 @@ def print_header(title: str, char: str = "=", width: int = 70) -> None:
     print(f"\n{char * width}")
     print(f"  {title}")
     print(f"{char * width}")
-
 
 def print_indexing_stats(stats: Dict[str, Any]) -> None:
     """Print indexing statistics in a readable format."""
@@ -84,7 +82,6 @@ def print_indexing_stats(stats: Dict[str, Any]) -> None:
 
     if "error" in stats:
         print(f"\n  ⚠ Error: {stats['error']}")
-
 
 def print_query_result(result: Dict[str, Any]) -> None:
     """Print a formatted query result."""
@@ -112,7 +109,6 @@ def print_query_result(result: Dict[str, Any]) -> None:
     print(f"  Generation Time: {result.get('generation_time', 0):.4f}s")
     print(f"  Total Time:      {result.get('total_time', 0):.4f}s")
     print(f"{'=' * 70}")
-
 
 def print_pipeline_info(pipeline: RAGPipeline) -> None:
     """Print comprehensive pipeline configuration information."""
@@ -151,7 +147,6 @@ def print_pipeline_info(pipeline: RAGPipeline) -> None:
             if not key.startswith("_"):
                 print(f"    {key.replace('_', ' ').title():<25} {value}")
 
-
 # =============================================================================
 # CLI Actions
 # =============================================================================
@@ -173,7 +168,6 @@ def action_index(
 
     stats = pipeline.index_documents(force_reindex=force)
     print_indexing_stats(stats)
-
 
 def action_query(
     pipeline: RAGPipeline,
@@ -211,7 +205,6 @@ def action_query(
         logger.error("Query failed: %s", exc)
         print(f"\n  ❌ Query failed: {exc}")
         return None
-
 
 def action_test(pipeline: RAGPipeline) -> None:
     """
@@ -261,7 +254,6 @@ def action_test(pipeline: RAGPipeline) -> None:
     print(f"  Documents indexed: {stats.get('documents_loaded', 0)}")
     print(f"  Total chunks:      {stats.get('chunks_created', 0)}")
     print(f"  Test queries run:  {len(test_queries)}")
-
 
 def action_interactive(pipeline: RAGPipeline) -> None:
     """
@@ -315,7 +307,6 @@ def action_interactive(pipeline: RAGPipeline) -> None:
             logger.error("Interactive session error: %s", exc)
             print(f"\n  ⚠ Error: {exc}")
 
-
 def action_info(pipeline: RAGPipeline, show_full: bool = False) -> None:
     """
     Display pipeline configuration and statistics.
@@ -325,7 +316,6 @@ def action_info(pipeline: RAGPipeline, show_full: bool = False) -> None:
         show_full: If True, show full detailed output.
     """
     print_pipeline_info(pipeline)
-
 
 # =============================================================================
 # Main Entry Point
@@ -578,7 +568,7 @@ Examples:
     logger.info("  RAG PIPELINE COMPLETED")
     logger.info("=" * 70)
 
-
 if __name__ == "__main__":
     main()
+
 

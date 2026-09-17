@@ -1,0 +1,2 @@
+Feature_Name,Feature_Type,Description,Missing_Values,Unique_Values
+Missing_Value_Percentage_Per_Row,float64,Percentage of missing values in each row,0,5

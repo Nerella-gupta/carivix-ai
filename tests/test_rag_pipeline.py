@@ -1,4 +1,4 @@
-"""
+﻿"""
 RAG Pipeline Integration Tests for CARIVIX AI
 ===============================================
 
@@ -39,7 +39,6 @@ from rag.pipeline import RAGPipeline
 # Disable logging during tests
 logging.disable(logging.CRITICAL)
 
-
 # =============================================================================
 # Fixtures
 # =============================================================================
@@ -54,7 +53,6 @@ def sample_text() -> str:
         "multiple ML algorithms including Random Forest and XGBoost. "
         "Experiment tracking is done with MLflow."
     )
-
 
 @pytest.fixture
 def sample_documents_dir(tmpdir) -> str:
@@ -80,7 +78,6 @@ def sample_documents_dir(tmpdir) -> str:
     df.to_csv(os.path.join(docs_dir, "metrics.csv"), index=False)
 
     return docs_dir
-
 
 # =============================================================================
 # Test 1: Document Loading
@@ -126,7 +123,6 @@ class TestDocumentLoader:
         assert ".csv" in extensions
         assert ".pdf" in extensions
         assert ".docx" in extensions
-
 
 # =============================================================================
 # Test 2: Text Preprocessing
@@ -179,7 +175,6 @@ class TestTextPreprocessor:
         assert preprocessor.clean_text("") == ""
         assert preprocessor.clean_text(None) == ""
 
-
 # =============================================================================
 # Test 3: Document Splitting
 # =============================================================================
@@ -224,7 +219,6 @@ class TestDocumentSplitter:
         config = splitter.config
         assert config["chunk_size"] == 500
         assert config["chunk_overlap"] == 50
-
 
 # =============================================================================
 # Test 4: Embedding Generation
@@ -281,7 +275,6 @@ class TestEmbeddingGenerator:
         assert info["model_name"] == "all-MiniLM-L6-v2"
         assert info["dimension"] == 384
 
-
 # =============================================================================
 # Test 5: Vector Store (FAISS)
 # =============================================================================
@@ -315,14 +308,14 @@ class TestVectorStore:
         store = VectorStore(index_type="L2")
         chunks, embeddings = chunks_and_embeddings
         store.create_index(chunks, embeddings)
-        
+
         save_dir = os.path.join(tmpdir, "vector_store")
         store.save_index(directory=save_dir)
-        
+
         # Verify files exist
         assert os.path.exists(os.path.join(save_dir, "index.faiss"))
         assert os.path.exists(os.path.join(save_dir, "index.pkl"))
-        
+
         # Load into a new store
         store2 = VectorStore(index_directory=save_dir)
         store2.load_index()
@@ -333,10 +326,10 @@ class TestVectorStore:
         store = VectorStore(index_type="L2")
         chunks, embeddings = chunks_and_embeddings
         store.create_index(chunks, embeddings)
-        
+
         generator = EmbeddingGenerator(model_name="all-MiniLM-L6-v2")
         query_vector = generator.generate_single("What is CARIVIX AI?")
-        
+
         results = store.similarity_search(query_vector, k=2)
         assert len(results) == 2
         assert results[0]["score"] > 0
@@ -351,11 +344,10 @@ class TestVectorStore:
         """Test vector count property."""
         store = VectorStore()
         assert store.vector_count == 0  # No index yet
-        
+
         chunks, embeddings = chunks_and_embeddings
         store.create_index(chunks, embeddings)
         assert store.vector_count == len(chunks)
-
 
 # =============================================================================
 # Test 6: Retriever
@@ -368,20 +360,20 @@ class TestRetriever:
     def retriever(self):
         """Provide a configured retriever."""
         from langchain_core.documents import Document
-        
+
         # Create test data
         chunks = [
             Document(page_content="CARIVIX AI is an AI platform for economic analysis.", metadata={"source": "test.txt", "chunk_id": 1}),
             Document(page_content="It uses Random Forest and XGBoost for predictions.", metadata={"source": "test.txt", "chunk_id": 2}),
             Document(page_content="MLflow is used for experiment tracking.", metadata={"source": "test.txt", "chunk_id": 3}),
         ]
-        
+
         generator = EmbeddingGenerator(model_name="all-MiniLM-L6-v2")
         embeddings = generator.generate_from_documents(chunks)
-        
+
         store = VectorStore()
         store.create_index(chunks, embeddings)
-        
+
         return Retriever(embedding_generator=generator, vector_store=store)
 
     def test_retrieve_returns_results(self, retriever):
@@ -407,7 +399,6 @@ class TestRetriever:
         results = retriever.retrieve("CARIVIX", k=2)
         formatted = retriever.format_results(results)
         assert "CARIVIX" in formatted or "Score" in formatted
-
 
 # =============================================================================
 # Test 7: Prompt Builder
@@ -443,7 +434,6 @@ class TestPromptBuilder:
         assert stats["words"] > 0
         assert stats["lines"] > 0
 
-
 # =============================================================================
 # Test 8: End-to-End Pipeline
 # =============================================================================
@@ -454,14 +444,14 @@ class TestRAGPipeline:
     def test_index_documents(self, sample_documents_dir, tmpdir):
         """Test full indexing pipeline."""
         vector_dir = os.path.join(tmpdir, "vector_store")
-        
+
         pipeline = RAGPipeline(
             documents_dir=sample_documents_dir,
             vector_store_dir=vector_dir,
         )
-        
+
         stats = pipeline.index_documents()
-        
+
         # Verify indexing results
         assert stats["documents_loaded"] >= 1
         assert stats["chunks_created"] >= 1
@@ -473,21 +463,21 @@ class TestRAGPipeline:
     def test_index_and_query(self, sample_documents_dir, tmpdir):
         """Test indexing and querying."""
         vector_dir = os.path.join(tmpdir, "vector_store")
-        
+
         pipeline = RAGPipeline(
             documents_dir=sample_documents_dir,
             vector_store_dir=vector_dir,
         )
-        
+
         # Index
         pipeline.index_documents()
-        
+
         # Query (will not use LLM since it may not be available)
         result = pipeline.query(
             "What is CARIVIX AI?",
             verbose=False,
         )
-        
+
         assert result["question"] == "What is CARIVIX AI?"
         assert len(result["retrieved_chunks"]) >= 1
         assert result["retrieval_time"] > 0
@@ -495,14 +485,14 @@ class TestRAGPipeline:
     def test_save_and_load_index(self, sample_documents_dir, tmpdir):
         """Test saving and loading index across pipeline instances."""
         vector_dir = os.path.join(tmpdir, "vector_store")
-        
+
         # Create and save index
         pipeline1 = RAGPipeline(
             documents_dir=sample_documents_dir,
             vector_store_dir=vector_dir,
         )
         pipeline1.index_documents()
-        
+
         # Create new pipeline and load index
         pipeline2 = RAGPipeline(
             documents_dir=sample_documents_dir,
@@ -510,11 +500,10 @@ class TestRAGPipeline:
         )
         loaded = pipeline2.load_index()
         assert loaded == True
-        
+
         # Query using loaded index
         result = pipeline2.query("CARIVIX AI", verbose=False)
         assert len(result["retrieved_chunks"]) >= 1
-
 
 # =============================================================================
 # Run tests directly
@@ -522,4 +511,5 @@ class TestRAGPipeline:
 
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
+
 

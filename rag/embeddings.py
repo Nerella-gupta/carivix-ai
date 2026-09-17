@@ -1,4 +1,4 @@
-"""
+﻿"""
 Embedding Generation Module for CARIVIX AI RAG Pipeline
 ========================================================
 
@@ -19,13 +19,14 @@ Usage:
 
 import os
 import logging
-from typing import List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import numpy as np
 from langchain_core.documents import Document
 
-logger = logging.getLogger("CARIVIX_AI")
+from rag.config import DEFAULT_EMBEDDING_MODEL, DEFAULT_EMBEDDING_DIMENSION
 
+logger = logging.getLogger("CARIVIX_AI")
 
 class EmbeddingGenerator:
     """
@@ -43,8 +44,8 @@ class EmbeddingGenerator:
         batch_size: Number of texts to process per batch.
     """
 
-    DEFAULT_MODEL = "all-MiniLM-L6-v2"
-    EXPECTED_DIMENSION = 384  # all-MiniLM-L6-v2 output dimension
+    DEFAULT_MODEL = DEFAULT_EMBEDDING_MODEL
+    EXPECTED_DIMENSION = DEFAULT_EMBEDDING_DIMENSION
 
     def __init__(
         self,
@@ -162,20 +163,43 @@ class EmbeddingGenerator:
         if not texts:
             raise ValueError("Cannot generate embeddings for empty text list.")
 
+        cleaned_texts = []
+        for text in texts:
+            if not isinstance(text, str):
+                continue
+            cleaned = text.strip()
+            if cleaned:
+                cleaned_texts.append(cleaned)
+
+        if not cleaned_texts:
+            raise ValueError("Cannot generate embeddings for empty text list after filtering.")
+
         logger.debug(
             "Generating embeddings for %d texts (batch size: %d)...",
-            len(texts),
+            len(cleaned_texts),
             self.batch_size,
         )
 
-        embeddings = self.model.encode(
-            texts,
-            batch_size=self.batch_size,
-            show_progress_bar=show_progress,
-            convert_to_numpy=True,
-            normalize_embeddings=False,
-        )
+        try:
+            embeddings = self.model.encode(
+                cleaned_texts,
+                batch_size=self.batch_size,
+                show_progress_bar=show_progress,
+                convert_to_numpy=True,
+                normalize_embeddings=False,
+            )
+        except Exception as exc:  # pragma: no cover - defensive error handling
+            raise RuntimeError(f"Embedding generation failed: {exc}") from exc
 
+        embeddings = np.asarray(embeddings)
+        if embeddings.ndim == 1:
+            embeddings = embeddings.reshape(1, -1)
+        if embeddings.shape[1] != self.dimension:
+            logger.warning(
+                "Embedding dimension mismatch detected: expected %d, got %d",
+                self.dimension,
+                embeddings.shape[1],
+            )
         logger.debug(
             "Embeddings generated. Shape: %s", embeddings.shape
         )
@@ -197,9 +221,18 @@ class EmbeddingGenerator:
         if not text or not text.strip():
             raise ValueError("Cannot generate embedding for empty text.")
 
-        embedding = self.model.encode(
-            text, convert_to_numpy=True
-        )
+        try:
+            embedding = self.model.encode(
+                text.strip(), convert_to_numpy=True
+            )
+        except Exception as exc:  # pragma: no cover - defensive error handling
+            raise RuntimeError(f"Embedding generation failed: {exc}") from exc
+
+        embedding = np.asarray(embedding)
+        if embedding.ndim == 0:
+            embedding = embedding.reshape(1)
+        if embedding.ndim == 2:
+            embedding = embedding.reshape(-1)
         return embedding
 
     def generate_from_documents(
@@ -271,4 +304,5 @@ class EmbeddingGenerator:
             if self._model
             else "not loaded",
         }
+
 

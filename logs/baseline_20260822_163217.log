@@ -1,0 +1,87 @@
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | run_baseline_pipeline:276 | ======================================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | run_baseline_pipeline:277 |   CARIVIX AI - BASELINE MODEL PIPELINE
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | run_baseline_pipeline:278 |   Started at: 2026-08-22 16:32:17
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | run_baseline_pipeline:279 | ======================================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:468 | ======================================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:469 |   CARIVIX AI - BASELINE MODEL PIPELINE
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:470 | ======================================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:478 | Loading configuration from: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\config/config.yaml
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | utils:143 | Configuration loaded successfully from D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\config/config.yaml
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:481 | ✓ Configuration Loaded
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:83 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:84 | STEP: Dataset Loading
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:85 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:102 | Using latest processed dataset: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/processed\processed_20260731_165209.csv
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:116 | Loading dataset from: D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/processed\processed_20260731_165209.csv
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | utils:477 | DataFrame loaded from D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\data/processed\processed_20260731_165209.csv (shape: (1000, 29))
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:118 | Dataset loaded. Shape: (1000, 29)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:134 | Features shape: (1000, 28), Target shape: (1000,)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:135 | Target dtype: int64
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:136 | Target unique values: 2
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:139 | Dataset name: processed_20260731_165209
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:141 | ✓ Dataset Loaded
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:155 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:156 | STEP: Data Validation
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:157 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:193 | Target class distribution - smallest class: 40.30%
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:198 | Dataset validation passed. Rows: 1000, Features: 28
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:199 | ✓ Data Validation Completed
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:224 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:225 | STEP: Preprocessing
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:226 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:238 | No missing values found.
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:269 | Scaling 9 numerical features...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | preprocess:291 | Scaling features using 'standard' scaler for 9 columns.
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:273 | Preprocessing complete. Shape: (1000, 28)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:274 | ✓ Preprocessing Completed
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:517 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:518 | STEP: Feature Engineering
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:519 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:408 | ============================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:409 | STARTING FEATURE ENGINEERING PIPELINE
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:410 | ============================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:424 | Feature types - Numeric: 28, Categorical: 0, Datetime: 0
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:40 | Creating polynomial features (degree=2, interaction_only=True) for 20 columns.
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:68 | Created 190 new polynomial features.
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:348 | Selecting features using variance threshold (threshold=0.0100).
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:355 | Dropping 55 constant columns.
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:367 | Feature selection: 46 selected, 117 removed.
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:488 | Feature engineering complete. Final shape: (1000, 46)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:489 | ============================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:490 | FEATURE ENGINEERING PIPELINE COMPLETE
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | feature_engineering:491 | ============================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:521 | Feature engineering complete. Shape: (1000, 46)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:522 | ✓ Feature Engineering Completed
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:526 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:527 | STEP: Train/Test Split
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:528 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:539 | Train: (800, 46), Test: (200, 46)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:542 | ✓ Train/Test Split Completed
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | model_dispatcher:105 | Detecting task type from target column...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | model_dispatcher:117 | Target has 2 unique values (≤2) → classification
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:548 | Auto-detected task type: classification
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:305 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:306 | STEP: Model Training
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:307 | --------------------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:317 | Training 8 baseline models for classification task...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:326 | ----------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:327 | Training model 1/8: LogisticRegression
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:328 | ----------------------------------------
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | model_dispatcher:192 | Initializing model: 'LogisticRegression' (task: classification)
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:344 | Training completed in 0.0281 seconds
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | baseline_pipeline:349 | Evaluating LogisticRegression...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:460 | ============================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:461 | STARTING MODEL EVALUATION
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:462 | ============================================================
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:473 | Generating predictions on test set...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:479 | Evaluating classification model...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:71 | Calculating classification metrics...
+2026-08-22 16:32:17 | INFO     | CARIVIX_AI | evaluate:118 | Classification report generated for 2 classes.
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:621 | Confusion matrix saved to: experiments\confusion_matrix_20260822_163217.png
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:171 | Generating ROC curve plot...
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:198 | ROC curve saved to: experiments\roc_curve_20260822_163218.png
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:293 | Generating precision-recall curve plot...
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:314 | Precision-recall curve saved to: experiments\precision_recall_20260822_163218.png
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:324 | Generating calibration curve plot...
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:348 | Calibration curve saved to: experiments\calibration_curve_20260822_163218.png
+2026-08-22 16:32:18 | INFO     | CARIVIX_AI | evaluate:361 | Generating learning curve plot...

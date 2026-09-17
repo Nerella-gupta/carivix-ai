@@ -1,4 +1,4 @@
-"""
+﻿"""
 Model Registry Module for CARIVIX AI Model Training pipeline.
 
 Provides centralized model saving/loading:
@@ -21,13 +21,11 @@ from src.utils import ensure_directory, get_timestamp
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Constants
 # =============================================================================
 
 MODELS_DIR = "models"
-
 
 # =============================================================================
 # Model Saving
@@ -77,7 +75,6 @@ def save_model(
 
     return filepath
 
-
 # =============================================================================
 # Model Loading
 # =============================================================================
@@ -114,7 +111,6 @@ def load_model(model_path: str) -> Any:
     except Exception as exc:
         logger.error("Failed to load model: %s", exc)
         raise
-
 
 # =============================================================================
 # Model Listing & Discovery
@@ -167,7 +163,6 @@ def list_models(
     logger.info("Found %d models in %s", len(models_info), models_dir)
     return models_info
 
-
 def find_latest_model(
     model_name: str,
     models_dir: str = MODELS_DIR,
@@ -193,7 +188,6 @@ def find_latest_model(
     logger.info("Latest model for '%s': %s", model_name, latest["path"])
     return latest["path"]
 
-
 def get_model_summary(models_dir: str = MODELS_DIR) -> pd.DataFrame:
     """
     Get a summary DataFrame of all saved models.
@@ -211,7 +205,6 @@ def get_model_summary(models_dir: str = MODELS_DIR) -> pd.DataFrame:
     df = pd.DataFrame(models)
     logger.info("Model summary generated with %d models.", len(df))
     return df
-
 
 # =============================================================================
 # Model Deletion
@@ -237,3 +230,4 @@ def delete_model(model_path: str) -> bool:
     except Exception as exc:
         logger.error("Failed to delete model %s: %s", model_path, exc)
         return False
+

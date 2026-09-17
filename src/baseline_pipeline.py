@@ -1,4 +1,4 @@
-"""
+﻿"""
 Baseline Model Pipeline Module for CARIVIX AI.
 
 Orchestrates the complete end-to-end baseline model training workflow:
@@ -57,7 +57,6 @@ from src.experiment_tracking import (
 from src.evaluate import evaluate_model
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Data Loading & Validation
@@ -142,7 +141,6 @@ def load_prepared_dataset(
     logger.info("✓ Dataset Loaded")
     return X, y, dataset_name
 
-
 def validate_dataset_structure(X: pd.DataFrame, y: pd.Series) -> None:
     """
     Validate the dataset structure for model training readiness.
@@ -199,7 +197,6 @@ def validate_dataset_structure(X: pd.DataFrame, y: pd.Series) -> None:
 
     logger.info("Dataset validation passed. Rows: %d, Features: %d", X.shape[0], X.shape[1])
     logger.info("✓ Data Validation Completed")
-
 
 # =============================================================================
 # Data Preprocessing for Baseline
@@ -276,7 +273,6 @@ def prepare_features_for_baseline(
     logger.info("Preprocessing complete. Shape: %s", df.shape)
     logger.info("✓ Preprocessing Completed")
     return df
-
 
 # =============================================================================
 # Model Training Loop
@@ -436,7 +432,6 @@ def train_baseline_models(
 
     logger.info("✓ Model Training Completed for all models")
     return all_results
-
 
 # =============================================================================
 # Main Baseline Pipeline Orchestrator
@@ -614,3 +609,4 @@ def run_baseline_pipeline(
             "data_flow_status": data_flow_status,
             "all_results": all_results,
         }
+

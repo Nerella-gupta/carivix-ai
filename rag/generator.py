@@ -35,6 +35,7 @@ import time
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Generator
 
+from rag.config import DEFAULT_LLM_MODEL, DEFAULT_OLLAMA_BASE_URL
 from src.utils import ensure_directory
 
 logger = logging.getLogger("CARIVIX_AI")
@@ -106,8 +107,8 @@ class OllamaLLM(BaseLLM):
 
     def __init__(
         self,
-        model_name: str = "llama3.1",
-        base_url: str = "http://localhost:11434",
+        model_name: str = DEFAULT_LLM_MODEL,
+        base_url: str = DEFAULT_OLLAMA_BASE_URL,
         timeout: int = 300,
     ) -> None:
         """
@@ -433,7 +434,7 @@ class ResponseGenerator:
         # Set default model names
         if model_name is None:
             if backend == "ollama":
-                model_name = "llama3.1"
+                model_name = DEFAULT_LLM_MODEL
             elif backend == "huggingface":
                 model_name = "microsoft/phi-2"
 
@@ -514,5 +515,46 @@ class ResponseGenerator:
             "backend": type(self.llm).__name__,
             "model_name": self.llm.model_name,
             "available": self.is_available(),
+        }
+
+    def generate_grounded_response(
+        self,
+        query: str,
+        retrieved_chunks: List[Dict[str, Any]],
+        prompt_template: Optional[str] = None,
+        max_tokens: int = 512,
+        temperature: float = 0.0,
+        **kwargs,
+    ) -> Dict[str, Any]:
+        """Generate a grounded answer using the provided context."""
+        started = time.time()
+        if not query or not query.strip():
+            return {
+                "answer": "I could not answer because the query was empty.",
+                "sources": [],
+                "retrieved_chunks": retrieved_chunks,
+                "model": self.model_name,
+                "latency": {"total_latency": 0.0},
+            }
+
+        prompt = prompt_template or ""
+        if not prompt:
+            from rag.prompt_builder import PromptBuilder
+            prompt = PromptBuilder().build_prompt(query=query, retrieved_chunks=retrieved_chunks)
+
+        answer = self.generate(prompt, max_tokens=max_tokens, temperature=temperature, **kwargs)
+        latency = {"total_latency": round(time.time() - started, 4)}
+        sources = []
+        for chunk in retrieved_chunks:
+            source = chunk.get("source") or chunk.get("metadata", {}).get("source") or "unknown"
+            if source not in sources:
+                sources.append(source)
+
+        return {
+            "answer": answer.strip(),
+            "sources": sources,
+            "retrieved_chunks": retrieved_chunks,
+            "model": self.model_name,
+            "latency": latency,
         }
 

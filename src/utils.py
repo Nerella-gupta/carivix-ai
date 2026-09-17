@@ -1,4 +1,4 @@
-"""
+﻿"""
 Utility functions for the CARIVIX AI Model Training pipeline.
 
 Provides:
@@ -24,7 +24,6 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 import yaml
 import pandas as pd
 import numpy as np
-
 
 # =============================================================================
 # Logging Configuration
@@ -77,7 +76,6 @@ def setup_logger(
 
     return logger
 
-
 # =============================================================================
 # Configuration Loading
 # =============================================================================
@@ -104,7 +102,6 @@ def resolve_path(path: str, search_dirs: Optional[List[str]] = None) -> str:
             return candidate
 
     return os.path.abspath(path)
-
 
 def load_config(config_path: str, base_dir: Optional[str] = None) -> Dict[str, Any]:
     """
@@ -149,7 +146,6 @@ def load_config(config_path: str, base_dir: Optional[str] = None) -> Dict[str, A
             logger.error("Failed to parse YAML config: %s", exc)
             raise
 
-
 # =============================================================================
 # Timer Context Manager
 # =============================================================================
@@ -180,7 +176,6 @@ def Timer(name: str = "Operation", logger: Optional[logging.Logger] = None):
             logger.info("⏱️  %s completed in %.2f minutes", name, elapsed / 60)
         else:
             logger.info("⏱️  %s completed in %.2f seconds", name, elapsed)
-
 
 # =============================================================================
 # Retry Decorator
@@ -250,7 +245,6 @@ def retry_on_failure(
         return wrapper
 
     return decorator
-
 
 # =============================================================================
 # Data Profiling
@@ -394,7 +388,6 @@ def data_profile(
     logger.info("=" * 60)
     return profile
 
-
 # =============================================================================
 # Helper Utilities
 # =============================================================================
@@ -410,7 +403,6 @@ def ensure_directory(path: str) -> None:
     logger = logging.getLogger("CARIVIX_AI")
     logger.debug("Directory ensured: %s", path)
 
-
 def get_timestamp() -> str:
     """
     Get current timestamp as a formatted string suitable for file naming.
@@ -419,7 +411,6 @@ def get_timestamp() -> str:
         Timestamp string in format YYYYMMDD_HHMMSS.
     """
     return datetime.now().strftime("%Y%m%d_%H%M%S")
-
 
 def save_dataframe(df: pd.DataFrame, path: str, index: bool = False) -> None:
     """
@@ -434,7 +425,6 @@ def save_dataframe(df: pd.DataFrame, path: str, index: bool = False) -> None:
     df.to_csv(path, index=index)
     logger = logging.getLogger("CARIVIX_AI")
     logger.info("DataFrame saved to %s (shape: %s)", path, df.shape)
-
 
 def load_dataframe(
     path: str,
@@ -491,7 +481,6 @@ def load_dataframe(
         logger.error("Failed to load data from %s: %s", path, exc)
         raise
 
-
 def get_dataset_name(filepath: str) -> str:
     """
     Extract dataset name from file path.
@@ -503,7 +492,6 @@ def get_dataset_name(filepath: str) -> str:
         Dataset name (filename without extension).
     """
     return os.path.splitext(os.path.basename(filepath))[0]
-
 
 def get_dataset_version(filepath: str) -> str:
     """
@@ -519,3 +507,4 @@ def get_dataset_version(filepath: str) -> str:
         mod_time = os.path.getmtime(filepath)
         return datetime.fromtimestamp(mod_time).strftime("%Y%m%d_%H%M%S")
     return "v1.0.0"
+

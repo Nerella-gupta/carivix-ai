@@ -1,0 +1,4 @@
+Task,Comparison_Metric,Best_Model,Best_Dataset,Best_Value,Interpretation
+Classification,Accuracy,Random Forest Classifier,Smart City Intelligence,0.998,Higher accuracy indicates more correct predictions.
+Regression,R2,Random Forest Regressor,Public Program Evaluation,0.948899364,Higher R2 indicates stronger regression performance.
+Regression,RMSE,Random Forest Regressor,Public Program Evaluation,1410.314459,Lower RMSE indicates lower prediction error.

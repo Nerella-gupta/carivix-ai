@@ -1,4 +1,4 @@
-"""
+﻿"""
 Vector Database Module for CARIVIX AI RAG Pipeline
 ====================================================
 
@@ -36,7 +36,6 @@ from langchain_core.documents import Document
 from src.utils import ensure_directory
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 class VectorStore:
     """
@@ -215,15 +214,18 @@ class VectorStore:
                 f"Metadata file not found: {metadata_path}"
             )
 
-        # Load FAISS index
-        self.index = faiss.read_index(index_path)
-
-        # Load metadata
-        with open(metadata_path, "rb") as f:
-            metadata = pickle.load(f)
-
-        self.documents = metadata["documents"]
-        self.dimension = metadata["dimension"]
+        try:
+            self.index = faiss.read_index(index_path)
+            with open(metadata_path, "rb") as f:
+                metadata = pickle.load(f)
+            self.documents = metadata.get("documents", [])
+            self.dimension = metadata.get("dimension")
+            if self.dimension is None and self.documents:
+                self.dimension = len(self.documents[0].page_content)
+        except (FileNotFoundError, OSError, pickle.PickleError, EOFError, ValueError) as exc:
+            logger.warning("Unable to load FAISS index from %s: %s", load_dir, exc)
+            self.clear()
+            raise
 
         logger.info(
             "Index loaded. Vectors: %d, Dimension: %d, Type: %s",
@@ -263,28 +265,43 @@ class VectorStore:
                 "No index available. Call create_index() or load_index() first."
             )
 
+        if query_vector is None or np.size(query_vector) == 0:
+            logger.warning("Empty query vector provided for similarity search.")
+            return []
+
+        if self.index is None:
+            raise ValueError(
+                "No index available. Call create_index() or load_index() first."
+            )
+
+        if self.index.ntotal == 0:
+            logger.warning("FAISS index is empty.")
+            return []
+
         # Ensure query vector is 2D float32
-        if query_vector.ndim == 1:
-            query_vector = query_vector.reshape(1, -1)
-        query_vector = np.ascontiguousarray(
-            query_vector.astype(np.float32)
-        )
+        q = np.asarray(query_vector)
+        if q.ndim == 1:
+            q = q.reshape(1, -1)
+        if self.dimension is not None and q.shape[1] != self.dimension:
+            raise ValueError(
+                f"Query embedding dimension mismatch: expected {self.dimension}, got {q.shape[1]}."
+            )
+        q = np.ascontiguousarray(q.astype(np.float32))
 
-        # Perform search
-        distances, indices = self.index.search(query_vector, k)
+        top_k = min(int(k), self.index.ntotal)
+        if top_k <= 0:
+            return []
 
-        # Build results
+        distances, indices = self.index.search(q, top_k)
+
         results: List[Dict[str, Any]] = []
-        for rank, (dist, idx) in enumerate(
-            zip(distances[0], indices[0])
-        ):
-            if idx == -1:
-                continue  # FAISS returns -1 for missing indices
+        for rank, (dist, idx) in enumerate(zip(distances[0], indices[0])):
+            if idx == -1 or idx >= len(self.documents):
+                continue
 
             doc = self.documents[idx]
-            # Convert distance to similarity score (for L2, invert)
+            metadata = dict(doc.metadata or {})
             if self.index_type == "L2":
-                # Use negative distance so higher = more similar
                 score = float(1.0 / (1.0 + dist))
             else:
                 score = float(dist)
@@ -295,9 +312,15 @@ class VectorStore:
                     "score": round(score, 6),
                     "distance": float(dist),
                     "document": doc,
-                    "chunk_id": doc.metadata.get("chunk_id", idx),
-                    "source": doc.metadata.get("source", "unknown"),
-                    "page": doc.metadata.get("page", None),
+                    "document_id": metadata.get("document_id"),
+                    "file_name": metadata.get("file_name") or metadata.get("source", "unknown"),
+                    "source": metadata.get("source", "unknown"),
+                    "document_type": metadata.get("document_type", "text"),
+                    "chunk_id": metadata.get("chunk_id", idx),
+                    "chunk_index": metadata.get("chunk_index", idx),
+                    "page": metadata.get("page", None),
+                    "metadata": metadata,
+                    "text": doc.page_content,
                 }
             )
 
@@ -357,4 +380,5 @@ class VectorStore:
         self.documents = []
         self.dimension = None
         logger.info("Vector store cleared.")
+
 

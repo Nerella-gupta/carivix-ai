@@ -1,4 +1,4 @@
-"""
+﻿"""
 Evaluation Report Generator
 ============================
 
@@ -29,7 +29,6 @@ from typing import Any, Dict, List, Optional
 from rag.evaluation.utils import format_elapsed
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 class EvaluationReport:
     """
@@ -562,3 +561,4 @@ class EvaluationReport:
         print("\n" + "=" * width)
         print("  REPORT SAVED TO: evaluation_report.md")
         print("=" * width + "\n")
+

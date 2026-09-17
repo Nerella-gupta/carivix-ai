@@ -1,4 +1,4 @@
-"""
+﻿"""
 Text Preprocessing & Splitting Module for CARIVIX AI RAG Pipeline
 ==================================================================
 
@@ -21,12 +21,21 @@ Usage:
 
 import re
 import logging
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 logger = logging.getLogger("CARIVIX_AI")
+
+
+def _ensure_document_metadata(document: Document) -> Dict[str, Any]:
+    metadata = dict(document.metadata or {})
+    metadata.setdefault("document_id", metadata.get("document_id") or metadata.get("source") or "doc")
+    metadata.setdefault("file_name", metadata.get("file_name") or metadata.get("source") or "unknown")
+    metadata.setdefault("source", metadata.get("source") or metadata.get("file_name") or "unknown")
+    metadata.setdefault("document_type", metadata.get("document_type") or "text")
+    return metadata
 
 
 class TextPreprocessor:
@@ -113,10 +122,11 @@ class TextPreprocessor:
         for doc in documents:
             cleaned_text = self.clean_text(doc.page_content)
             if cleaned_text:  # Skip documents that become empty
+                metadata = _ensure_document_metadata(doc)
                 cleaned.append(
                     Document(
                         page_content=cleaned_text,
-                        metadata=doc.metadata.copy(),
+                        metadata=metadata,
                     )
                 )
             else:
@@ -157,7 +167,6 @@ class TextPreprocessor:
             Character count.
         """
         return len(text.replace(" ", "").replace("\n", ""))
-
 
 class DocumentSplitter:
     """
@@ -234,30 +243,43 @@ class DocumentSplitter:
 
         chunks = self.text_splitter.split_documents(documents)
 
+        valid_chunks: List[Document] = []
+        for chunk in chunks:
+            if not chunk.page_content or not chunk.page_content.strip():
+                continue
+            metadata = _ensure_document_metadata(chunk)
+            metadata.setdefault("document_id", metadata.get("document_id") or metadata.get("source") or "doc")
+            metadata.setdefault("file_name", metadata.get("file_name") or metadata.get("source") or "unknown")
+            metadata.setdefault("source", metadata.get("source") or metadata.get("file_name") or "unknown")
+            metadata.setdefault("document_type", metadata.get("document_type") or "text")
+            chunk.metadata = metadata
+            valid_chunks.append(chunk)
+
         # Add chunk tracking metadata
         doc_chunk_map: dict = {}
-        for chunk in chunks:
-            source = chunk.metadata.get("source", "unknown")
-            doc_chunk_map.setdefault(source, []).append(chunk)
+        for chunk in valid_chunks:
+            document_id = chunk.metadata.get("document_id", "unknown")
+            doc_chunk_map.setdefault(document_id, []).append(chunk)
 
-        for source, source_chunks in doc_chunk_map.items():
+        for document_id, source_chunks in doc_chunk_map.items():
             total = len(source_chunks)
             for idx, chunk in enumerate(source_chunks, start=1):
-                chunk.metadata["chunk_id"] = idx
+                chunk.metadata["chunk_id"] = f"{document_id}-chunk-{idx}"
+                chunk.metadata["chunk_index"] = idx - 1
                 chunk.metadata["chunk_total"] = total
+                chunk.metadata["document_id"] = document_id
 
         logger.info(
             "Document splitting complete. %d documents → %d chunks. "
             "Chunk size: %d, Overlap: %d",
             len(documents),
-            len(chunks),
+            len(valid_chunks),
             self.chunk_size,
             self.chunk_overlap,
         )
 
-        # Log chunk size statistics
-        if chunks:
-            chunk_lengths = [len(c.page_content) for c in chunks]
+        if valid_chunks:
+            chunk_lengths = [len(c.page_content) for c in valid_chunks]
             logger.debug(
                 "Chunk stats: min=%d, max=%d, avg=%.1f",
                 min(chunk_lengths),
@@ -265,7 +287,7 @@ class DocumentSplitter:
                 sum(chunk_lengths) / len(chunk_lengths),
             )
 
-        return chunks
+        return valid_chunks
 
     def split_text(self, text: str, source: str = "unknown") -> List[Document]:
         """
@@ -281,7 +303,15 @@ class DocumentSplitter:
         Returns:
             List of Document chunks.
         """
-        doc = Document(page_content=text, metadata={"source": source})
+        doc = Document(
+            page_content=text,
+            metadata={
+                "source": source,
+                "file_name": source,
+                "document_type": "text",
+                "document_id": f"text-{source}",
+            },
+        )
         return self.split_documents([doc])
 
     @property
@@ -296,4 +326,5 @@ class DocumentSplitter:
             "chunk_size": self.chunk_size,
             "chunk_overlap": self.chunk_overlap,
         }
+
 

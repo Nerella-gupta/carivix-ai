@@ -1,4 +1,4 @@
-"""
+﻿"""
 Model Evaluation Module for CARIVIX AI Model Training pipeline.
 
 Provides comprehensive evaluation metrics for both:
@@ -46,7 +46,6 @@ from src.utils import ensure_directory, get_timestamp
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Classification Metrics
 # =============================================================================
@@ -93,7 +92,6 @@ def calculate_classification_metrics(
 
     return metrics
 
-
 def generate_classification_report_df(
     y_true: np.ndarray,
     y_pred: np.ndarray,
@@ -119,7 +117,6 @@ def generate_classification_report_df(
     report_df = pd.DataFrame(report_dict).transpose()
     logger.info("Classification report generated for %d classes.", len(class_names))
     return report_df
-
 
 # =============================================================================
 # Regression Metrics
@@ -152,7 +149,6 @@ def calculate_regression_metrics(
         logger.debug("  %s: %.4f", name, value)
 
     return metrics
-
 
 # =============================================================================
 # Visualization Functions
@@ -203,7 +199,6 @@ def plot_roc_curve(
 
     return roc_path
 
-
 def plot_prediction_scatter(
     y_true: np.ndarray,
     y_pred: np.ndarray,
@@ -243,7 +238,6 @@ def plot_prediction_scatter(
     logger.info("Prediction scatter plot saved to: %s", scatter_path)
 
     return scatter_path
-
 
 def plot_residuals(
     y_true: np.ndarray,
@@ -291,7 +285,6 @@ def plot_residuals(
 
     return resid_path
 
-
 def plot_precision_recall_curve(
     y_true: np.ndarray,
     y_prob: np.ndarray,
@@ -321,7 +314,6 @@ def plot_precision_recall_curve(
     logger.info("Precision-recall curve saved to: %s", pr_path)
 
     return pr_path
-
 
 def plot_calibration_curve(
     y_true: np.ndarray,
@@ -356,7 +348,6 @@ def plot_calibration_curve(
     logger.info("Calibration curve saved to: %s", calib_path)
 
     return calib_path
-
 
 def plot_learning_curve(
     model: Any,
@@ -412,7 +403,6 @@ def plot_learning_curve(
 
     return learning_path
 
-
 def plot_shap_summary(model: Any, X: pd.DataFrame) -> str:
     """Plot and save a SHAP summary plot when SHAP is available."""
     logger.info("Generating SHAP summary plot...")
@@ -439,7 +429,6 @@ def plot_shap_summary(model: Any, X: pd.DataFrame) -> str:
     logger.info("SHAP summary plot saved to: %s", shap_path)
 
     return shap_path
-
 
 # =============================================================================
 # Main Evaluation Function
@@ -569,7 +558,6 @@ def evaluate_model(
 
     return results
 
-
 # =============================================================================
 # Re-export confusion matrix plot from train.py to maintain consistency
 # =============================================================================
@@ -633,4 +621,5 @@ def plot_confusion_matrix(
     logger.info("Confusion matrix saved to: %s", cm_path)
 
     return cm_path
+
 

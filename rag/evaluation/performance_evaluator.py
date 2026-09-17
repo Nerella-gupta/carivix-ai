@@ -1,4 +1,4 @@
-"""
+﻿"""
 Retrieval Performance Optimizer
 ================================
 
@@ -55,7 +55,6 @@ from rag.evaluation.utils import (
 )
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 class PerformanceEvaluator:
     """
@@ -401,3 +400,4 @@ class PerformanceEvaluator:
         """Print all sweep results to the console."""
         print("\n" + self.get_results_table())
         print("\n" + self.get_best_config_table())
+

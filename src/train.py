@@ -1,4 +1,4 @@
-"""
+﻿"""
 Model Training Module for CARIVIX AI Model Training pipeline.
 
 Supports:
@@ -50,7 +50,6 @@ from src.evaluate import evaluate_model
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Model Registry
 # =============================================================================
@@ -94,7 +93,6 @@ REGRESSION_MODELS = {
     "SVR": SVR,
     "KNNRegressor": KNeighborsRegressor,
 }
-
 
 def get_model(algorithm: str, model_params: Dict[str, Any], task_type: str = "classification") -> Any:
     """
@@ -222,7 +220,6 @@ def get_model(algorithm: str, model_params: Dict[str, Any], task_type: str = "cl
 
     raise ValueError(f"Unsupported regression algorithm '{algorithm}'.")
 
-
 # =============================================================================
 # Hyperparameter Tuning
 # =============================================================================
@@ -288,7 +285,6 @@ def get_hyperparameter_grid(algorithm: str, task_type: str = "classification") -
     }
     return grids.get(algorithm, {})
 
-
 def _serialize_value(value: Any) -> Any:
     if isinstance(value, np.integer):
         return int(value)
@@ -301,7 +297,6 @@ def _serialize_value(value: Any) -> Any:
     if isinstance(value, list):
         return [_serialize_value(v) for v in value]
     return value
-
 
 def _append_experiment_record(
     record: Dict[str, Any],
@@ -336,7 +331,6 @@ def _append_experiment_record(
     existing_json.append(record_serialized)
     with open(json_path, "w", encoding="utf-8") as handle:
         json.dump(existing_json, handle, indent=2)
-
 
 # =============================================================================
 # Hyperparameter Tuning
@@ -383,7 +377,6 @@ def perform_hyperparameter_tuning(
 
     return search.best_estimator_, search.best_params_
 
-
 # =============================================================================
 # Cross-Validation
 # =============================================================================
@@ -416,7 +409,6 @@ def perform_cross_validation(
 
     return cv_results
 
-
 # =============================================================================
 # MLflow Setup
 # =============================================================================
@@ -435,10 +427,8 @@ def _normalize_file_tracking_uri(uri: str) -> str:
 
     return path.as_uri()
 
-
 def _is_valid_file_artifact_location(uri: str) -> bool:
     return uri.startswith("file://")
-
 
 def setup_mlflow(config: Dict[str, Any]) -> None:
     """Configure MLflow tracking."""
@@ -481,7 +471,6 @@ def setup_mlflow(config: Dict[str, Any]) -> None:
 
     mlflow.set_experiment(experiment_name)
 
-
 # =============================================================================
 # SHAP Explainability
 # =============================================================================
@@ -515,7 +504,6 @@ def compute_shap_explanations(model: Any, X_test: pd.DataFrame, config: Dict[str
 
     return shap_values
 
-
 # =============================================================================
 # Visualization Helpers
 # =============================================================================
@@ -541,7 +529,6 @@ def plot_feature_importance(model: Any, feature_names: list, top_n: int = 20) ->
     plt.savefig(fi_path, dpi=100, bbox_inches="tight")
     plt.close(fig)
     return fi_path
-
 
 # =============================================================================
 # Main Training Function
@@ -691,3 +678,4 @@ def train_model(X: pd.DataFrame, y: pd.Series, config: Dict[str, Any], dataset_p
     logger.info("MODEL TRAINING COMPLETE")
     logger.info("=" * 60)
     return model, metrics
+

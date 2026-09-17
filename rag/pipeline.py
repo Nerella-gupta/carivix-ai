@@ -1,4 +1,4 @@
-"""
+﻿"""
 End-to-End RAG Pipeline Module for CARIVIX AI
 ===============================================
 
@@ -39,6 +39,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from langchain_core.documents import Document
 
 from src.utils import ensure_directory, get_timestamp
+from rag.config import DEFAULT_RAG_CONFIG, RAGConfig
+from rag.context_builder import ContextBuilder
 from rag.loader import DocumentLoader
 from rag.splitter import TextPreprocessor, DocumentSplitter
 from rag.embeddings import EmbeddingGenerator
@@ -48,7 +50,6 @@ from rag.prompt_builder import PromptBuilder
 from rag.generator import ResponseGenerator
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 class RAGPipeline:
     """
@@ -76,20 +77,20 @@ class RAGPipeline:
         documents_dir: str = "data/documents/",
         vector_store_dir: str = "data/vector_store/",
         # Embedding config
-        embedding_model: str = "all-MiniLM-L6-v2",
+        embedding_model: Optional[str] = None,
         embedding_device: Optional[str] = None,
         # Chunking config
-        chunk_size: int = 500,
-        chunk_overlap: int = 50,
+        chunk_size: Optional[int] = None,
+        chunk_overlap: Optional[int] = None,
         # LLM config
         llm_backend: str = "ollama",
         llm_model: Optional[str] = None,
         llm_kwargs: Optional[Dict[str, Any]] = None,
         # Prompt config
         system_prompt: Optional[str] = None,
-        include_metadata: bool = False,
+        include_metadata: Optional[bool] = None,
         # Retriever config
-        retrieval_k: int = 5,
+        retrieval_k: Optional[int] = None,
         score_threshold: Optional[float] = None,
     ) -> None:
         """
@@ -110,22 +111,23 @@ class RAGPipeline:
             retrieval_k: Number of chunks to retrieve per query.
             score_threshold: Minimum similarity score for retrieval.
         """
+        config = DEFAULT_RAG_CONFIG
         self.documents_dir = documents_dir
         self.vector_store_dir = vector_store_dir
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
-        self.retrieval_k = retrieval_k
-        self.score_threshold = score_threshold
+        self.chunk_size = chunk_size if chunk_size is not None else config.chunk_size
+        self.chunk_overlap = chunk_overlap if chunk_overlap is not None else config.chunk_overlap
+        self.retrieval_k = retrieval_k if retrieval_k is not None else config.retrieval_k
+        self.score_threshold = score_threshold if score_threshold is not None else config.score_threshold
 
         # Initialize components
         self.loader = DocumentLoader(documents_dir=documents_dir)
         self.preprocessor = TextPreprocessor()
         self.splitter = DocumentSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
+            chunk_size=self.chunk_size,
+            chunk_overlap=self.chunk_overlap,
         )
         self.embedding_generator = EmbeddingGenerator(
-            model_name=embedding_model,
+            model_name=embedding_model or config.embedding_model,
             device=embedding_device,
         )
         self.vector_store = VectorStore(
@@ -137,13 +139,16 @@ class RAGPipeline:
         )
         self.prompt_builder = PromptBuilder(
             system_prompt=system_prompt,
-            include_metadata=include_metadata,
+            include_metadata=include_metadata if include_metadata is not None else config.include_metadata,
         )
+        self.context_builder = ContextBuilder(max_context_chars=4000)
 
         # LLM (lazy initialization)
         self._llm_backend = llm_backend
-        self._llm_model = llm_model
-        self._llm_kwargs = llm_kwargs or {}
+        self._llm_model = llm_model or config.llm_model
+        self._llm_kwargs = dict(llm_kwargs or {})
+        if self._llm_backend == "ollama" and "base_url" not in self._llm_kwargs:
+            self._llm_kwargs["base_url"] = config.ollama_base_url
         self._generator: Optional[ResponseGenerator] = None
 
         # Pipeline state
@@ -326,11 +331,8 @@ class RAGPipeline:
                 - total_time: Total query time in seconds
         """
         if not self._is_indexed:
-            # Try to load existing index
             if not self.load_index():
-                raise RuntimeError(
-                    "No index available. Run index_documents() first."
-                )
+                raise RuntimeError("No index available. Run index_documents() first.")
 
         if k is None:
             k = self.retrieval_k
@@ -343,7 +345,6 @@ class RAGPipeline:
             logger.info("  Question: %s", question[:100])
             logger.info("=" * 60)
 
-        # Step 1: Retrieve relevant chunks
         retrieval_start = time.time()
         retrieved_chunks = self.retriever.retrieve(
             query=question,
@@ -357,26 +358,32 @@ class RAGPipeline:
             return {
                 "question": question,
                 "response": "Information not found.",
+                "answer": "Information not found.",
+                "sources": [],
                 "retrieved_chunks": [],
                 "prompt": "",
-                "retrieval_time": retrieval_time,
-                "generation_time": 0,
-                "total_time": time.time() - total_start,
+                "model": self.generator.model_name,
+                "retrieval_time": round(retrieval_time, 4),
+                "generation_time": 0.0,
+                "context_construction_time": 0.0,
+                "total_time": round(time.time() - total_start, 4),
+                "latency": {"query_embedding_latency": 0.0, "retrieval_latency": round(retrieval_time, 4), "context_construction_latency": 0.0, "llm_generation_latency": 0.0, "total_latency": round(time.time() - total_start, 4)},
             }
 
-        # Step 2: Build prompt
+        context_start = time.time()
+        context = self.context_builder.build(retrieved_chunks)
+        context_construction_time = time.time() - context_start
+
         prompt = self.prompt_builder.build_prompt(
             query=question,
             retrieved_chunks=retrieved_chunks,
+            max_context_length=4000,
         )
 
         if verbose:
-            logger.info("Retrieved %d chunks in %.4f seconds.",
-                        len(retrieved_chunks), retrieval_time)
+            logger.info("Retrieved %d chunks in %.4f seconds.", len(retrieved_chunks), retrieval_time)
 
-        # Step 3: Generate response
         generation_start = time.time()
-
         try:
             if self.generator.is_available():
                 response = self.generator.generate(
@@ -385,38 +392,48 @@ class RAGPipeline:
                     temperature=temperature,
                 )
             else:
-                logger.warning(
-                    "LLM backend '%s' is not available. "
-                    "Returning retrieved context only.",
-                    self._llm_backend,
-                )
-                response = (
-                    "[LLM not available. Retrieved context shown above.]"
-                )
+                logger.warning("LLM backend '%s' is not available. Returning retrieved context only.", self._llm_backend)
+                response = "[LLM not available. Retrieved context shown above.]"
         except Exception as exc:
             logger.error("LLM generation failed: %s", exc)
-            response = (
-                f"Error generating response: {exc}\n\n"
-                "Retrieved context is available above."
-            )
+            response = f"Error generating response: {exc}\n\nRetrieved context is available above."
 
         generation_time = time.time() - generation_start
         total_time = time.time() - total_start
+        sources = []
+        for chunk in retrieved_chunks:
+            source = chunk.get("source") or chunk.get("metadata", {}).get("source") or "unknown"
+            if source not in sources:
+                sources.append(source)
+
+        result = {
+            "question": question,
+            "response": response,
+            "answer": response,
+            "sources": sources,
+            "retrieved_chunks": retrieved_chunks,
+            "context": context,
+            "prompt": prompt,
+            "model": self.generator.model_name,
+            "retrieval_time": round(retrieval_time, 4),
+            "generation_time": round(generation_time, 4),
+            "context_construction_time": round(context_construction_time, 4),
+            "total_time": round(total_time, 4),
+            "latency": {
+                "query_embedding_latency": 0.0,
+                "retrieval_latency": round(retrieval_time, 4),
+                "context_construction_latency": round(context_construction_time, 4),
+                "llm_generation_latency": round(generation_time, 4),
+                "total_latency": round(total_time, 4),
+            },
+        }
 
         if verbose:
             logger.info("Response generated in %.4f seconds.", generation_time)
             logger.info("Total query time: %.4f seconds.", total_time)
             logger.info("=" * 60)
 
-        return {
-            "question": question,
-            "response": response,
-            "retrieved_chunks": retrieved_chunks,
-            "prompt": prompt,
-            "retrieval_time": round(retrieval_time, 4),
-            "generation_time": round(generation_time, 4),
-            "total_time": round(total_time, 4),
-        }
+        return result
 
     # ------------------------------------------------------------------
     # Pipeline Information
@@ -490,3 +507,4 @@ class RAGPipeline:
         lines.append("=" * 70)
 
         return "\n".join(lines)
+

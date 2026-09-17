@@ -1,4 +1,4 @@
-"""
+﻿"""
 Feature Engineering Module for CARIVIX AI Model Training pipeline.
 
 Provides:
@@ -23,7 +23,6 @@ from sklearn.preprocessing import KBinsDiscretizer, StandardScaler
 from src.utils import setup_logger
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Numerical Feature Engineering
@@ -69,7 +68,6 @@ def create_polynomial_features(
     logger.info("Created %d new polynomial features.", new_features_count)
     return df_poly
 
-
 def create_ratio_features(df: pd.DataFrame, column_pairs: List[Tuple[str, str]]) -> pd.DataFrame:
     """Create ratio features from pairs of numerical columns."""
     logger.info("Creating ratio features for %d column pairs.", len(column_pairs))
@@ -84,7 +82,6 @@ def create_ratio_features(df: pd.DataFrame, column_pairs: List[Tuple[str, str]])
         new_features_count += 1
     logger.info("Created %d ratio features.", new_features_count)
     return df_ratio
-
 
 # =============================================================================
 # Binning Features
@@ -138,7 +135,6 @@ def create_binning_features(
     logger.info("Created %d binning features.", new_features_count)
     return df_bin
 
-
 # =============================================================================
 # Categorical Feature Engineering
 # =============================================================================
@@ -159,7 +155,6 @@ def create_frequency_encoding(df: pd.DataFrame, columns: List[str]) -> pd.DataFr
     logger.info("Created %d frequency encoding features.", new_features_count)
     return df_freq
 
-
 def create_target_encoding(df: pd.DataFrame, columns: List[str], target: pd.Series, alpha: float = 5.0) -> pd.DataFrame:
     """Create target encoding for categorical columns (mean of target per category)."""
     logger.info("Creating target encoding for %d columns (alpha=%.2f).", len(columns), alpha)
@@ -177,7 +172,6 @@ def create_target_encoding(df: pd.DataFrame, columns: List[str], target: pd.Seri
             new_features_count += 1
     logger.info("Created %d target encoding features.", new_features_count)
     return df_te
-
 
 # =============================================================================
 # Text Feature Engineering
@@ -210,7 +204,6 @@ def create_text_features(df: pd.DataFrame, columns: List[str]) -> pd.DataFrame:
 
     logger.info("Created %d text features.", len(created_features))
     return df_text
-
 
 # =============================================================================
 # Date Feature Extraction
@@ -253,7 +246,6 @@ def extract_date_features(df: pd.DataFrame, date_columns: List[str]) -> pd.DataF
     logger.info("Extracted %d date features.", new_features_count)
     return df_date
 
-
 def infer_datetime_columns(df: pd.DataFrame, sample_size: int = 100, threshold: float = 0.9) -> List[str]:
     """Infer object columns that represent datetime values."""
     date_columns: List[str] = []
@@ -266,7 +258,6 @@ def infer_datetime_columns(df: pd.DataFrame, sample_size: int = 100, threshold: 
         if parsed.notna().sum() / len(sample) >= threshold:
             date_columns.append(col)
     return date_columns
-
 
 # =============================================================================
 # Clustering Features
@@ -293,7 +284,6 @@ def create_clustering_features(
     df_cluster["cluster_label"] = clusters
     logger.info("Created clustering features using %d clusters.", n_clusters)
     return df_cluster
-
 
 # =============================================================================
 # Dimensionality Reduction (PCA)
@@ -347,7 +337,6 @@ def apply_pca(
 
     return pca_df, pca
 
-
 # =============================================================================
 # Feature Selection
 # =============================================================================
@@ -384,7 +373,6 @@ def select_features_variance_threshold(
 
     return df_selected, selector, selected_features
 
-
 def remove_highly_correlated_features(df: pd.DataFrame, threshold: float = 0.95) -> Tuple[pd.DataFrame, List[str]]:
     """Remove highly correlated features to reduce multicollinearity."""
     logger.info("Removing highly correlated features (threshold=%.2f).", threshold)
@@ -399,7 +387,6 @@ def remove_highly_correlated_features(df: pd.DataFrame, threshold: float = 0.95)
     logger.info("Dropping %d highly correlated features.", len(to_drop))
     df_reduced = df.drop(columns=to_drop)
     return df_reduced, to_drop
-
 
 # =============================================================================
 # Main Feature Engineering Pipeline
@@ -503,3 +490,4 @@ def run_feature_engineering_pipeline(X: pd.DataFrame, y: Optional[pd.Series], co
     logger.info("FEATURE ENGINEERING PIPELINE COMPLETE")
     logger.info("=" * 60)
     return X, metadata
+

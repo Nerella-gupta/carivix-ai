@@ -1,4 +1,4 @@
-"""
+﻿"""
 Prompt Builder Module for CARIVIX AI RAG Pipeline
 ===================================================
 
@@ -35,7 +35,6 @@ from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 class PromptBuilder:
     """
     Builds structured prompts for RAG-based question answering.
@@ -47,25 +46,24 @@ class PromptBuilder:
     Supports customizable templates, system messages, and formatting.
     """
 
-    # Default system prompt template
     DEFAULT_SYSTEM_PROMPT = (
-        "You are a helpful AI assistant for the CARIVIX AI project. "
-        "Answer the question based ONLY on the provided context. "
-        "If the answer is not available in the context, reply: "
-        '"Information not found."'
+        "You are a grounded AI assistant for the CARIVIX AI project. "
+        "Answer using the provided context only. Do not use unsupported information. "
+        "Avoid hallucination. State when the context is insufficient. Keep answers relevant "
+        "and use the retrieved context as the primary source. If the answer is not available in the context, reply: \"Information not found.\""
     )
 
-    # Default prompt template with placeholders
-    DEFAULT_PROMPT_TEMPLATE = """{system_prompt}
+    DEFAULT_PROMPT_TEMPLATE = """SYSTEM INSTRUCTIONS
 
-Context:
----
+{system_prompt}
+
+CONTEXT:
 {context}
 
-Question:
+USER QUESTION:
 {question}
 
-Answer:"""
+ANSWER:"""
 
     def __init__(
         self,
@@ -115,12 +113,7 @@ Answer:"""
         Returns:
             Formatted prompt string ready for LLM inference.
         """
-        # Format the context from retrieved chunks
-        context = self._format_context(
-            retrieved_chunks, max_context_length
-        )
-
-        # Build the prompt
+        context = self._format_context(retrieved_chunks, max_context_length)
         prompt = self.template.format(
             system_prompt=self.system_prompt,
             context=context,
@@ -153,9 +146,7 @@ Answer:"""
         Returns:
             List of message dicts with 'role' and 'content' keys.
         """
-        context = self._format_context(
-            retrieved_chunks, max_context_length
-        )
+        context = self._format_context(retrieved_chunks, max_context_length)
 
         messages = [
             {
@@ -165,9 +156,9 @@ Answer:"""
             {
                 "role": "user",
                 "content": (
-                    f"Context:\n---\n{context}\n---\n\n"
-                    f"Question: {query.strip()}\n\n"
-                    "Answer based only on the provided context."
+                    f"CONTEXT:\n{context}\n\n"
+                    f"USER QUESTION:\n{query.strip()}\n\n"
+                    "ANSWER:"
                 ),
             },
         ]
@@ -204,26 +195,31 @@ Answer:"""
 
         parts = []
         total_length = 0
+        seen_texts = set()
 
         for chunk in retrieved_chunks:
             text = chunk.get("text", chunk.get("document", ""))
             if hasattr(text, "page_content"):
                 text = text.page_content
+            text = str(text or "").strip()
+            if not text or text in seen_texts:
+                continue
+            seen_texts.add(text)
 
-            # Build chunk header with metadata
             header = f"Source: {chunk.get('source', 'unknown')}"
+            if chunk.get("document_id"):
+                header += f" | Document ID: {chunk['document_id']}"
             if chunk.get("page"):
                 header += f" (Page {chunk['page']})"
             if chunk.get("chunk_id"):
-                header += f" [Chunk {chunk['chunk_id']}]"
-
-            # Optionally include score
+                header += f" | Chunk ID: {chunk['chunk_id']}"
+            if chunk.get("chunk_index") is not None:
+                header += f" | Chunk Index: {chunk['chunk_index']}"
             if self.include_metadata:
                 header += f" | Relevance: {chunk.get('score', 0):.4f}"
 
             chunk_text = f"{header}\n{text}"
 
-            # Check max length
             if max_length and total_length + len(chunk_text) > max_length:
                 remaining = max_length - total_length
                 if remaining > 50:
@@ -233,8 +229,10 @@ Answer:"""
             parts.append(chunk_text)
             total_length += len(chunk_text)
 
-        context = "\n\n---\n\n".join(parts)
-        return context
+        if not parts:
+            return "No relevant context available."
+
+        return "\n\n---\n\n".join(parts)
 
     # ------------------------------------------------------------------
     # Utility
@@ -275,3 +273,4 @@ Answer:"""
         """
         self.template = template
         logger.info("Prompt template updated.")
+

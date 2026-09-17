@@ -1,4 +1,4 @@
-"""
+﻿"""
 Vector Database Integration Evaluator
 =======================================
 
@@ -41,7 +41,6 @@ from rag.evaluation.utils import (
 )
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 class VectorDBEvaluator:
     """
@@ -452,3 +451,4 @@ class VectorDBEvaluator:
         print(f"\n{'=' * 70}")
         print(f"  OVERALL VECTOR DB STATUS: {overall}")
         print(f"{'=' * 70}")
+

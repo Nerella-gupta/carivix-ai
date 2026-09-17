@@ -1,4 +1,4 @@
-"""
+﻿"""
 Document Loader Module for CARIVIX AI RAG Pipeline
 ====================================================
 
@@ -18,13 +18,30 @@ Usage:
 
 import os
 import logging
-from typing import Dict, List, Optional
+import uuid
+from typing import Any, Dict, List, Optional
 
 from langchain_core.documents import Document
 
 from src.utils import ensure_directory
 
 logger = logging.getLogger("CARIVIX_AI")
+
+
+def _build_document_metadata(filepath: str, file_type: str, extra_metadata: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    """Create consistent metadata for every document and chunk."""
+    file_name = os.path.basename(filepath)
+    document_id = str(uuid.uuid5(uuid.NAMESPACE_URL, filepath))
+    metadata = {
+        "document_id": document_id,
+        "file_name": file_name,
+        "source": file_name,
+        "document_type": file_type,
+        "file_path": filepath,
+    }
+    if extra_metadata:
+        metadata.update(extra_metadata)
+    return metadata
 
 
 class DocumentLoader:
@@ -200,13 +217,15 @@ class DocumentLoader:
                     documents.append(
                         Document(
                             page_content=text.strip(),
-                            metadata={
-                                "source": filename,
-                                "page": page_num,
-                                "file_type": "pdf",
-                                "file_path": filepath,
-                                "total_pages": len(reader.pages),
-                            },
+                            metadata=_build_document_metadata(
+                                filepath,
+                                "pdf",
+                                {
+                                    "page": page_num,
+                                    "total_pages": len(reader.pages),
+                                    "file_type": "pdf",
+                                },
+                            ),
                         )
                     )
         except Exception as exc:
@@ -245,12 +264,14 @@ class DocumentLoader:
                 documents.append(
                     Document(
                         page_content=full_text.strip(),
-                        metadata={
-                            "source": filename,
-                            "file_type": "docx",
-                            "file_path": filepath,
-                            "paragraph_count": len(paragraphs),
-                        },
+                        metadata=_build_document_metadata(
+                            filepath,
+                            "docx",
+                            {
+                                "file_type": "docx",
+                                "paragraph_count": len(paragraphs),
+                            },
+                        ),
                     )
                 )
         except Exception as exc:
@@ -279,11 +300,11 @@ class DocumentLoader:
                 documents.append(
                     Document(
                         page_content=text.strip(),
-                        metadata={
-                            "source": filename,
-                            "file_type": "txt",
-                            "file_path": filepath,
-                        },
+                        metadata=_build_document_metadata(
+                            filepath,
+                            "txt",
+                            {"file_type": "txt"},
+                        ),
                     )
                 )
         except UnicodeDecodeError:
@@ -295,12 +316,11 @@ class DocumentLoader:
                     documents.append(
                         Document(
                             page_content=text.strip(),
-                            metadata={
-                                "source": filename,
-                                "file_type": "txt",
-                                "file_path": filepath,
-                                "encoding": "latin-1",
-                            },
+                            metadata=_build_document_metadata(
+                                filepath,
+                                "txt",
+                                {"file_type": "txt", "encoding": "latin-1"},
+                            ),
                         )
                     )
             except Exception as exc:
@@ -345,13 +365,15 @@ class DocumentLoader:
                 documents.append(
                     Document(
                         page_content=row_text,
-                        metadata={
-                            "source": filename,
-                            "row": idx,
-                            "file_type": "csv",
-                            "file_path": filepath,
-                            "total_rows": len(df),
-                        },
+                        metadata=_build_document_metadata(
+                            filepath,
+                            "csv",
+                            {
+                                "row": idx,
+                                "file_type": "csv",
+                                "total_rows": len(df),
+                            },
+                        ),
                     )
                 )
         except Exception as exc:
@@ -389,4 +411,5 @@ class DocumentLoader:
                 if ext in self.supported_extensions:
                     count += 1
         return count
+
 

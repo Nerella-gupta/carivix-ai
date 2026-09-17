@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
 CARIVIX AI - Baseline Model Pipeline Entry Point
 =================================================
@@ -47,7 +47,6 @@ DEFAULT_LOG_FILE = os.path.join(LOG_DIR, f"baseline_{get_timestamp()}.log")
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 # =============================================================================
 # Display Utilities
 # =============================================================================
@@ -58,7 +57,6 @@ def print_header(title: str, char: str = "=", width: int = 70) -> None:
     print(f"  {title}")
     print(f"{char * width}")
 
-
 def print_data_flow_status(data_flow_status: Dict[str, str]) -> None:
     """Print the data flow status in a readable format."""
     print_header("END-TO-END DATA FLOW STATUS", "-")
@@ -67,7 +65,6 @@ def print_data_flow_status(data_flow_status: Dict[str, str]) -> None:
     for stage, status in data_flow_status.items():
         print(f"{stage:<30} {status:<10}")
     print("-" * 40)
-
 
 def print_best_model(best_model: Optional[Dict[str, Any]], task_type: str) -> None:
     """Print the best-performing model details."""
@@ -102,7 +99,6 @@ def print_best_model(best_model: Optional[Dict[str, Any]], task_type: str) -> No
             except (ValueError, TypeError):
                 print(f"    {metric_name:<25}: {metric_value}")
 
-
 def print_comparison_table(comparison_table: pd.DataFrame) -> None:
     """Print the model comparison table."""
     print_header("MODEL COMPARISON TABLE")
@@ -128,7 +124,6 @@ def print_comparison_table(comparison_table: pd.DataFrame) -> None:
     pd.reset_option("display.max_columns")
     pd.reset_option("display.width")
     pd.reset_option("display.max_colwidth")
-
 
 def print_evaluation_metrics(comparison_table: pd.DataFrame) -> None:
     """Print evaluation metrics for all models."""
@@ -160,7 +155,6 @@ def print_evaluation_metrics(comparison_table: pd.DataFrame) -> None:
         if train_time_col in model_data.columns:
             print(f"    {'Training Time (s)':<25}: {model_data[train_time_col].iloc[0]}")
 
-
 def print_training_times(all_results: List[Dict[str, Any]]) -> None:
     """Print training time for each model."""
     print_header("TRAINING TIME PER MODEL")
@@ -177,7 +171,6 @@ def print_training_times(all_results: List[Dict[str, Any]]) -> None:
         status = "✓ Success" if result.get("model") is not None else f"✗ {result.get('error', 'Failed')[:30]}"
         print(f"{model_name:<30} {train_time:<20.4f} {status:<15}")
     print("-" * 65)
-
 
 def print_saved_model_location() -> None:
     """Print the model directory and experiment tracking file locations."""
@@ -205,7 +198,6 @@ def print_saved_model_location() -> None:
         except Exception:
             pass
 
-
 def print_final_confirmation(success: bool) -> None:
     """Print the final data flow test confirmation."""
     print_header("END-TO-END DATA FLOW TEST")
@@ -222,7 +214,6 @@ def print_final_confirmation(success: bool) -> None:
     else:
         print("  ❌  DATA FLOW TEST FAILED")
         print("  Check the logs above for error details.")
-
 
 # =============================================================================
 # Main Function
@@ -375,6 +366,6 @@ Examples:
     logger.info("  BASELINE PIPELINE COMPLETED")
     logger.info("=" * 70)
 
-
 if __name__ == "__main__":
     main()
+

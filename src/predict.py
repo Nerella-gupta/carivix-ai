@@ -1,4 +1,4 @@
-"""
+﻿"""
 Prediction Module for CARIVIX AI Model Training pipeline.
 
 Provides:
@@ -25,14 +25,12 @@ from src.utils import setup_logger, load_config, load_dataframe, ensure_director
 
 logger = logging.getLogger("CARIVIX_AI")
 
-
 def _align_features(X: pd.DataFrame, model: Any) -> pd.DataFrame:
     if hasattr(model, "feature_names_in_"):
         expected_features = list(model.feature_names_in_)
         X_aligned = X.reindex(columns=expected_features, fill_value=0)
         return X_aligned
     return X
-
 
 def _prepare_prediction_data(
     data_path: str,
@@ -52,7 +50,6 @@ def _prepare_prediction_data(
     X_engineered, _ = run_feature_engineering_pipeline(X, y, config_copy)
     X_aligned = _align_features(X_engineered, model)
     return X_aligned
-
 
 # =============================================================================
 # Model Loading
@@ -95,7 +92,6 @@ def load_model(model_path: str) -> Any:
     logger.info("Model loaded successfully: %s", type(model).__name__)
     return model
 
-
 def load_latest_model(models_dir: str = "models/") -> Tuple[Any, str]:
     """
     Load the latest trained model from a directory.
@@ -133,7 +129,6 @@ def load_latest_model(models_dir: str = "models/") -> Tuple[Any, str]:
     logger.info("Latest model found: %s", latest_model)
     return load_model(latest_path), latest_path
 
-
 # =============================================================================
 # Prediction Functions
 # =============================================================================
@@ -161,7 +156,6 @@ def predict(
     except Exception as exc:
         logger.error("Prediction failed: %s", exc)
         raise
-
 
 def predict_proba(
     model: Any,
@@ -193,7 +187,6 @@ def predict_proba(
         logger.error("Probability prediction failed: %s", exc)
         raise
 
-
 # =============================================================================
 # Advanced Prediction Utilities
 # =============================================================================
@@ -211,7 +204,6 @@ def get_feature_importance(model: Any, feature_names: List[str], top_n: int = 20
         return importance_df.sort_values("importance", ascending=False).head(top_n).reset_index(drop=True)
 
     return pd.DataFrame(columns=["feature", "importance"])
-
 
 def predict_with_intervals(
     model: Any,
@@ -232,7 +224,6 @@ def predict_with_intervals(
         "upper_bound": predictions + half_width,
     })
     return results
-
 
 def compare_models(
     models: Dict[str, Any],
@@ -261,7 +252,6 @@ def compare_models(
         results.append(metrics)
 
     return pd.DataFrame(results)
-
 
 # =============================================================================
 # Batch Prediction
@@ -312,7 +302,6 @@ def batch_predict(
     logger.info("Batch prediction complete. Results shape: %s", results_df.shape)
     return results_df
 
-
 # =============================================================================
 # Single Prediction
 # =============================================================================
@@ -348,7 +337,6 @@ def predict_single(
     logger.info("Single prediction: %s", prediction[0])
 
     return prediction[0]
-
 
 # =============================================================================
 # Main Prediction Pipeline
@@ -414,4 +402,5 @@ def run_prediction_pipeline(
     logger.info("=" * 60)
 
     return results_df
+
 

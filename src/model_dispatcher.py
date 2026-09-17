@@ -1,4 +1,4 @@
-"""
+﻿"""
 Model Dispatcher Module for CARIVIX AI Model Training pipeline.
 
 Automatically determines:
@@ -36,7 +36,6 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.naive_bayes import GaussianNB
 
 logger = logging.getLogger("CARIVIX_AI")
-
 
 # =============================================================================
 # Baseline Model Registry
@@ -81,7 +80,6 @@ REGRESSION_MODEL_NAMES: List[str] = [
     "SVR",
     "XGBoostRegressor",
 ]
-
 
 # =============================================================================
 # Task Type Detection
@@ -163,7 +161,6 @@ def detect_task_type(y: pd.Series) -> str:
 
     logger.info("Target appears continuous → regression")
     return "regression"
-
 
 # =============================================================================
 # Model Initialization
@@ -324,7 +321,6 @@ def initialize_model(
         f"Supported: {REGRESSION_MODEL_NAMES}"
     )
 
-
 # =============================================================================
 # Utility Functions
 # =============================================================================
@@ -342,7 +338,6 @@ def get_baseline_model_names(task_type: str) -> List[str]:
     if task_type == "classification":
         return CLASSIFICATION_MODEL_NAMES.copy()
     return REGRESSION_MODEL_NAMES.copy()
-
 
 def get_default_hyperparameters(algorithm: str) -> Dict[str, Any]:
     """
@@ -372,3 +367,4 @@ def get_default_hyperparameters(algorithm: str) -> Dict[str, Any]:
         "XGBoostRegressor": {"learning_rate": 0.1, "n_estimators": 100, "max_depth": 6, "subsample": 0.8, "colsample_bytree": 0.8},
     }
     return defaults.get(algorithm, {}).copy()
+
