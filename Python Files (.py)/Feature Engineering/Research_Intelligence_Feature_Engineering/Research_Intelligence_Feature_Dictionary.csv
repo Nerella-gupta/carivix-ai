@@ -1,24 +1,3 @@
-Feature_Name,Feature_Type,Description,Missing_Values,Unique_Values
-titles,object,Original dataset column,0,38972
-summaries,object,Original dataset column,0,38979
-terms,object,Original dataset column,0,3157
-Title_Length_Characters,int64,Number of characters in the research paper title,0,181
-Title_Word_Count,int64,Number of words in the research paper title,0,31
-Title_Contains_Question,int64,Indicates whether the title contains a question mark,0,2
-Title_Contains_Hyphen,int64,Indicates whether the title contains a hyphen,0,2
-Summary_Length_Characters,int64,Number of characters in the research summary,0,1611
-Summary_Word_Count,int64,Number of words in the research summary,0,299
-Summary_Sentence_Count,int64,Approximate number of sentences in the summary,0,30
-Summary_Average_Word_Length,float64,Average characters per word in the summary,0,18146
-Summary_Contains_Problem,int64,Indicates whether summary discusses problems or challenges,0,2
-Summary_Contains_Method,int64,Indicates whether summary discusses methods or approaches,0,2
-Summary_Contains_Result,int64,Indicates whether summary discusses results or performance,0,2
-Title_to_Summary_Word_Ratio,float64,Ratio between title word count and summary word count,0,2726
-Category_Count,int64,Number of research categories assigned to paper,0,10
-Primary_Category,object,Primary research category,0,3
-Category_Text_Length,int64,Character length of category information,0,102
-Has_Multiple_Categories,int64,Indicates whether paper belongs to multiple categories,0,2
-Primary_Category_ID,int8,Encoded numerical value of primary category,0,3
-Total_Missing_Values_Per_Row,int64,Total missing values present in each row,0,1
-Total_Available_Values_Per_Row,int64,Total available values present in each row,0,1
-Missing_Value_Percentage_Per_Row,float64,Percentage of missing values per row,0,1
+version https://git-lfs.github.com/spec/v1
+oid sha256:93829340c367f18c812ba9869a1cb6565304a87e8533e18bd94293d176b7e247
+size 1861

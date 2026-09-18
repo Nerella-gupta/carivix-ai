@@ -1,6 +1,3 @@
-domain,key_capability,technology
-Business Intelligence,Competitor Analysis and Market Research,Python and Pandas
-Economic Intelligence,GDP Forecasting and Inflation Tracking,ARIMA and Prophet
-Government Intelligence,Policy Impact Assessment,XGBoost
-Smart City Intelligence,Traffic Analytics and Pollution Monitoring,Random Forest
-Research Intelligence,Literature Reviews and Academic Analytics,NLP and Topic Modeling
+version https://git-lfs.github.com/spec/v1
+oid sha256:f72b2a3f289d46f4194590ba0bfd99cb6d2ee6ba822acd96e6095b3ba0ef1632
+size 423

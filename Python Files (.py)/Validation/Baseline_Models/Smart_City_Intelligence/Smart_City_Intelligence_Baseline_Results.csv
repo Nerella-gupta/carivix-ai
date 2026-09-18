@@ -1,5 +1,3 @@
-Metric,Value
-Accuracy,0.998
-Weighted Precision,0.9980015772870662
-Weighted Recall,0.998
-Weighted F1 Score,0.9979968981294948
+version https://git-lfs.github.com/spec/v1
+oid sha256:13885ce3f8c7941d4748c1fbc815d504766dac7d5ff223e335f1937eba977cc0
+size 130

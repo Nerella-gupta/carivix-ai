@@ -33,6 +33,26 @@ A **production-ready AI platform** encompassing two major pipelines:
 
 ---
 
+## ✅ Recent project updates
+
+The active, verified project is the model-training and inference workspace under this folder. Legacy root-level files from an earlier data-service prototype were moved into a dedicated `legacy/` folder to avoid duplicate APIs, duplicate requirements, and stale tests.
+
+### Current active components
+- **Model training pipeline** in `main.py` and `run_baseline_pipeline.py`
+- **FastAPI inference service** in `api.py`
+- **RAG + document retrieval flow** in `main_rag.py`, `rag/`, and `ai_integration.py`
+- **Project validation tests** in `tests/`
+
+### Legacy folder
+The old prototype files were archived to keep the active project clean and prevent confusion between:
+- the earlier data-processing API
+- the newer CARIVIX AI model service
+- the separate root-level dependency file
+
+This keeps the working project consistent with the verified API test suite.
+
+---
+
 ## 📁 Complete Folder Structure
 
 > This folder-tree section is kept up-to-date automatically. To refresh the tree in this README, run the update script included in the project root:
@@ -104,32 +124,27 @@ CARIVIX_AI_Model_Training
 
 ## 🚀 Installation
 
-### 1. Clone the project
+### 1. Open the project
 
 ```bash
 cd CARIVIX_AI_Model_Training
 ```
 
-### 2. Create a virtual environment (recommended)
+### 2. Use the existing virtual environment
 
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
+```powershell
+cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
+.\venv\Scripts\Activate.ps1
 ```
 
 ### 3. Install dependencies
 
-```bash
-python.exe -m pip install --upgrade pip
+```powershell
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-All dependencies (including XGBoost, SHAP, imbalanced-learn) are already listed in `requirements.txt` — no separate install steps needed.
+All dependencies (including XGBoost, SHAP, imbalanced-learn, FAISS, and transformers) are already listed in `requirements.txt` — no separate environment should be created for this project.
 
 ## ⚡ Quick Start: Run Each Pipeline
 
@@ -137,6 +152,7 @@ Use these commands from the project root to run the main workflows directly.
 
 ```powershell
 cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
+.\venv\Scripts\Activate.ps1
 
 # 1) Baseline model comparison
 python .\run_baseline_pipeline.py
@@ -149,19 +165,48 @@ python .\main.py --profile
 python .\main.py --predict .\data\raw\dataset.csv
 
 # 3) RAG pipeline
-python main_rag.py --index
-python main_rag.py --query "What is CARIVIX AI?"
-python main_rag.py --interactive
+python .\main_rag.py --index
+python .\main_rag.py --query "What is CARIVIX AI?"
+python .\main_rag.py --interactive
 
-# 4) NLP / full AI routing flow
-python nlp_module.py
-python api.py
+# 4) Active model API
+python .\api.py
 
-# Call the combined AI endpoint after the API is running
-curl.exe -X POST "http://127.0.0.1:8000/api/v1/ai/query" \
-  -H "Content-Type: application/json" \
+# 5) Optional NLP / full AI routing flow
+python .\nlp_module.py
+```
+
+### Sample API requests
+
+Start the API in one terminal window, then call the model service endpoints from another terminal:
+
+```powershell
+# Health check
+curl.exe "http://127.0.0.1:8000/health"
+
+# List available models
+curl.exe "http://127.0.0.1:8000/api/v1/models"
+
+# Predict for a single record
+curl.exe -X POST "http://127.0.0.1:8000/api/v1/predict" `
+  -H "Content-Type: application/json" `
+  -d '{"age":42,"income":82000,"credit_score":710,"loan_amount":15000,"years_employed":6,"education":"Bachelor","employment_status":"Employed","marital_status":"Married","housing_type":"Own","application_date":"2026-09-18"}'
+
+# Batch prediction
+curl.exe -X POST "http://127.0.0.1:8000/api/v1/predict/batch" `
+  -H "Content-Type: application/json" `
+  -d '{"records":[{"age":42,"income":82000,"credit_score":710,"loan_amount":15000,"years_employed":6,"education":"Bachelor","employment_status":"Employed","marital_status":"Married","housing_type":"Own","application_date":"2026-09-18"},{"age":35,"income":64000,"credit_score":680,"loan_amount":12000,"years_employed":4,"education":"High School","employment_status":"Self-Employed","marital_status":"Single","housing_type":"Rent","application_date":"2026-09-18"}]}'
+```
+
+### AI / RAG query example
+
+```powershell
+curl.exe -X POST "http://127.0.0.1:8000/api/v1/ai/query" `
+  -H "Content-Type: application/json" `
   -d '{"query":"Predict next quarter GDP for the project dataset","k":5,"max_tokens":512,"temperature":0.0}'
 ```
+
+> The project has been validated using the active API tests in `tests/test_api.py` and the standard project environment is the one already present under `.venv`.
 
 ### Pipeline summary
 - Baseline: `run_baseline_pipeline.py` compares multiple baseline models and prints the best result.
@@ -214,11 +259,10 @@ python main.py --predict data/raw/new_data.csv
 
 The project includes a production-ready inference API powered by FastAPI. Use the project virtual environment and run the API from the project root so Python can resolve the `src` package and the `models/` directory correctly.
 
-#### 1) Create and activate the environment
+#### 1) Activate the existing environment
 
 ```powershell
 cd "D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training"
-python -m venv venv
 .\venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 pip install -r requirements.txt

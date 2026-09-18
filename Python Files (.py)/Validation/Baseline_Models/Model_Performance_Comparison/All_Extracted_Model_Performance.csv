@@ -1,6 +1,3 @@
-Dataset,Task,Model,R2,MAE,RMSE,Accuracy,Precision,Recall,F1_Score,Source_File,Source_Path
-Economic Trend,Regression,Random Forest Regressor,-226494125.4,1272114190,35230731597,,,,,Economic_Trend_Baseline_Results.csv,D:\OneDrive\Desktop\Day 3 Task\Baseline_Models\Economic_Trend\Economic_Trend_Baseline_Results.csv
-Market Analysis,Regression,Random Forest Regressor,-0.149264058,6.63118E+12,1.41899E+14,,,,,Market_Analysis_Baseline_Results.csv,D:\OneDrive\Desktop\Day 3 Task\Baseline_Models\Market_Analysis\Market_Analysis_Baseline_Results.csv
-Public Program Evaluation,Regression,Random Forest Regressor,0.948899364,868.4885836,1410.314459,,,,,Public_Program_Evaluation_Baseline_Results.csv,D:\OneDrive\Desktop\Day 3 Task\Baseline_Models\Public_Program_Evaluation\Public_Program_Evaluation_Baseline_Results.csv
-Research Intelligence,Classification,TF-IDF + Logistic Regression,,,,0.97461213,,,,Research_Intelligence_Baseline_Results.csv,D:\OneDrive\Desktop\Day 3 Task\Baseline_Models\Research_Intelligence\Research_Intelligence_Baseline_Results.csv
-Smart City Intelligence,Classification,Random Forest Classifier,,,,0.998,,,,Smart_City_Intelligence_Baseline_Results.csv,D:\OneDrive\Desktop\Day 3 Task\Baseline_Models\Smart_City_Intelligence\Smart_City_Intelligence_Baseline_Results.csv
+version https://git-lfs.github.com/spec/v1
+oid sha256:2cb26e1899d9dfb9ba7df92b0f13e09b5972326c2f74c94ae4bbbb9895258b59
+size 1292
