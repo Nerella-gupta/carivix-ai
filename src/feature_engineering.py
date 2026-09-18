@@ -9,15 +9,13 @@ Provides:
 - PCA for dimensionality reduction
 - Feature selection (variance threshold, correlation-based)
 """
+from __future__ import annotations
 
 import logging
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pandas as pd
 import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.feature_selection import VarianceThreshold
-from sklearn.decomposition import PCA
 from sklearn.preprocessing import KBinsDiscretizer, StandardScaler
 
 from src.utils import setup_logger
@@ -270,6 +268,7 @@ def create_clustering_features(
     random_state: int = 42,
 ) -> pd.DataFrame:
     """Create clustering-based features from numeric columns."""
+    from sklearn.cluster import KMeans
     logger.info("Creating clustering features for %d columns.", len(columns))
     df_cluster = df.copy()
     valid_columns = [col for col in columns if col in df_cluster.columns and pd.api.types.is_numeric_dtype(df_cluster[col])]
@@ -294,7 +293,7 @@ def apply_pca(
     n_components: Optional[int] = None,
     variance_ratio: float = 0.95,
     prefix: str = "pca",
-) -> Tuple[pd.DataFrame, PCA]:
+) -> Tuple[pd.DataFrame, "PCA"]:
     """
     Apply PCA for dimensionality reduction on numerical features.
 
@@ -307,6 +306,7 @@ def apply_pca(
     Returns:
         Tuple of (DataFrame with PCA components, fitted PCA object).
     """
+    from sklearn.decomposition import PCA
     logger.info("Applying PCA (n_components=%s, variance_ratio=%.2f).", n_components, variance_ratio)
 
     numeric_df = df.select_dtypes(include=[np.number])
@@ -343,9 +343,10 @@ def apply_pca(
 
 def select_features_variance_threshold(
     df: pd.DataFrame, threshold: float = 0.01
-) -> Tuple[pd.DataFrame, VarianceThreshold, List[str]]:
+) -> Tuple[pd.DataFrame, "VarianceThreshold", List[str]]:
     """Select features based on variance threshold (removes low-variance features)."""
-    logger.info("Selecting features using variance threshold (threshold=%.4f).", threshold)
+    from sklearn.feature_selection import VarianceThreshold
+    logger.info("Selecting features using variance threshold (threshold=%.4f).", threshold)    
     numeric_df = df.select_dtypes(include=[np.number])
     if numeric_df.shape[1] == 0:
         return df, VarianceThreshold(), []
@@ -490,4 +491,3 @@ def run_feature_engineering_pipeline(X: pd.DataFrame, y: Optional[pd.Series], co
     logger.info("FEATURE ENGINEERING PIPELINE COMPLETE")
     logger.info("=" * 60)
     return X, metadata
-
