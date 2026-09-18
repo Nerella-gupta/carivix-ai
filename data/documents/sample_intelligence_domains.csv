@@ -1,0 +1,6 @@
+domain,key_capability,technology
+Business Intelligence,Competitor Analysis and Market Research,Python and Pandas
+Economic Intelligence,GDP Forecasting and Inflation Tracking,ARIMA and Prophet
+Government Intelligence,Policy Impact Assessment,XGBoost
+Smart City Intelligence,Traffic Analytics and Pollution Monitoring,Random Forest
+Research Intelligence,Literature Reviews and Academic Analytics,NLP and Topic Modeling

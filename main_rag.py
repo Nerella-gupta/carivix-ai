@@ -243,9 +243,9 @@ def action_test(pipeline: RAGPipeline) -> None:
         chunks = result.get("retrieved_chunks", [])
         if chunks:
             top_score = chunks[0].get("score", 0)
-            print(f"  ✓ '{query[:50]}...' → Top score: {top_score:.4f}")
+            print(f"  [OK] '{query[:50]}...' -> Top score: {top_score:.4f}")
         else:
-            print(f"  ⚠ '{query[:50]}...' → No results")
+            print(f"  [WARN] '{query[:50]}...' -> No results")
 
     # Summary
     print("\n" + "=" * 70)

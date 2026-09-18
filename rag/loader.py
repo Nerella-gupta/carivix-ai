@@ -19,6 +19,7 @@ Usage:
 import os
 import logging
 import uuid
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from langchain_core.documents import Document
@@ -39,6 +40,13 @@ def _build_document_metadata(filepath: str, file_type: str, extra_metadata: Opti
         "document_type": file_type,
         "file_path": filepath,
     }
+    try:
+        metadata["file_size_bytes"] = os.path.getsize(filepath)
+        metadata["modified_at"] = datetime.fromtimestamp(
+            os.path.getmtime(filepath), tz=timezone.utc
+        ).isoformat()
+    except OSError as exc:
+        logger.warning("Could not read file stats for '%s': %s", filepath, exc)
     if extra_metadata:
         metadata.update(extra_metadata)
     return metadata
@@ -118,7 +126,7 @@ class DocumentLoader:
                         all_documents.extend(documents)
                         file_count += 1
                         logger.info(
-                            "Loaded %s → %d document(s)",
+                        "Loaded %s -> %d document(s)",
                             filename,
                             len(documents),
                         )
@@ -211,6 +219,12 @@ class DocumentLoader:
 
         try:
             reader = PdfReader(filepath)
+            pdf_extra = {}
+            if reader.metadata:
+                if reader.metadata.title:
+                    pdf_extra["title"] = reader.metadata.title
+                if reader.metadata.author:
+                    pdf_extra["author"] = reader.metadata.author
             for page_num, page in enumerate(reader.pages, start=1):
                 text = page.extract_text()
                 if text and text.strip():
@@ -224,6 +238,7 @@ class DocumentLoader:
                                     "page": page_num,
                                     "total_pages": len(reader.pages),
                                     "file_type": "pdf",
+                                    **pdf_extra,
                                 },
                             ),
                         )
@@ -261,16 +276,22 @@ class DocumentLoader:
             full_text = "\n".join(paragraphs)
 
             if full_text.strip():
+                docx_extra = {
+                    "file_type": "docx",
+                    "paragraph_count": len(paragraphs),
+                }
+                core_props = doc.core_properties
+                if core_props.title:
+                    docx_extra["title"] = core_props.title
+                if core_props.author:
+                    docx_extra["author"] = core_props.author
                 documents.append(
                     Document(
                         page_content=full_text.strip(),
                         metadata=_build_document_metadata(
                             filepath,
                             "docx",
-                            {
-                                "file_type": "docx",
-                                "paragraph_count": len(paragraphs),
-                            },
+                            docx_extra,
                         ),
                     )
                 )
@@ -362,6 +383,9 @@ class DocumentLoader:
                 row_text = "\n".join(
                     f"{col}: {val}" for col, val in row.items()
                 )
+                row_document_id = str(
+                    uuid.uuid5(uuid.NAMESPACE_URL, f"{filepath}#row{idx}")
+                )
                 documents.append(
                     Document(
                         page_content=row_text,
@@ -372,6 +396,7 @@ class DocumentLoader:
                                 "row": idx,
                                 "file_type": "csv",
                                 "total_rows": len(df),
+                                "document_id": row_document_id,
                             },
                         ),
                     )

@@ -136,7 +136,7 @@ class TextPreprocessor:
                 )
 
         logger.info(
-            "Text cleaning complete. %d → %d documents.",
+            "Text cleaning complete. %d -> %d documents.",
             len(documents),
             len(cleaned),
         )
@@ -270,7 +270,7 @@ class DocumentSplitter:
                 chunk.metadata["document_id"] = document_id
 
         logger.info(
-            "Document splitting complete. %d documents → %d chunks. "
+            "Document splitting complete. %d documents -> %d chunks. "
             "Chunk size: %d, Overlap: %d",
             len(documents),
             len(valid_chunks),
