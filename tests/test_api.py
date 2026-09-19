@@ -83,6 +83,20 @@ def test_missing_required_fields(app_client):
     assert body["error"] == "Invalid request data."
 
 
+def test_invalid_feature_type(app_client):
+    bad_payload = dict(PAYLOAD)
+    bad_payload["income"] = "not-a-number"
+    response = app_client.post("/api/v1/predict", json=bad_payload)
+    assert response.status_code == 422
+    assert response.json()["error"] == "Invalid request data."
+
+
+def test_incorrect_prediction_structure(app_client):
+    response = app_client.post("/api/v1/predict", json={"records": [PAYLOAD]})
+    assert response.status_code == 422
+    assert response.json()["error"] == "Invalid request data."
+
+
 def test_batch_prediction(app_client):
     response = app_client.post("/api/v1/predict/batch", json={"records": [PAYLOAD, PAYLOAD]})
     assert response.status_code == 200
