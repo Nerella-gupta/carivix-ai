@@ -1,0 +1,719 @@
+{
+  "info": {
+    "_postman_id": "c3a7d9e1-4b2e-4f8a-9e12-carivix-api-v1",
+    "name": "CARIVIX AI API Test Collection",
+    "description": "Comprehensive Postman test suite for CARIVIX AI Platform covering Health, Model Service, Machine Learning Inference, AI Integration & RAG Pipelines, and Error Validations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health & System Status",
+      "item": [
+        {
+          "name": "Check Service Health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Service is healthy\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.status).to.eql(\"healthy\");",
+                  "    pm.expect(jsonData.service).to.eql(\"CARIVIX AI Model Service\");",
+                  "    pm.expect(jsonData.models_loaded).to.be.at.least(1);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Verifies that the API service is up and all ML models are loaded."
+          }
+        },
+        {
+          "name": "List Available Models",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Models list is non-empty\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.models).to.be.an(\"array\");",
+                  "    pm.expect(jsonData.models.length).to.be.at.least(1);",
+                  "    pm.expect(jsonData.models[0].status).to.eql(\"loaded\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/models",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "models"
+              ]
+            },
+            "description": "Lists all 8 loaded classification and regression ML models."
+          }
+        },
+        {
+          "name": "Get Default Model Info",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Model info contains valid metadata\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.status).to.eql(\"loaded\");",
+                  "    pm.expect(jsonData.type).to.be.a(\"string\");",
+                  "    pm.expect(jsonData.algorithm).to.be.a(\"string\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/model/info",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "model",
+                "info"
+              ]
+            },
+            "description": "Retrieves the metadata and algorithm details for the currently active default model."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. ML Inference Endpoints",
+      "item": [
+        {
+          "name": "Single Record Prediction (Default Model)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Prediction response is successful\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.model).to.be.a(\"string\");",
+                  "    pm.expect(jsonData.prediction).to.not.be.undefined;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 43,\n  \"income\": 67976.67,\n  \"credit_score\": 694,\n  \"loan_amount\": 14857.28,\n  \"years_employed\": 19,\n  \"education\": \"Master\",\n  \"employment_status\": \"Employed\",\n  \"marital_status\": \"Married\",\n  \"housing_type\": \"Rent\",\n  \"application_date\": \"2024-09-21\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/predict",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "predict"
+              ]
+            },
+            "description": "Runs feature preprocessing and prediction using the default trained model."
+          }
+        },
+        {
+          "name": "Single Record Prediction (Targeted RandomForest)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"RandomForest prediction returned\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.model).to.include(\"RandomForest\");",
+                  "    pm.expect(jsonData.prediction).to.not.be.undefined;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 35,\n  \"income\": 85000.00,\n  \"credit_score\": 750,\n  \"loan_amount\": 20000.00,\n  \"years_employed\": 8,\n  \"education\": \"Bachelor\",\n  \"employment_status\": \"Employed\",\n  \"marital_status\": \"Single\",\n  \"housing_type\": \"Own\",\n  \"application_date\": \"2024-09-21\",\n  \"model\": \"RandomForest\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/predict",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "predict"
+              ]
+            },
+            "description": "Runs single-record prediction targeting a specific model name ('RandomForest')."
+          }
+        },
+        {
+          "name": "Batch Prediction (Multiple Records)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Batch prediction matches count\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.count).to.eql(2);",
+                  "    pm.expect(jsonData.predictions).to.be.an(\"array\");",
+                  "    pm.expect(jsonData.predictions.length).to.eql(2);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"records\": [\n    {\n      \"age\": 43,\n      \"income\": 67976.67,\n      \"credit_score\": 694,\n      \"loan_amount\": 14857.28,\n      \"years_employed\": 19,\n      \"education\": \"Master\",\n      \"employment_status\": \"Employed\",\n      \"marital_status\": \"Married\",\n      \"housing_type\": \"Rent\",\n      \"application_date\": \"2024-09-21\"\n    },\n    {\n      \"age\": 29,\n      \"income\": 45000.00,\n      \"credit_score\": 610,\n      \"loan_amount\": 8000.00,\n      \"years_employed\": 3,\n      \"education\": \"Bachelor\",\n      \"employment_status\": \"Employed\",\n      \"marital_status\": \"Single\",\n      \"housing_type\": \"Rent\",\n      \"application_date\": \"2024-09-21\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/predict/batch",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "predict",
+                "batch"
+              ]
+            },
+            "description": "Runs high-performance vector-batched inference on multiple applicant profiles."
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. AI Integration & RAG Endpoints",
+      "item": [
+        {
+          "name": "AI Query - RAG Route (Direct Factual)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"NLP correctly routed to RAG\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.selected_route).to.eql(\"rag\");",
+                  "    pm.expect(jsonData.rag_context.retrieved_chunks.length).to.be.at.least(1);",
+                  "    pm.expect(jsonData.final_response).to.include(\"CARIVIX\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What is CARIVIX AI?\",\n  \"k\": 3,\n  \"max_tokens\": 256,\n  \"temperature\": 0.0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ai/query",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "query"
+              ]
+            },
+            "description": "Tests full end-to-end NLP classification -> FAISS vector retrieval (top-3) -> Ollama LLM response generation."
+          }
+        },
+        {
+          "name": "AI Query - RAG Route (Supported ML Algorithms)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"RAG answer contains ML algorithm context\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.selected_route).to.eql(\"rag\");",
+                  "    pm.expect(jsonData.rag_context.retrieved_chunks.length).to.be.at.least(1);",
+                  "    pm.expect(jsonData.final_response.length).to.be.greaterThan(20);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Which machine learning algorithms are supported?\",\n  \"k\": 3,\n  \"max_tokens\": 256,\n  \"temperature\": 0.0\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ai/query",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "query"
+              ]
+            },
+            "description": "Retrieves chunk context regarding supported ML algorithms (e.g. Random Forest, XGBoost) and generates a grounded response."
+          }
+        },
+        {
+          "name": "AI Query - ML Route Intent (Feature Gap Handling)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"NLP selected ML route and handled missing features honestly\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.selected_route).to.eql(\"ml\");",
+                  "    pm.expect(jsonData.final_response).to.include(\"ML routing selected\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Predict the customer churn probability for this account\",\n  \"k\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ai/query",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "query"
+              ]
+            },
+            "description": "Verifies ML route classification and verified fallback response when free text lacks complete structured feature fields."
+          }
+        },
+        {
+          "name": "AI Query - Combined Route (Economic Forecasting)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Combined route executed\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    pm.expect(jsonData.selected_route).to.eql(\"combined\");",
+                  "    pm.expect(jsonData.rag_context).to.not.be.null;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Explain economic forecasting\",\n  \"k\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ai/query",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "query"
+              ]
+            },
+            "description": "Triggers the combined route where both RAG retrieval and predictive analysis criteria intersect."
+          }
+        },
+        {
+          "name": "AI Query - Out-of-Domain Refusal",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Correctly declines to hallucinate on out-of-domain query\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(true);",
+                  "    var resp = (jsonData.final_response || \"\").toLowerCase();",
+                  "    var hasRefusal = resp.includes(\"not found\") || resp.includes(\"information not\") || resp.includes(\"does not contain\");",
+                  "    pm.expect(hasRefusal).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"What is the capital of France?\",\n  \"k\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ai/query",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "query"
+              ]
+            },
+            "description": "Validates non-hallucination policy when retrieval finds no grounding context."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Error Handling & Validation",
+      "item": [
+        {
+          "name": "Validation Error - Empty Query (HTTP 400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Error detail indicates Empty query\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.detail).to.eql(\"Empty query\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"   \"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/ai/query",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ai",
+                "query"
+              ]
+            },
+            "description": "Tests validation against whitespace or empty string queries."
+          }
+        },
+        {
+          "name": "Validation Error - Missing Prediction Fields (HTTP 422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "pm.test(\"Returns validation error format\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.eql(false);",
+                  "    pm.expect(jsonData.error).to.include(\"Invalid request data\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": -5,\n  \"income\": \"not-a-number\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/predict",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "predict"
+              ]
+            },
+            "description": "Validates schema validation enforcement for missing fields and negative age."
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Documentation & Schema Endpoints",
+      "item": [
+        {
+          "name": "Root Redirect to Docs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 (followed redirect) or 307\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 307]);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Validates root redirect to interactive documentation."
+          }
+        },
+        {
+          "name": "OpenAPI Specification JSON",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"OpenAPI schema contains CARIVIX definitions\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.openapi).to.be.a(\"string\");",
+                  "    pm.expect(jsonData.info.title).to.eql(\"CARIVIX AI Model Service\");",
+                  "    pm.expect(jsonData.paths[\"/api/v1/ai/query\"]).to.not.be.undefined;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/openapi.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "openapi.json"
+              ]
+            },
+            "description": "Retrieves the full OpenAPI 3.1.0 schema."
+          }
+        }
+      ]
+    }
+  ]
+}

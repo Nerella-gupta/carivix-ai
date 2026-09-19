@@ -1,0 +1,1641 @@
+{
+  "timestamp": "2026-09-19T12:14:51.853257",
+  "target": "http://127.0.0.1:8000",
+  "total_tests": 15,
+  "passed": 15,
+  "failed": 0,
+  "results": [
+    {
+      "id": 1,
+      "category": "Health & System Status",
+      "name": "Check Service Health",
+      "method": "GET",
+      "endpoint": "/health",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.0089,
+      "passed": true,
+      "response_sample": {
+        "status": "healthy",
+        "service": "CARIVIX AI Model Service",
+        "models_loaded": 8,
+        "models_failed": 0,
+        "failed_models": null
+      }
+    },
+    {
+      "id": 2,
+      "category": "Health & System Status",
+      "name": "List Available Models",
+      "method": "GET",
+      "endpoint": "/api/v1/models",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.0038,
+      "passed": true,
+      "response_sample": {
+        "models": [
+          {
+            "name": "LogisticRegression",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "NaiveBayes",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "DecisionTree",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "GradientBoosting",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "XGBoost",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "SVM",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "KNN",
+            "type": "classification",
+            "status": "loaded"
+          },
+          {
+            "name": "RandomForest",
+            "type": "classification",
+            "status": "loaded"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "category": "Health & System Status",
+      "name": "Get Default Model Info",
+      "method": "GET",
+      "endpoint": "/api/v1/model/info",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.0275,
+      "passed": true,
+      "response_sample": {
+        "name": "LogisticRegression",
+        "type": "classification",
+        "task_type": "classification",
+        "algorithm": "LogisticRegression",
+        "status": "loaded",
+        "supported_prediction_mode": "classification"
+      }
+    },
+    {
+      "id": 4,
+      "category": "ML Inference",
+      "name": "Single Record Prediction (Default Model)",
+      "method": "POST",
+      "endpoint": "/api/v1/predict",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.2395,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "model": "LogisticRegression",
+        "prediction": 1,
+        "confidence": 0.6485087115848149,
+        "probability": 0.6485087115848149
+      }
+    },
+    {
+      "id": 5,
+      "category": "ML Inference",
+      "name": "Single Record Prediction (Targeted RandomForest)",
+      "method": "POST",
+      "endpoint": "/api/v1/predict",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.2066,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "model": "RandomForest",
+        "prediction": 1,
+        "confidence": 0.52,
+        "probability": 0.52
+      }
+    },
+    {
+      "id": 6,
+      "category": "ML Inference",
+      "name": "Batch Prediction (Multiple Records)",
+      "method": "POST",
+      "endpoint": "/api/v1/predict/batch",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.1876,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "model": "LogisticRegression",
+        "predictions": [
+          1,
+          1
+        ],
+        "count": 2
+      }
+    },
+    {
+      "id": 7,
+      "category": "AI Integration & RAG",
+      "name": "AI Query - RAG Route (Direct Factual)",
+      "method": "POST",
+      "endpoint": "/api/v1/ai/query",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 25.208,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "nlp": {
+          "processed_query": "what is carivix ai?",
+          "intent": "rag_query",
+          "confidence": 0.6,
+          "entities": {},
+          "route": "rag"
+        },
+        "selected_route": "rag",
+        "rag_context": {
+          "retrieved_chunks": [
+            {
+              "rank": 1,
+              "score": 0.752138,
+              "distance": 0.3295426070690155,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                  "file_name": "sample_about_carivix.txt",
+                  "source": "sample_about_carivix.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                  "file_size_bytes": 1770,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-1",
+                  "chunk_index": 0,
+                  "chunk_total": 9
+                },
+                "page_content": "CARIVIX AI Platform Overview\n=============================",
+                "type": "Document"
+              },
+              "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+              "file_name": "sample_about_carivix.txt",
+              "source": "sample_about_carivix.txt",
+              "document_type": "txt",
+              "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-1",
+              "chunk_index": 0,
+              "page": null,
+              "metadata": {
+                "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                "file_name": "sample_about_carivix.txt",
+                "source": "sample_about_carivix.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                "file_size_bytes": 1770,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-1",
+                "chunk_index": 0,
+                "chunk_total": 9
+              },
+              "text": "CARIVIX AI Platform Overview\n============================="
+            },
+            {
+              "rank": 2,
+              "score": 0.689298,
+              "distance": 0.4507521986961365,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                  "file_name": "sample_about_carivix.txt",
+                  "source": "sample_about_carivix.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                  "file_size_bytes": 1770,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-2",
+                  "chunk_index": 1,
+                  "chunk_total": 9
+                },
+                "page_content": "CARIVIX AI is a comprehensive artificial intelligence platform designed for economic analysis, market prediction, and data-driven decision making. The platform integrates machine learning models, data processing pipelines, and advanced analytics to provide actionable insights.",
+                "type": "Document"
+              },
+              "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+              "file_name": "sample_about_carivix.txt",
+              "source": "sample_about_carivix.txt",
+              "document_type": "txt",
+              "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-2",
+              "chunk_index": 1,
+              "page": null,
+              "metadata": {
+                "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                "file_name": "sample_about_carivix.txt",
+                "source": "sample_about_carivix.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                "file_size_bytes": 1770,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-2",
+                "chunk_index": 1,
+                "chunk_total": 9
+              },
+              "text": "CARIVIX AI is a comprehensive artificial intelligence platform designed for economic analysis, market prediction, and data-driven decision making. The platform integrates machine learning models, data processing pipelines, and advanced analytics to provide actionable insights."
+            },
+            {
+              "rank": 3,
+              "score": 0.625998,
+              "distance": 0.5974496603012085,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                  "file_name": "sample_about_carivix.txt",
+                  "source": "sample_about_carivix.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                  "file_size_bytes": 1770,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-5",
+                  "chunk_index": 4,
+                  "chunk_total": 9
+                },
+                "page_content": "3. Model Training: CARIVIX AI supports multiple ML algorithms including Random Forest, Gradient Boosting, XGBoost, Logistic Regression, SVM, and Neural Networks. It includes automatic hyperparameter tuning and cross-validation.",
+                "type": "Document"
+              },
+              "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+              "file_name": "sample_about_carivix.txt",
+              "source": "sample_about_carivix.txt",
+              "document_type": "txt",
+              "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-5",
+              "chunk_index": 4,
+              "page": null,
+              "metadata": {
+                "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                "file_name": "sample_about_carivix.txt",
+                "source": "sample_about_carivix.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                "file_size_bytes": 1770,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-5",
+                "chunk_index": 4,
+                "chunk_total": 9
+              },
+              "text": "3. Model Training: CARIVIX AI supports multiple ML algorithms including Random Forest, Gradient Boosting, XGBoost, Logistic Regression, SVM, and Neural Networks. It includes automatic hyperparameter tuning and cross-validation."
+            }
+          ],
+          "retrieval_time": 7.5402,
+          "generation_time": 17.2393,
+          "total_time": 24.7796
+        },
+        "ml_prediction": null,
+        "final_response": "CARIVIX AI is a comprehensive artificial intelligence platform designed for economic analysis, market prediction, and data-driven decision making."
+      }
+    },
+    {
+      "id": 8,
+      "category": "AI Integration & RAG",
+      "name": "AI Query - RAG Route (Supported ML Algorithms)",
+      "method": "POST",
+      "endpoint": "/api/v1/ai/query",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 8.0554,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "nlp": {
+          "processed_query": "which machine learning algorithms are supported?",
+          "intent": "rag_query",
+          "confidence": 0.6,
+          "entities": {},
+          "route": "rag"
+        },
+        "selected_route": "rag",
+        "rag_context": {
+          "retrieved_chunks": [
+            {
+              "rank": 1,
+              "score": 0.557639,
+              "distance": 0.7932760119438171,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                  "file_name": "sample_about_carivix.txt",
+                  "source": "sample_about_carivix.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                  "file_size_bytes": 1770,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-5",
+                  "chunk_index": 4,
+                  "chunk_total": 9
+                },
+                "page_content": "3. Model Training: CARIVIX AI supports multiple ML algorithms including Random Forest, Gradient Boosting, XGBoost, Logistic Regression, SVM, and Neural Networks. It includes automatic hyperparameter tuning and cross-validation.",
+                "type": "Document"
+              },
+              "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+              "file_name": "sample_about_carivix.txt",
+              "source": "sample_about_carivix.txt",
+              "document_type": "txt",
+              "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-5",
+              "chunk_index": 4,
+              "page": null,
+              "metadata": {
+                "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                "file_name": "sample_about_carivix.txt",
+                "source": "sample_about_carivix.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                "file_size_bytes": 1770,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-5",
+                "chunk_index": 4,
+                "chunk_total": 9
+              },
+              "text": "3. Model Training: CARIVIX AI supports multiple ML algorithms including Random Forest, Gradient Boosting, XGBoost, Logistic Regression, SVM, and Neural Networks. It includes automatic hyperparameter tuning and cross-validation."
+            },
+            {
+              "rank": 2,
+              "score": 0.506641,
+              "distance": 0.973784327507019,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                  "file_name": "sample_about_carivix.txt",
+                  "source": "sample_about_carivix.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                  "file_size_bytes": 1770,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-3",
+                  "chunk_index": 2,
+                  "chunk_total": 9
+                },
+                "page_content": "Core Capabilities:\n1. Economic Forecasting: CARIVIX AI uses advanced machine learning algorithms to predict economic trends, market movements, and financial indicators. The platform supports both classification and regression tasks.",
+                "type": "Document"
+              },
+              "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+              "file_name": "sample_about_carivix.txt",
+              "source": "sample_about_carivix.txt",
+              "document_type": "txt",
+              "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-3",
+              "chunk_index": 2,
+              "page": null,
+              "metadata": {
+                "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                "file_name": "sample_about_carivix.txt",
+                "source": "sample_about_carivix.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                "file_size_bytes": 1770,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-3",
+                "chunk_index": 2,
+                "chunk_total": 9
+              },
+              "text": "Core Capabilities:\n1. Economic Forecasting: CARIVIX AI uses advanced machine learning algorithms to predict economic trends, market movements, and financial indicators. The platform supports both classification and regression tasks."
+            },
+            {
+              "rank": 3,
+              "score": 0.500949,
+              "distance": 0.9962119460105896,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                  "file_name": "sample_economics.txt",
+                  "source": "sample_economics.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                  "file_size_bytes": 2337,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-9",
+                  "chunk_index": 8,
+                  "chunk_total": 13
+                },
+                "page_content": "Machine Learning in Finance\n---------------------------",
+                "type": "Document"
+              },
+              "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+              "file_name": "sample_economics.txt",
+              "source": "sample_economics.txt",
+              "document_type": "txt",
+              "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-9",
+              "chunk_index": 8,
+              "page": null,
+              "metadata": {
+                "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                "file_name": "sample_economics.txt",
+                "source": "sample_economics.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                "file_size_bytes": 2337,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-9",
+                "chunk_index": 8,
+                "chunk_total": 13
+              },
+              "text": "Machine Learning in Finance\n---------------------------"
+            }
+          ],
+          "retrieval_time": 0.0179,
+          "generation_time": 8.0194,
+          "total_time": 8.0374
+        },
+        "ml_prediction": null,
+        "final_response": "The CARIVIX AI supports multiple ML algorithms including:\n\n1. Random Forest\n2. Gradient Boosting\n3. XGBoost\n4. Logistic Regression\n5. SVM (Support Vector Machine)\n6. Neural Networks\n\nIt also includes automatic hyperparameter tuning and cross-validation."
+      }
+    },
+    {
+      "id": 9,
+      "category": "AI Integration & RAG",
+      "name": "AI Query - ML Route Intent (Feature Gap Handling)",
+      "method": "POST",
+      "endpoint": "/api/v1/ai/query",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.0045,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "nlp": {
+          "processed_query": "predict the customer churn probability for this account",
+          "intent": "ml_query",
+          "confidence": 0.6,
+          "entities": {},
+          "route": "ml"
+        },
+        "selected_route": "ml",
+        "rag_context": null,
+        "ml_prediction": {
+          "message": "Automatic extraction incomplete.",
+          "extracted": {
+            "education": "bachelor",
+            "marital_status": "bachelor",
+            "housing_type": "bachelor",
+            "application_date": "bachelor"
+          },
+          "missing_fields": [
+            "age",
+            "income",
+            "credit_score",
+            "loan_amount",
+            "years_employed",
+            "employment_status"
+          ]
+        },
+        "final_response": "ML routing selected, but automatic feature extraction did not find all required fields. Please call /api/v1/predict with the full set of model features or enable auto_fill_missing."
+      }
+    },
+    {
+      "id": 10,
+      "category": "AI Integration & RAG",
+      "name": "AI Query - Combined Route (Economic Forecasting)",
+      "method": "POST",
+      "endpoint": "/api/v1/ai/query",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 7.1702,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "nlp": {
+          "processed_query": "explain economic forecasting",
+          "intent": "rag_query",
+          "confidence": 0.5,
+          "entities": {},
+          "route": "combined"
+        },
+        "selected_route": "combined",
+        "rag_context": {
+          "retrieved_chunks": [
+            {
+              "rank": 1,
+              "score": 0.52112,
+              "distance": 0.9189419746398926,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                  "file_name": "sample_economics.txt",
+                  "source": "sample_economics.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                  "file_size_bytes": 2337,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-1",
+                  "chunk_index": 0,
+                  "chunk_total": 13
+                },
+                "page_content": "Economic Analysis and Market Trends\n====================================",
+                "type": "Document"
+              },
+              "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+              "file_name": "sample_economics.txt",
+              "source": "sample_economics.txt",
+              "document_type": "txt",
+              "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-1",
+              "chunk_index": 0,
+              "page": null,
+              "metadata": {
+                "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                "file_name": "sample_economics.txt",
+                "source": "sample_economics.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                "file_size_bytes": 2337,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-1",
+                "chunk_index": 0,
+                "chunk_total": 13
+              },
+              "text": "Economic Analysis and Market Trends\n===================================="
+            },
+            {
+              "rank": 2,
+              "score": 0.518671,
+              "distance": 0.9280056953430176,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                  "file_name": "sample_economics.txt",
+                  "source": "sample_economics.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                  "file_size_bytes": 2337,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-2",
+                  "chunk_index": 1,
+                  "chunk_total": 13
+                },
+                "page_content": "Macroeconomic Indicators\n-------------------------",
+                "type": "Document"
+              },
+              "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+              "file_name": "sample_economics.txt",
+              "source": "sample_economics.txt",
+              "document_type": "txt",
+              "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-2",
+              "chunk_index": 1,
+              "page": null,
+              "metadata": {
+                "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                "file_name": "sample_economics.txt",
+                "source": "sample_economics.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                "file_size_bytes": 2337,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-2",
+                "chunk_index": 1,
+                "chunk_total": 13
+              },
+              "text": "Macroeconomic Indicators\n-------------------------"
+            },
+            {
+              "rank": 3,
+              "score": 0.508182,
+              "distance": 0.9677990674972534,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "e510f613-522f-5112-bba3-53c1037f2ef7",
+                  "file_name": "sample_intelligence_domains.csv",
+                  "source": "sample_intelligence_domains.csv",
+                  "document_type": "csv",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_intelligence_domains.csv",
+                  "file_size_bytes": 423,
+                  "modified_at": "2026-09-19T04:37:47.963882+00:00",
+                  "row": 1,
+                  "file_type": "csv",
+                  "total_rows": 5,
+                  "chunk_id": "e510f613-522f-5112-bba3-53c1037f2ef7-chunk-1",
+                  "chunk_index": 0,
+                  "chunk_total": 1
+                },
+                "page_content": "domain: Economic Intelligence\nkey_capability: GDP Forecasting and Inflation Tracking\ntechnology: ARIMA and Prophet",
+                "type": "Document"
+              },
+              "document_id": "e510f613-522f-5112-bba3-53c1037f2ef7",
+              "file_name": "sample_intelligence_domains.csv",
+              "source": "sample_intelligence_domains.csv",
+              "document_type": "csv",
+              "chunk_id": "e510f613-522f-5112-bba3-53c1037f2ef7-chunk-1",
+              "chunk_index": 0,
+              "page": null,
+              "metadata": {
+                "document_id": "e510f613-522f-5112-bba3-53c1037f2ef7",
+                "file_name": "sample_intelligence_domains.csv",
+                "source": "sample_intelligence_domains.csv",
+                "document_type": "csv",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_intelligence_domains.csv",
+                "file_size_bytes": 423,
+                "modified_at": "2026-09-19T04:37:47.963882+00:00",
+                "row": 1,
+                "file_type": "csv",
+                "total_rows": 5,
+                "chunk_id": "e510f613-522f-5112-bba3-53c1037f2ef7-chunk-1",
+                "chunk_index": 0,
+                "chunk_total": 1
+              },
+              "text": "domain: Economic Intelligence\nkey_capability: GDP Forecasting and Inflation Tracking\ntechnology: ARIMA and Prophet"
+            }
+          ]
+        },
+        "ml_prediction": null,
+        "final_response": "Information not found.\n\nThe context provided includes information about economic analysis, macroeconomic indicators, and a domain related to economic intelligence with capabilities in GDP forecasting and inflation tracking. However, it does not contain any information about economic forecasting itself."
+      }
+    },
+    {
+      "id": 11,
+      "category": "AI Integration & RAG",
+      "name": "AI Query - Out-of-Domain Refusal",
+      "method": "POST",
+      "endpoint": "/api/v1/ai/query",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 4.8632,
+      "passed": true,
+      "response_sample": {
+        "success": true,
+        "nlp": {
+          "processed_query": "what is the capital of france?",
+          "intent": "rag_query",
+          "confidence": 0.6,
+          "entities": {},
+          "route": "rag"
+        },
+        "selected_route": "rag",
+        "rag_context": {
+          "retrieved_chunks": [
+            {
+              "rank": 1,
+              "score": 0.375173,
+              "distance": 1.6654348373413086,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                  "file_name": "sample_economics.txt",
+                  "source": "sample_economics.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                  "file_size_bytes": 2337,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-1",
+                  "chunk_index": 0,
+                  "chunk_total": 13
+                },
+                "page_content": "Economic Analysis and Market Trends\n====================================",
+                "type": "Document"
+              },
+              "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+              "file_name": "sample_economics.txt",
+              "source": "sample_economics.txt",
+              "document_type": "txt",
+              "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-1",
+              "chunk_index": 0,
+              "page": null,
+              "metadata": {
+                "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                "file_name": "sample_economics.txt",
+                "source": "sample_economics.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                "file_size_bytes": 2337,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-1",
+                "chunk_index": 0,
+                "chunk_total": 13
+              },
+              "text": "Economic Analysis and Market Trends\n===================================="
+            },
+            {
+              "rank": 2,
+              "score": 0.373419,
+              "distance": 1.6779582500457764,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                  "file_name": "sample_economics.txt",
+                  "source": "sample_economics.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                  "file_size_bytes": 2337,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-2",
+                  "chunk_index": 1,
+                  "chunk_total": 13
+                },
+                "page_content": "Macroeconomic Indicators\n-------------------------",
+                "type": "Document"
+              },
+              "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+              "file_name": "sample_economics.txt",
+              "source": "sample_economics.txt",
+              "document_type": "txt",
+              "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-2",
+              "chunk_index": 1,
+              "page": null,
+              "metadata": {
+                "document_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a",
+                "file_name": "sample_economics.txt",
+                "source": "sample_economics.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_economics.txt",
+                "file_size_bytes": 2337,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "fa0312b2-a570-5eeb-8288-c392c5b7940a-chunk-2",
+                "chunk_index": 1,
+                "chunk_total": 13
+              },
+              "text": "Macroeconomic Indicators\n-------------------------"
+            },
+            {
+              "rank": 3,
+              "score": 0.368182,
+              "distance": 1.716048002243042,
+              "document": {
+                "id": null,
+                "metadata": {
+                  "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                  "file_name": "sample_about_carivix.txt",
+                  "source": "sample_about_carivix.txt",
+                  "document_type": "txt",
+                  "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                  "file_size_bytes": 1770,
+                  "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                  "file_type": "txt",
+                  "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-2",
+                  "chunk_index": 1,
+                  "chunk_total": 9
+                },
+                "page_content": "CARIVIX AI is a comprehensive artificial intelligence platform designed for economic analysis, market prediction, and data-driven decision making. The platform integrates machine learning models, data processing pipelines, and advanced analytics to provide actionable insights.",
+                "type": "Document"
+              },
+              "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+              "file_name": "sample_about_carivix.txt",
+              "source": "sample_about_carivix.txt",
+              "document_type": "txt",
+              "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-2",
+              "chunk_index": 1,
+              "page": null,
+              "metadata": {
+                "document_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15",
+                "file_name": "sample_about_carivix.txt",
+                "source": "sample_about_carivix.txt",
+                "document_type": "txt",
+                "file_path": "C:\\Users\\VISHWANAND\\CARIVIX_AI_Model_Training\\CARIVIX_AI_Model_Training\\data\\documents\\sample_about_carivix.txt",
+                "file_size_bytes": 1770,
+                "modified_at": "2026-09-17T07:30:52.475451+00:00",
+                "file_type": "txt",
+                "chunk_id": "ae4772cf-6ad8-5762-b6b4-b8bd3ebcab15-chunk-2",
+                "chunk_index": 1,
+                "chunk_total": 9
+              },
+              "text": "CARIVIX AI is a comprehensive artificial intelligence platform designed for economic analysis, market prediction, and data-driven decision making. The platform integrates machine learning models, data processing pipelines, and advanced analytics to provide actionable insights."
+            }
+          ],
+          "retrieval_time": 0.0135,
+          "generation_time": 4.8463,
+          "total_time": 4.8598
+        },
+        "ml_prediction": null,
+        "final_response": "Information not found."
+      }
+    },
+    {
+      "id": 12,
+      "category": "Validation & Errors",
+      "name": "Validation Error - Empty Query (HTTP 400)",
+      "method": "POST",
+      "endpoint": "/api/v1/ai/query",
+      "expected_status": 400,
+      "actual_status": 400,
+      "latency_sec": 0.003,
+      "passed": true,
+      "response_sample": {
+        "detail": "Empty query"
+      }
+    },
+    {
+      "id": 13,
+      "category": "Validation & Errors",
+      "name": "Validation Error - Missing Fields (HTTP 422)",
+      "method": "POST",
+      "endpoint": "/api/v1/predict",
+      "expected_status": 422,
+      "actual_status": 422,
+      "latency_sec": 0.0091,
+      "passed": true,
+      "response_sample": {
+        "success": false,
+        "error": "Invalid request data."
+      }
+    },
+    {
+      "id": 14,
+      "category": "Documentation & Schema",
+      "name": "Root Redirect",
+      "method": "GET",
+      "endpoint": "/",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.0227,
+      "passed": true,
+      "response_sample": "\n    <!DOCTYPE html>\n    <html>\n    <head>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <link type=\"text/css\" rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/swag"
+    },
+    {
+      "id": 15,
+      "category": "Documentation & Schema",
+      "name": "OpenAPI Schema Spec",
+      "method": "GET",
+      "endpoint": "/openapi.json",
+      "expected_status": 200,
+      "actual_status": 200,
+      "latency_sec": 0.0691,
+      "passed": true,
+      "response_sample": {
+        "openapi": "3.1.0",
+        "info": {
+          "title": "CARIVIX AI Model Service",
+          "description": "Production inference API for the CARIVIX trained ML models.",
+          "version": "1.0.0"
+        },
+        "paths": {
+          "/api/v1/ai/query": {
+            "post": {
+              "summary": "Run integrated NLP \u2192 RAG \u2192 (ML) query",
+              "operationId": "ai_query_api_v1_ai_query_post",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/AIQueryRequest"
+                    }
+                  }
+                },
+                "required": true
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful Response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/AIQueryResponse"
+                      }
+                    }
+                  }
+                },
+                "422": {
+                  "description": "Validation Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/HTTPValidationError"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/health": {
+            "get": {
+              "summary": "Check service health",
+              "description": "Return whether the service is running and whether at least one model is loaded.\n\nThis endpoint now includes information about any model files that failed to load during\nservice initialization so operators can diagnose configuration or serialization issues.",
+              "operationId": "health_health_get",
+              "responses": {
+                "200": {
+                  "description": "Successful Response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/HealthResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/models": {
+            "get": {
+              "summary": "List available models",
+              "description": "Return the models that are currently available for inference.",
+              "operationId": "list_models_api_v1_models_get",
+              "responses": {
+                "200": {
+                  "description": "Successful Response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/ModelsResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/model/info": {
+            "get": {
+              "summary": "Get default model metadata",
+              "description": "Return metadata for the currently selected default model.",
+              "operationId": "model_info_api_v1_model_info_get",
+              "responses": {
+                "200": {
+                  "description": "Successful Response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/ModelInfoResponse"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/predict": {
+            "post": {
+              "summary": "Run single-record inference",
+              "description": "Run prediction on a single record using the configured preprocessing pipeline and loaded model.",
+              "operationId": "predict_api_v1_predict_post",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/PredictRequest"
+                    }
+                  }
+                },
+                "required": true
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful Response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/PredictionResponse"
+                      }
+                    }
+                  }
+                },
+                "422": {
+                  "description": "Validation Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/HTTPValidationError"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/api/v1/predict/batch": {
+            "post": {
+              "summary": "Run batch inference",
+              "description": "Run prediction for multiple records using the same model and preprocessing pipeline.",
+              "operationId": "predict_batch_api_v1_predict_batch_post",
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/BatchPredictRequest"
+                    }
+                  }
+                },
+                "required": true
+              },
+              "responses": {
+                "200": {
+                  "description": "Successful Response",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/BatchPredictionResponse"
+                      }
+                    }
+                  }
+                },
+                "422": {
+                  "description": "Validation Error",
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/HTTPValidationError"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "AIQueryRequest": {
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Query"
+                },
+                "k": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "K",
+                  "description": "Number of RAG chunks to retrieve"
+                },
+                "max_tokens": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Max Tokens",
+                  "description": "LLM max tokens",
+                  "default": 512
+                },
+                "temperature": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Temperature",
+                  "description": "LLM temperature",
+                  "default": 0.0
+                },
+                "auto_fill_missing": {
+                  "anyOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Auto Fill Missing",
+                  "description": "If true, automatically fill missing features with defaults when running ML prediction",
+                  "default": false
+                }
+              },
+              "type": "object",
+              "required": [
+                "query"
+              ],
+              "title": "AIQueryRequest"
+            },
+            "AIQueryResponse": {
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "title": "Success",
+                  "default": true
+                },
+                "nlp": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Nlp"
+                },
+                "selected_route": {
+                  "type": "string",
+                  "title": "Selected Route"
+                },
+                "rag_context": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Rag Context"
+                },
+                "ml_prediction": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": true,
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Ml Prediction"
+                },
+                "final_response": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Final Response"
+                }
+              },
+              "type": "object",
+              "required": [
+                "nlp",
+                "selected_route"
+              ],
+              "title": "AIQueryResponse"
+            },
+            "BatchPredictRequest": {
+              "properties": {
+                "records": {
+                  "items": {
+                    "$ref": "#/components/schemas/PredictionPayload"
+                  },
+                  "type": "array",
+                  "minItems": 1,
+                  "title": "Records"
+                },
+                "model": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Model",
+                  "description": "Optional model name to target."
+                }
+              },
+              "type": "object",
+              "required": [
+                "records"
+              ],
+              "title": "BatchPredictRequest"
+            },
+            "BatchPredictionResponse": {
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "title": "Success",
+                  "default": true
+                },
+                "model": {
+                  "type": "string",
+                  "title": "Model"
+                },
+                "predictions": {
+                  "items": {},
+                  "type": "array",
+                  "title": "Predictions"
+                },
+                "count": {
+                  "type": "integer",
+                  "title": "Count"
+                }
+              },
+              "type": "object",
+              "required": [
+                "model",
+                "predictions",
+                "count"
+              ],
+              "title": "BatchPredictionResponse"
+            },
+            "HTTPValidationError": {
+              "properties": {
+                "detail": {
+                  "items": {
+                    "$ref": "#/components/schemas/ValidationError"
+                  },
+                  "type": "array",
+                  "title": "Detail"
+                }
+              },
+              "type": "object",
+              "title": "HTTPValidationError"
+            },
+            "HealthResponse": {
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "title": "Status"
+                },
+                "service": {
+                  "type": "string",
+                  "title": "Service"
+                },
+                "models_loaded": {
+                  "type": "integer",
+                  "title": "Models Loaded"
+                },
+                "models_failed": {
+                  "type": "integer",
+                  "title": "Models Failed",
+                  "default": 0
+                },
+                "failed_models": {
+                  "anyOf": [
+                    {
+                      "items": {
+                        "additionalProperties": {
+                          "type": "string"
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Failed Models"
+                }
+              },
+              "type": "object",
+              "required": [
+                "status",
+                "service",
+                "models_loaded"
+              ],
+              "title": "HealthResponse"
+            },
+            "ModelInfoResponse": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "title": "Name"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Type"
+                },
+                "task_type": {
+                  "type": "string",
+                  "title": "Task Type"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "title": "Algorithm"
+                },
+                "status": {
+                  "type": "string",
+                  "title": "Status"
+                },
+                "supported_prediction_mode": {
+                  "type": "string",
+                  "title": "Supported Prediction Mode"
+                }
+              },
+              "type": "object",
+              "required": [
+                "name",
+                "type",
+                "task_type",
+                "algorithm",
+                "status",
+                "supported_prediction_mode"
+              ],
+              "title": "ModelInfoResponse"
+            },
+            "ModelSummary": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "title": "Name"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Type"
+                },
+                "status": {
+                  "type": "string",
+                  "title": "Status"
+                }
+              },
+              "type": "object",
+              "required": [
+                "name",
+                "type",
+                "status"
+              ],
+              "title": "ModelSummary"
+            },
+            "ModelsResponse": {
+              "properties": {
+                "models": {
+                  "items": {
+                    "$ref": "#/components/schemas/ModelSummary"
+                  },
+                  "type": "array",
+                  "title": "Models"
+                }
+              },
+              "type": "object",
+              "required": [
+                "models"
+              ],
+              "title": "ModelsResponse"
+            },
+            "PredictRequest": {
+              "properties": {
+                "age": {
+                  "type": "number",
+                  "exclusiveMinimum": 0.0,
+                  "title": "Age"
+                },
+                "income": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "title": "Income"
+                },
+                "credit_score": {
+                  "type": "number",
+                  "maximum": 850.0,
+                  "minimum": 300.0,
+                  "title": "Credit Score"
+                },
+                "loan_amount": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "title": "Loan Amount"
+                },
+                "years_employed": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "title": "Years Employed"
+                },
+                "education": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Education"
+                },
+                "employment_status": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Employment Status"
+                },
+                "marital_status": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Marital Status"
+                },
+                "housing_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Housing Type"
+                },
+                "application_date": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Application Date"
+                },
+                "model": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Model",
+                  "description": "Optional model name to target."
+                }
+              },
+              "type": "object",
+              "required": [
+                "age",
+                "income",
+                "credit_score",
+                "loan_amount",
+                "years_employed",
+                "education",
+                "employment_status",
+                "marital_status",
+                "housing_type",
+                "application_date"
+              ],
+              "title": "PredictRequest"
+            },
+            "PredictionPayload": {
+              "properties": {
+                "age": {
+                  "type": "number",
+                  "exclusiveMinimum": 0.0,
+                  "title": "Age"
+                },
+                "income": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "title": "Income"
+                },
+                "credit_score": {
+                  "type": "number",
+                  "maximum": 850.0,
+                  "minimum": 300.0,
+                  "title": "Credit Score"
+                },
+                "loan_amount": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "title": "Loan Amount"
+                },
+                "years_employed": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "title": "Years Employed"
+                },
+                "education": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Education"
+                },
+                "employment_status": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Employment Status"
+                },
+                "marital_status": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Marital Status"
+                },
+                "housing_type": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Housing Type"
+                },
+                "application_date": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Application Date"
+                }
+              },
+              "type": "object",
+              "required": [
+                "age",
+                "income",
+                "credit_score",
+                "loan_amount",
+                "years_employed",
+                "education",
+                "employment_status",
+                "marital_status",
+                "housing_type",
+                "application_date"
+              ],
+              "title": "PredictionPayload"
+            },
+            "PredictionResponse": {
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "title": "Success",
+                  "default": true
+                },
+                "model": {
+                  "type": "string",
+                  "title": "Model"
+                },
+                "prediction": {
+                  "title": "Prediction"
+                },
+                "confidence": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Confidence"
+                },
+                "probability": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Probability"
+                }
+              },
+              "type": "object",
+              "required": [
+                "model",
+                "prediction"
+              ],
+              "title": "PredictionResponse"
+            },
+            "ValidationError": {
+              "properties": {
+                "loc": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  },
+                  "type": "array",
+                  "title": "Location"
+                },
+                "msg": {
+                  "type": "string",
+                  "title": "Message"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Error Type"
+                },
+                "input": {
+                  "title": "Input"
+                },
+                "ctx": {
+                  "type": "object",
+                  "title": "Context"
+                }
+              },
+              "type": "object",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "title": "ValidationError"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
