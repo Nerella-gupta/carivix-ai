@@ -10,9 +10,17 @@ from src.utils import load_config
 
 DEFAULT_EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 DEFAULT_EMBEDDING_DIMENSION = 384
-DEFAULT_CHUNK_SIZE = 500
+# Updated 19 Sept 2026, based on the 27-configuration retrieval sweep
+# (evaluate_rag.py --mode optimize). Composite score for this config:
+# 0.5603, the highest of all 27 combinations tested. Previous defaults
+# (500/50/5) scored 0.4265-0.5201 depending on top-k. Approved by
+# Raghavendra Guptha before applying, since this changes the default
+# for api.py, main_rag.py, and ai_integration.py. Tested against 9
+# small sample documents only — may need revisiting once real
+# production-scale documents are available. See Day 3 report.
+DEFAULT_CHUNK_SIZE = 300
 DEFAULT_CHUNK_OVERLAP = 50
-DEFAULT_RETRIEVAL_K = 5
+DEFAULT_RETRIEVAL_K = 3
 DEFAULT_OLLAMA_BASE_URL = "http://localhost:11434"
 DEFAULT_LLM_MODEL = "llama3.1"
 

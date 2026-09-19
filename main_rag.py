@@ -37,6 +37,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from src.utils import setup_logger, ensure_directory, get_timestamp
 from rag.pipeline import RAGPipeline
+from rag.config import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP, DEFAULT_RETRIEVAL_K
 
 # =============================================================================
 # Constants
@@ -81,7 +82,7 @@ def print_indexing_stats(stats: Dict[str, Any]) -> None:
     print(f"  Elapsed Time:            {stats.get('elapsed_time_formatted', 'N/A')}")
 
     if "error" in stats:
-        print(f"\n  ⚠ Error: {stats['error']}")
+        print(f"\n  [WARN] Error: {stats['error']}")
 
 def print_query_result(result: Dict[str, Any]) -> None:
     """Print a formatted query result."""
@@ -90,7 +91,7 @@ def print_query_result(result: Dict[str, Any]) -> None:
     print(f"\n  Question: {result['question']}")
     print(f"\n  Response: {result['response']}")
 
-    print(f"\n  {'─' * 50}")
+    print(f"\n  {'-' * 50}")
     print(f"  Retrieved Context:")
 
     for chunk in result.get("retrieved_chunks", []):
@@ -104,7 +105,7 @@ def print_query_result(result: Dict[str, Any]) -> None:
         print(f"\n    [{score:.4f}] {source}")
         print(f"    {text_preview}...")
 
-    print(f"\n  {'─' * 50}")
+    print(f"\n  {'-' * 50}")
     print(f"  Retrieval Time:  {result.get('retrieval_time', 0):.4f}s")
     print(f"  Generation Time: {result.get('generation_time', 0):.4f}s")
     print(f"  Total Time:      {result.get('total_time', 0):.4f}s")
@@ -119,7 +120,7 @@ def print_pipeline_info(pipeline: RAGPipeline) -> None:
     print(f"\n  Pipeline:")
     print(f"    Documents Directory:  {info['pipeline']['documents_dir']}")
     print(f"    Vector Store:         {info['pipeline']['vector_store_dir']}")
-    print(f"    Indexed:              {'✓ Yes' if info['pipeline']['is_indexed'] else '✗ No'}")
+    print(f"    Indexed:              {'[Yes]' if info['pipeline']['is_indexed'] else '[No]'}")
 
     print(f"\n  Embedding:")
     print(f"    Model:                {info['embedding']['model_name']}")
@@ -136,11 +137,11 @@ def print_pipeline_info(pipeline: RAGPipeline) -> None:
     print(f"\n  LLM:")
     print(f"    Backend:              {info['llm']['backend']}")
     print(f"    Model:                {info['llm']['model_name']}")
-    print(f"    Available:            {'✓ Yes' if info['llm']['available'] else '✗ No'}")
+    print(f"    Available:            {'[Yes]' if info['llm']['available'] else '[No]'}")
 
     # Print indexing stats if available
     if info['pipeline']['is_indexed']:
-        print(f"\n  {'─' * 50}")
+        print(f"\n  {'-' * 50}")
         print(f"  Indexing Details:")
         stats = info['pipeline']['indexing_stats']
         for key, value in stats.items():
@@ -187,7 +188,7 @@ def action_query(
     # Ensure index exists
     if not pipeline._is_indexed:
         if not pipeline.load_index():
-            print("\n  ⚠ No index found. Indexing documents first...")
+            print("\n  [WARN] No index found. Indexing documents first...")
             pipeline.index_documents()
 
     print_header("PROCESSING QUERY")
@@ -203,7 +204,7 @@ def action_query(
         return result
     except Exception as exc:
         logger.error("Query failed: %s", exc)
-        print(f"\n  ❌ Query failed: {exc}")
+        print(f"\n  [FAILED] Query failed: {exc}")
         return None
 
 def action_test(pipeline: RAGPipeline) -> None:
@@ -220,7 +221,7 @@ def action_test(pipeline: RAGPipeline) -> None:
     stats = pipeline.index_documents(force_reindex=True)
 
     if stats.get("error"):
-        print(f"\n  ❌ Indexing failed: {stats['error']}")
+        print(f"\n  [FAILED] Indexing failed: {stats['error']}")
         return
 
     print_indexing_stats(stats)
@@ -288,7 +289,7 @@ def action_interactive(pipeline: RAGPipeline) -> None:
 
             if question.lower() == "reindex":
                 pipeline.index_documents(force_reindex=True)
-                print("  ✓ Re-indexing complete.")
+                print("  [OK] Re-indexing complete.")
                 continue
 
             if not question:
@@ -305,7 +306,7 @@ def action_interactive(pipeline: RAGPipeline) -> None:
             break
         except Exception as exc:
             logger.error("Interactive session error: %s", exc)
-            print(f"\n  ⚠ Error: {exc}")
+            print(f"\n  [WARN] Error: {exc}")
 
 def action_info(pipeline: RAGPipeline, show_full: bool = False) -> None:
     """
@@ -396,15 +397,15 @@ Examples:
     parser.add_argument(
         "--chunk-size",
         type=int,
-        default=500,
-        help="Chunk size in characters (default: 500)",
+        default=DEFAULT_CHUNK_SIZE,
+        help=f"Chunk size in characters (default: {DEFAULT_CHUNK_SIZE})",
     )
 
     parser.add_argument(
         "--chunk-overlap",
         type=int,
-        default=50,
-        help="Chunk overlap in characters (default: 50)",
+        default=DEFAULT_CHUNK_OVERLAP,
+        help=f"Chunk overlap in characters (default: {DEFAULT_CHUNK_OVERLAP})",
     )
 
     parser.add_argument(
@@ -417,8 +418,8 @@ Examples:
     parser.add_argument(
         "--retrieval-k",
         type=int,
-        default=5,
-        help="Number of chunks to retrieve (default: 5)",
+        default=DEFAULT_RETRIEVAL_K,
+        help=f"Number of chunks to retrieve (default: {DEFAULT_RETRIEVAL_K})",
     )
 
     # LLM Configuration
@@ -570,5 +571,3 @@ Examples:
 
 if __name__ == "__main__":
     main()
-
-
