@@ -11,11 +11,14 @@ Modes:
     all          Evaluate vector DB integration AND run the optimization sweep
     vector-db    Evaluate the FAISS vector database integration only
     optimize     Run the retrieval performance configuration sweep only
+    test-set     Run the verified test set through real retrieval + generation,
+                 scored with RelevanceEvaluator and FactualityEvaluator
 
 Usage:
     python evaluate_rag.py --mode all
     python evaluate_rag.py --mode vector-db
     python evaluate_rag.py --mode optimize
+    python evaluate_rag.py --mode test-set
     python evaluate_rag.py --mode all --output reports/evaluation_report.md
     python evaluate_rag.py --mode all --queries "What is CARIVIX AI?" "Tell me about economics"
 """
@@ -35,6 +38,7 @@ from rag.evaluation import (
     PerformanceEvaluator,
     EvaluationReport,
 )
+from rag.config import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP, DEFAULT_RETRIEVAL_K
 
 # =============================================================================
 # Constants
@@ -59,6 +63,10 @@ def collect_system_config() -> Dict[str, Any]:
 
     Processing Device is detected at runtime rather than assumed, since
     this pipeline can run on either CPU or GPU depending on the machine.
+    Chunk Size, Chunk Overlap, and Retrieval Top-k are read from the same
+    rag.config constants the pipeline itself uses, rather than being
+    hardcoded separately, so this report can never silently drift out of
+    sync with the actual configured defaults.
     """
     try:
         import torch
@@ -69,15 +77,75 @@ def collect_system_config() -> Dict[str, Any]:
     return {
         "Document Loader": "Implemented (PDF/DOCX/TXT/CSV)",
         "Text Preprocessing": "Enabled",
-        "Chunk Size": 500,
-        "Chunk Overlap": 50,
+        "Chunk Size": DEFAULT_CHUNK_SIZE,
+        "Chunk Overlap": DEFAULT_CHUNK_OVERLAP,
         "Embedding Model": "sentence-transformers/all-MiniLM-L6-v2",
         "Embedding Dimension": 384,
         "Vector Database": "FAISS",
-        "Retrieval Top-k": 5,
+        "Retrieval Top-k": DEFAULT_RETRIEVAL_K,
         "LLM Runtime": "Ollama",
         "Processing Device": detected_device,
     }
+
+def run_test_set_evaluation(args) -> List[Dict[str, Any]]:
+    """
+    Run the verified TestSetGenerator cases through real retrieval and
+    real LLM generation, scored with RelevanceEvaluator and
+    FactualityEvaluator.
+    """
+    from rag.pipeline import RAGPipeline
+    from rag.evaluation import TestSetGenerator, RelevanceEvaluator, FactualityEvaluator
+
+    print("\n" + "=" * 70)
+    print("  STEP 3: TEST SET EVALUATION (relevance + factuality)")
+    print("=" * 70)
+
+    pipeline = RAGPipeline(
+        documents_dir=DEFAULT_DOCUMENTS_DIR,
+        vector_store_dir=DEFAULT_VECTOR_STORE_DIR,
+    )
+    pipeline.load_index()
+
+    relevance_eval = RelevanceEvaluator()
+    factuality_eval = FactualityEvaluator()
+    cases = TestSetGenerator.default_cases()
+    results = []
+
+    for i, case in enumerate(cases, start=1):
+        result = pipeline.query(case.query, k=5, max_tokens=512, temperature=0.0)
+        retrieved_chunks = result.get("retrieved_chunks", [])
+        answer = result.get("response", "")
+
+        rel_result = relevance_eval.evaluate(case.query, retrieved_chunks)
+
+        context_texts = []
+        for chunk in retrieved_chunks:
+            text = chunk.get("text") or chunk.get("document")
+            if hasattr(text, "page_content"):
+                text = text.page_content
+            context_texts.append(str(text or ""))
+
+        fact_result = factuality_eval.evaluate(answer, context_texts, case.query)
+
+        print(f"\n[{i}/{len(cases)}] [{case.category}] {case.query}")
+        print(f"  Relevance: {rel_result['relevance_score']} ({rel_result['relevance_status']})")
+        print(f"  Supported claims: {len(fact_result['supported_claims'])}, "
+              f"Unsupported: {len(fact_result['unsupported_claims'])}, "
+              f"Declined: {fact_result.get('declined_to_answer', False)}")
+
+        results.append({
+            "query": case.query,
+            "category": case.category,
+            "answer": answer,
+            "relevance_score": rel_result["relevance_score"],
+            "relevance_status": rel_result["relevance_status"],
+            "supported_claims": len(fact_result["supported_claims"]),
+            "unsupported_claims": len(fact_result["unsupported_claims"]),
+            "declined_to_answer": fact_result.get("declined_to_answer", False),
+        })
+
+    return results
+
 def run_vector_db_evaluation(args) -> Dict[str, Any]:
     """
     Run the FAISS vector database integration evaluation.
@@ -165,6 +233,7 @@ Examples:
   python evaluate_rag.py --mode all
   python evaluate_rag.py --mode vector-db
   python evaluate_rag.py --mode optimize
+  python evaluate_rag.py --mode test-set
   python evaluate_rag.py --mode all --output reports/evaluation_report.md
   python evaluate_rag.py --mode all --chunk-sizes 300 500 800
         """,
@@ -174,7 +243,7 @@ Examples:
         "--mode",
         type=str,
         default="all",
-        choices=["all", "vector-db", "optimize"],
+        choices=["all", "vector-db", "optimize", "test-set"],
         help="Evaluation mode (default: all)",
     )
 
@@ -287,6 +356,9 @@ Examples:
             if performance_results:
                 best_config = performance_results[0]
 
+        if args.mode in ("all", "test-set"):
+            run_test_set_evaluation(args)
+
         # --- Generate report ---
         system_config = collect_system_config()
         report = EvaluationReport(
@@ -307,9 +379,8 @@ Examples:
 
     except Exception as exc:
         logger.error("Evaluation failed: %s", exc)
-        print(f"\n  ❌ Evaluation failed: {exc}")
+        print(f"\n  [FAILED] Evaluation failed: {exc}")
         raise
 
 if __name__ == "__main__":
     main()
-
