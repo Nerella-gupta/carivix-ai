@@ -57,8 +57,15 @@ def collect_system_config() -> Dict[str, Any]:
     """
     Return the current system configuration summary.
 
-    Mirrors the user's stated configuration for the existing pipeline.
+    Processing Device is detected at runtime rather than assumed, since
+    this pipeline can run on either CPU or GPU depending on the machine.
     """
+    try:
+        import torch
+        detected_device = "CUDA (GPU)" if torch.cuda.is_available() else "CPU"
+    except Exception:
+        detected_device = "CPU"
+
     return {
         "Document Loader": "Implemented (PDF/DOCX/TXT/CSV)",
         "Text Preprocessing": "Enabled",
@@ -69,9 +76,8 @@ def collect_system_config() -> Dict[str, Any]:
         "Vector Database": "FAISS",
         "Retrieval Top-k": 5,
         "LLM Runtime": "Ollama",
-        "Processing Device": "CPU",
+        "Processing Device": detected_device,
     }
-
 def run_vector_db_evaluation(args) -> Dict[str, Any]:
     """
     Run the FAISS vector database integration evaluation.

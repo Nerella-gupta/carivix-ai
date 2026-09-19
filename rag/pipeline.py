@@ -161,11 +161,11 @@ class RAGPipeline:
             "LLM: %s/%s, Retrieval k: %d",
             documents_dir,
             vector_store_dir,
-            chunk_size,
-            chunk_overlap,
+            self.chunk_size,
+            self.chunk_overlap,
             llm_backend,
             llm_model or "default",
-            retrieval_k,
+            self.retrieval_k,
         )
 
     # ------------------------------------------------------------------
