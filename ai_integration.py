@@ -72,6 +72,28 @@ import os
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+
+def _serialize_retrieved_chunk(chunk: Dict[str, Any]) -> Dict[str, Any]:
+    """Return JSON-safe retrieval evidence while preserving source metadata."""
+    document = chunk.get("document")
+    metadata = dict(chunk.get("metadata") or getattr(document, "metadata", {}) or {})
+    text = chunk.get("text") or getattr(document, "page_content", "")
+    return {
+        "rank": chunk.get("rank"),
+        "score": chunk.get("score"),
+        "distance": chunk.get("distance"),
+        "text": text,
+        "source": chunk.get("source") or metadata.get("source"),
+        "document_id": chunk.get("document_id") or metadata.get("document_id"),
+        "file_name": chunk.get("file_name") or metadata.get("file_name"),
+        "document_type": chunk.get("document_type") or metadata.get("document_type"),
+        "chunk_id": chunk.get("chunk_id") or metadata.get("chunk_id"),
+        "chunk_index": chunk.get("chunk_index") or metadata.get("chunk_index"),
+        "page": chunk.get("page") or metadata.get("page"),
+        "metadata": metadata,
+    }
+
+
 def _get_rag_pipeline(app: FastAPI) -> RAGPipeline:
     # Lazy-init pipeline and stash in app.state
     if not hasattr(app.state, "rag_pipeline") or app.state.rag_pipeline is None:
@@ -123,8 +145,18 @@ def register_ai_routes(app: FastAPI) -> None:
                     verbose=False,
                 )
                 total_time = time.time() - total_start
+                retrieved_chunks = [
+                    _serialize_retrieved_chunk(chunk)
+                    for chunk in result.get("retrieved_chunks", [])
+                ]
+                context = result.get("context", "")
+                prompt = result.get("prompt", "")
                 response_payload["rag_context"] = {
-                    "retrieved_chunks": result.get("retrieved_chunks", []),
+                    "retrieved_chunks": retrieved_chunks,
+                    "context": context,
+                    "prompt": prompt,
+                    "context_length": len(context),
+                    "prompt_length": len(prompt),
                     "retrieval_time": result.get("retrieval_time"),
                     "generation_time": result.get("generation_time"),
                     "total_time": result.get("total_time", total_time),
