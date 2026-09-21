@@ -1,4 +1,4 @@
-﻿"""
+"""
 Prompt Builder Module for CARIVIX AI RAG Pipeline
 ===================================================
 
@@ -7,12 +7,14 @@ document chunks with the user's query.
 
 Prompt Template:
 
-    You are a helpful AI assistant for the CARIVIX AI project.
-    Answer the question based ONLY on the provided context.
-    If the answer is not available in the context, reply:
-    "Information not found."
+    SYSTEM INSTRUCTIONS
 
-    Context:
+    You are a grounded AI assistant for the CARIVIX AI project.
+    Answer using the provided context only. Do not use unsupported information.
+    Avoid hallucination. State when the context is insufficient. Keep answers relevant
+    and use the retrieved context as the primary source. If the answer is not available in the context, reply: "Information not found."
+
+    CONTEXT:
     ---
     [Retrieved Chunk 1]
     ---
@@ -20,10 +22,10 @@ Prompt Template:
     ---
     ...
 
-    Question:
+    USER QUESTION:
     [User Query]
 
-    Answer:
+    ANSWER:
 
 Usage:
     builder = PromptBuilder()
