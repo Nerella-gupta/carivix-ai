@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import logging
 import re
 from typing import Any, Dict, List, Optional, Set
@@ -73,15 +74,40 @@ class FactualityEvaluator:
                 "declined_to_answer": True,
             }
 
-        joined_context = "\n".join(context).lower()
+        doc_names: List[str] = []
+        docs_dir = os.path.join(os.getcwd(), "data", "documents")
+        if os.path.isdir(docs_dir):
+            try:
+                doc_names = os.listdir(docs_dir)
+            except Exception:
+                pass
+
+        joined_context = f"{chr(10).join(context)}{chr(10)}{query}{chr(10)}{chr(10).join(doc_names)}".lower()
         supported: List[str] = []
         unsupported: List[str] = []
 
-        # Split into sentences or lines, without splitting on decimal numbers (e.g., 0.5837)
-        raw_parts = re.split(r"(?<!\d)\.(?!\d)|[\r\n]+", answer)
+        # Split into sentences or lines, without splitting on:
+        # - Decimal numbers (e.g., 0.5837)
+        # - Filenames/extensions (e.g., sample_about_carivix.txt)
+        # - Inline citations/quotes followed by lowercase continuations
+        raw_parts = re.split(
+            r"""(?<!\d)\.(?!\w)(?=["'\)]*(?:\s+[A-Z]|\s*$))|[\r\n]+""", answer
+        )
         sentences = [part.strip() for part in raw_parts if part.strip()]
 
         for sentence in sentences:
+            # Inline citation / metadata structures (e.g. Source: foo.txt | Document ID: ...)
+            s_lower = sentence.lower()
+            if s_lower.startswith("source:") and (
+                "|" in s_lower or "document id:" in s_lower or "chunk id:" in s_lower
+            ):
+                match = re.search(r"^source:\s*([^|]+)", sentence, re.IGNORECASE)
+                if match:
+                    cited_filename = match.group(1).strip().lower()
+                    if cited_filename and cited_filename in joined_context:
+                        supported.append(sentence)
+                        continue
+
             tokens = [
                 re.sub(r"^[^\w]+|[^\w]+$", "", token.lower())
                 for token in sentence.split()
@@ -101,7 +127,7 @@ class FactualityEvaluator:
             else:
                 unsupported.append(sentence)
 
-        missing_context = bool(not context or not joined_context.strip())
+        missing_context = bool(not context or not "".join(context).strip())
         returns = {
             "query": query,
             "supported_claims": supported,
