@@ -53,9 +53,9 @@ logger = logging.getLogger("CARIVIX_AI.ai_integration")
 
 class AIQueryRequest(BaseModel):
     query: str = Field(..., min_length=1)
-    k: Optional[int] = Field(None, description="Number of RAG chunks to retrieve")
-    max_tokens: Optional[int] = Field(512, description="LLM max tokens")
-    temperature: Optional[float] = Field(0.0, description="LLM temperature")
+    k: Optional[int] = Field(None, gt=0, le=50, description="Number of RAG chunks to retrieve")
+    max_tokens: Optional[int] = Field(512, gt=0, le=8192, description="LLM max tokens")
+    temperature: Optional[float] = Field(0.0, ge=0.0, le=2.0, description="LLM temperature")
     auto_fill_missing: Optional[bool] = Field(False, description="If true, automatically fill missing features with defaults when running ML prediction")
 
 
@@ -77,6 +77,7 @@ def _serialize_retrieved_chunk(chunk: Dict[str, Any]) -> Dict[str, Any]:
     """Return JSON-safe retrieval evidence while preserving source metadata."""
     document = chunk.get("document")
     metadata = dict(chunk.get("metadata") or getattr(document, "metadata", {}) or {})
+    metadata.pop("file_path", None)
     text = chunk.get("text") or getattr(document, "page_content", "")
     return {
         "rank": chunk.get("rank"),
@@ -120,7 +121,14 @@ def register_ai_routes(app: FastAPI) -> None:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Empty query")
 
         # Step 1: NLP analysis
-        nlp_out = nlp_analyze(query)
+        try:
+            nlp_out = nlp_analyze(query)
+        except Exception as exc:
+            logger.exception("NLP query analysis failed: %s", exc)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="AI query processing failed.",
+            ) from exc
         route = nlp_out.get("route", "rag")
 
         response_payload: Dict[str, Any] = {
@@ -163,9 +171,28 @@ def register_ai_routes(app: FastAPI) -> None:
                 }
                 response_payload["final_response"] = result.get("response")
                 return response_payload
+            except (ConnectionError, TimeoutError, FileNotFoundError) as exc:
+                logger.exception("RAG dependency unavailable: %s", exc)
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail="RAG service is unavailable.",
+                ) from exc
             except RuntimeError as exc:
                 logger.exception("RAG pipeline failed: %s", exc)
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc))
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE
+                    if "No index available" in str(exc)
+                    else status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="RAG service is unavailable."
+                    if "No index available" in str(exc)
+                    else "RAG query failed.",
+                ) from exc
+            except Exception as exc:
+                logger.exception("Unexpected RAG failure: %s", exc)
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="RAG query failed.",
+                ) from exc
 
         elif route == "ml":
             # Attempt a conservative mapping from natural-language to model features and run prediction
@@ -290,11 +317,28 @@ def register_ai_routes(app: FastAPI) -> None:
                 response_payload["ml_prediction"] = pred
                 response_payload["final_response"] = f"ML prediction: {pred.get('prediction')}"
                 return response_payload
+            except ValueError as exc:
+                logger.warning("Automatic ML prediction rejected input: %s", exc)
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Invalid model input.",
+                ) from exc
+            except RuntimeError as exc:
+                logger.exception("Automatic ML prediction failed: %s", exc)
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE
+                    if "No trained model" in str(exc)
+                    else status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Model service is unavailable."
+                    if "No trained model" in str(exc)
+                    else "ML prediction failed.",
+                ) from exc
             except Exception as exc:
                 logger.exception("Automatic ML prediction failed: %s", exc)
-                response_payload["ml_prediction"] = {"error": str(exc)}
-                response_payload["final_response"] = "ML prediction failed. See ml_prediction.error for details."
-                return response_payload
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="ML prediction failed.",
+                ) from exc
 
         elif route == "combined":
             # Attempt to run retrieval and include ML placeholder; full ML integration requires mapping
@@ -321,9 +365,18 @@ def register_ai_routes(app: FastAPI) -> None:
                 response_payload["ml_prediction"] = ml_pred
                 response_payload["final_response"] = final
                 return response_payload
+            except (ConnectionError, TimeoutError, FileNotFoundError) as exc:
+                logger.exception("Combined route dependency unavailable: %s", exc)
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail="AI dependencies are unavailable.",
+                ) from exc
             except Exception as exc:
                 logger.exception("Combined route failed: %s", exc)
-                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(exc))
+                raise HTTPException(
+                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    detail="Combined AI query failed.",
+                ) from exc
 
         else:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Unsupported route: {route}")

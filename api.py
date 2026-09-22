@@ -1,4 +1,5 @@
 from typing import Any, Dict, List, Optional
+import logging
 
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
@@ -93,9 +94,9 @@ def create_app(model_service: Optional[ModelService] = None) -> FastAPI:
     try:
         from ai_integration import register_ai_routes
         register_ai_routes(app)
-    except Exception:
+    except Exception as exc:
         # If registration fails, continue without AI routes — the rest of the API stays functional
-        pass
+        logging.getLogger("CARIVIX_AI").exception("AI route registration failed: %s", exc)
 
     @app.get("/", include_in_schema=False)
     async def root_redirect():
