@@ -18,11 +18,10 @@ import time
 import re
 import json
 from collections import Counter
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
-from datetime import datetime
 from rag.pipeline import RAGPipeline
 from nlp_module import analyze as nlp_analyze
 
@@ -293,7 +292,7 @@ def register_ai_routes(app: FastAPI) -> None:
                     # Auto-fill missing base fields: use categorical defaults or safe numeric defaults
                     for mb in missing_base:
                         if mb == "application_date":
-                            extracted_base[mb] = datetime.now(datetime.UTC).date().isoformat()
+                            extracted_base[mb] = datetime.now(timezone.utc).date().isoformat()
                         elif mb in _categorical_defaults:
                             extracted_base[mb] = _categorical_defaults.get(mb)
                         else:
