@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import logging
 import re
 from typing import Any, Dict, List, Optional, Set
@@ -52,7 +51,13 @@ class FactualityEvaluator:
         self.logger = logger
         self.min_content_word_ratio = min_content_word_ratio
 
-    def evaluate(self, answer: str, context: List[str], query: str) -> Dict[str, Any]:
+    def evaluate(
+        self,
+        answer: str,
+        context: List[str],
+        query: str,
+        retrieved_sources: Optional[List[str]] = None,
+    ) -> Dict[str, Any]:
         if not answer or not answer.strip():
             return {
                 "query": query,
@@ -74,15 +79,19 @@ class FactualityEvaluator:
                 "declined_to_answer": True,
             }
 
-        doc_names: List[str] = []
-        docs_dir = os.path.join(os.getcwd(), "data", "documents")
-        if os.path.isdir(docs_dir):
-            try:
-                doc_names = os.listdir(docs_dir)
-            except Exception:
-                pass
+        valid_sources: Optional[Set[str]] = None
+        if retrieved_sources is not None:
+            valid_sources = set()
+            for s in retrieved_sources:
+                if s:
+                    s_clean = str(s).strip().lower()
+                    if s_clean:
+                        valid_sources.add(s_clean)
+                        base = s_clean.replace("\\", "/").split("/")[-1]
+                        if base:
+                            valid_sources.add(base)
 
-        joined_context = f"{chr(10).join(context)}{chr(10)}{query}{chr(10)}{chr(10).join(doc_names)}".lower()
+        joined_context = f"{chr(10).join(context)}{chr(10)}{query}".lower()
         supported: List[str] = []
         unsupported: List[str] = []
 
@@ -104,9 +113,15 @@ class FactualityEvaluator:
                 match = re.search(r"^source:\s*([^|]+)", sentence, re.IGNORECASE)
                 if match:
                     cited_filename = match.group(1).strip().lower()
-                    if cited_filename and cited_filename in joined_context:
-                        supported.append(sentence)
-                        continue
+                    cited_base = cited_filename.replace("\\", "/").split("/")[-1]
+                    if valid_sources is not None:
+                        if cited_filename in valid_sources or cited_base in valid_sources:
+                            supported.append(sentence)
+                            continue
+                    else:
+                        if cited_filename and cited_filename in joined_context:
+                            supported.append(sentence)
+                            continue
 
             tokens = [
                 re.sub(r"^[^\w]+|[^\w]+$", "", token.lower())

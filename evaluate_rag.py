@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 CARIVIX AI - RAG Pipeline Evaluation & Optimization CLI
 =========================================================
@@ -129,7 +129,10 @@ def run_test_set_evaluation(args) -> List[Dict[str, Any]]:
                 text = text.page_content
             context_texts.append(str(text or ""))
 
-        fact_result = factuality_eval.evaluate(answer, context_texts, case.query)
+        retrieved_sources = [c.get("source") for c in retrieved_chunks if c.get("source")]
+        fact_result = factuality_eval.evaluate(
+            answer, context_texts, case.query, retrieved_sources=retrieved_sources
+        )
 
         print(f"\n[{i}/{len(cases)}] [{case.category}] {case.query}")
         print(f"  Relevance: {rel_result['relevance_score']} ({rel_result['relevance_status']})")

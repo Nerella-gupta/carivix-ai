@@ -59,7 +59,10 @@ def main():
                 text = text.page_content
             context_texts.append(str(text or ""))
 
-        fact_result = factuality_eval.evaluate(answer, context_texts, case.query)
+        retrieved_sources = [c.get("source") for c in retrieved_chunks if c.get("source")]
+        fact_result = factuality_eval.evaluate(
+            answer, context_texts, case.query, retrieved_sources=retrieved_sources
+        )
 
         print(f"Expected category: {case.category}")
         print(f"Expected answer:   {case.expected_answer}")
