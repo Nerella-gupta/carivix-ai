@@ -32,7 +32,11 @@ from typing import Any, Dict, List, Optional
 # Add project root to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.utils import setup_logger, ensure_directory, get_timestamp
+from src.utils import (  # pyright: ignore[reportMissingImports]
+    setup_logger,
+    ensure_directory,
+    get_timestamp,
+)
 from rag.evaluation import (
     VectorDBEvaluator,
     PerformanceEvaluator,

@@ -395,8 +395,8 @@ class RAGPipeline:
                 logger.warning("LLM backend '%s' is not available. Returning retrieved context only.", self._llm_backend)
                 response = "[LLM not available. Retrieved context shown above.]"
         except Exception as exc:
-            logger.error("LLM generation failed: %s", exc)
-            response = f"Error generating response: {exc}\n\nRetrieved context is available above."
+            logger.exception("LLM generation failed: %s", exc)
+            response = "LLM generation failed. Retrieved context is available above."
 
         generation_time = time.time() - generation_start
         total_time = time.time() - total_start

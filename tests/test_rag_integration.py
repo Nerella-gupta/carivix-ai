@@ -3,6 +3,7 @@
 from fastapi.testclient import TestClient
 from langchain_core.documents import Document
 
+import ai_integration
 from api import create_app
 from rag.context_builder import ContextBuilder
 from rag.prompt_builder import PromptBuilder
@@ -110,9 +111,98 @@ def test_ai_endpoint_returns_retrieval_and_model_context_evidence():
     assert rag_context["retrieved_chunks"][0]["source"] == "rag_workflow.md"
     assert rag_context["retrieved_chunks"][0]["document_id"] == "doc-001"
     assert rag_context["retrieved_chunks"][0]["score"] == 0.91
+    assert "file_path" not in rag_context["retrieved_chunks"][0]["metadata"]
     assert rag_context["context_length"] == len(rag_context["context"])
     assert rag_context["prompt_length"] == len(rag_context["prompt"])
     assert "rag_workflow.md" in rag_context["context"]
     assert "CARIVIX AI uses retrieval augmented generation" in rag_context["prompt"]
     assert "What does the RAG workflow explain?" in rag_context["prompt"]
     assert body["final_response"]
+
+
+def test_ai_endpoint_rejects_invalid_query_controls():
+    app = create_app(model_service=_FakeModelService())
+    response = TestClient(app).post(
+        "/api/v1/ai/query",
+        json={"query": "Explain the report", "k": 0, "temperature": 3},
+    )
+
+    assert response.status_code == 422
+    assert response.json() == {"success": False, "error": "Invalid request data."}
+
+
+def test_ai_endpoint_sanitizes_rag_failure(monkeypatch):
+    app = create_app(model_service=_FakeModelService())
+
+    def fail_pipeline(_app):
+        raise RuntimeError("secret index path")
+
+    monkeypatch.setattr(ai_integration, "_get_rag_pipeline", fail_pipeline)
+    response = TestClient(app).post(
+        "/api/v1/ai/query", json={"query": "Explain the report"}
+    )
+
+    assert response.status_code == 500
+    assert response.json()["detail"] == "RAG query failed."
+    assert "secret index path" not in response.text
+
+
+def test_ai_endpoint_reports_missing_rag_index_as_unavailable(monkeypatch):
+    app = create_app(model_service=_FakeModelService())
+
+    def fail_pipeline(_app):
+        raise RuntimeError("No index available. Run index_documents() first.")
+
+    monkeypatch.setattr(ai_integration, "_get_rag_pipeline", fail_pipeline)
+    response = TestClient(app).post(
+        "/api/v1/ai/query", json={"query": "Explain the report"}
+    )
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "RAG service is unavailable."
+
+
+def test_ai_endpoint_sanitizes_nlp_failure(monkeypatch):
+    app = create_app(model_service=_FakeModelService())
+
+    def fail_nlp(_query):
+        raise RuntimeError("secret classifier state")
+
+    monkeypatch.setattr(ai_integration, "nlp_analyze", fail_nlp)
+    response = TestClient(app).post(
+        "/api/v1/ai/query", json={"query": "Explain the report"}
+    )
+
+    assert response.status_code == 500
+    assert response.json()["detail"] == "AI query processing failed."
+    assert "secret classifier state" not in response.text
+
+
+def test_ai_endpoint_sanitizes_ml_failure(monkeypatch):
+    class FailingModelService(_FakeModelService):
+        def predict(self, *_args, **_kwargs):
+            raise RuntimeError("secret model failure")
+
+    app = create_app(model_service=FailingModelService())
+    monkeypatch.setattr(
+        ai_integration,
+        "nlp_analyze",
+        lambda _query: {
+            "processed_query": "predict",
+            "intent": "ml_query",
+            "confidence": 1.0,
+            "entities": {},
+            "route": "ml",
+        },
+    )
+    response = TestClient(app).post(
+        "/api/v1/ai/query",
+        json={
+            "query": "predict age 43 income 67976 credit score 694",
+            "auto_fill_missing": True,
+        },
+    )
+
+    assert response.status_code == 500
+    assert response.json()["detail"] == "ML prediction failed."
+    assert "secret model failure" not in response.text

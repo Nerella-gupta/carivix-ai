@@ -1,0 +1,83 @@
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator SVC from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator GaussianNB from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator KNeighborsClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator DummyClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeRegressor from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator GradientBoostingClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator SVC from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator RandomForestClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator LogisticRegression from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator GaussianNB from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator KNeighborsClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator DummyClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator DecisionTreeRegressor from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\sklearn\base.py:525: InconsistentVersionWarning: Trying to unpickle estimator GradientBoostingClassifier from version 1.9.0 when using version 1.9.1. This might lead to breaking code or invalid results. Use at your own risk. For more info please refer to:
+https://scikit-learn.org/stable/model_persistence.html#security-maintainability-limitations
+  warnings.warn(
+INFO:     Started server process [12404]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:54419 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64184 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64187 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64190 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64191 - "GET /api/v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64192 - "GET /api/v1/model/info HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64193 - "POST /api/v1/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64195 - "POST /api/v1/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64198 - "POST /api/v1/predict/batch HTTP/1.1" 200 OK
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|##########| 103/103 [00:00<00:00, 2085.57it/s]
+INFO:     127.0.0.1:64199 - "POST /api/v1/ai/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61551 - "POST /api/v1/ai/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55517 - "POST /api/v1/ai/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53501 - "POST /api/v1/ai/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49255 - "POST /api/v1/ai/query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53617 - "POST /api/v1/ai/query HTTP/1.1" 400 Bad Request
+D:\CARIVIX\CARIVIX AI\CARIVIX_AI_Model_Training\venv\Lib\site-packages\starlette\_exception_handler.py:59: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+  response = await handler(conn, exc)  # type: ignore[arg-type]
+INFO:     127.0.0.1:62098 - "POST /api/v1/predict HTTP/1.1" 422 Unprocessable Entity
+INFO:     127.0.0.1:57604 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64338 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60991 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60991 - "GET /api/v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60991 - "GET /openapi.json HTTP/1.1" 200 OK
