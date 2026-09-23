@@ -1,0 +1,8 @@
+company_financials:
+  dedup_subset:
+    - Company Name
+  normalize_cols:
+    - Revenue
+  date_col: Report Date
+  categorical_cols:
+    - Region

@@ -53,3 +53,9 @@ See `rag/config.py` for centralized runtime defaults. Default values follow the 
 ## Notes
 
 This is the actual implementation currently present in the repository and reflects the components that are actively used across the codebase.
+
+Important implementation reality checks:
+- `nlp_module.py` currently uses rule-based routing and does not ship a trained intent-classifier artifact in `models/`.
+- `ai_integration.py` is intentionally conservative: it routes to RAG for general Q&A and only attempts ML inference when the query can be mapped to ModelService fields or when `auto_fill_missing` is explicitly enabled.
+- The project includes a small number of compatibility shims in the root directory for legacy tests and smoke-checks; the active runtime AI stack remains the RAG pipeline and `src/model_service.py`.
+- The repository documentation and actual code still differ in a few legacy references (older module names and test-only compatibility modules), so the runtime source of truth remains the implemented Python modules and their tests.

@@ -30,13 +30,17 @@ class ProcessingWorkflow:
 
     def run_with_profile(self, df: pd.DataFrame, profile_name: str, config_path: Optional[str] = None) -> pd.DataFrame:
         path = config_path or os.path.join(
-            os.path.dirname(__file__), "..", "config", "processing_profiles.yaml"
+            os.path.dirname(__file__), "config", "processing_profiles.yaml"
         )
-        with open(path) as f:
-            profiles = yaml.safe_load(f)
+        try:
+            with open(path, encoding="utf-8") as f:
+                profiles = yaml.safe_load(f) or {}
+        except FileNotFoundError as exc:
+            raise ProcessingWorkflowError(f"Profile config not found at '{path}'.") from exc
 
-        if profile_name not in profiles:
-            raise ProcessingWorkflowError(f"Unknown profile '{profile_name}'. Available: {list(profiles.keys())}")
+        if not isinstance(profiles, dict) or profile_name not in profiles:
+            available = list(profiles.keys()) if isinstance(profiles, dict) else []
+            raise ProcessingWorkflowError(f"Unknown profile '{profile_name}'. Available: {available}")
 
         settings = profiles[profile_name]
         return self.run(
