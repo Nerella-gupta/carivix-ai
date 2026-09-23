@@ -1,4 +1,4 @@
-﻿"""
+"""
 RAG Pipeline Integration Tests for CARIVIX AI
 ===============================================
 
@@ -153,7 +153,7 @@ class TestTextPreprocessor:
         """Test removal of control characters."""
         preprocessor = TextPreprocessor()
         result = preprocessor.clean_text("Hello\x00World\x01Test")
-        assert "HelloWorldTest" == result
+        assert "Hello World Test" == result
 
     def test_clean_documents(self, sample_text):
         """Test cleaning a list of documents."""

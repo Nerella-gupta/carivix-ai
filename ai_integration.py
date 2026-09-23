@@ -22,7 +22,6 @@ from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
-from datetime import datetime
 from rag.pipeline import RAGPipeline
 from nlp_module import analyze as nlp_analyze
 

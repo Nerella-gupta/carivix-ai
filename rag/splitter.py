@@ -1,4 +1,4 @@
-﻿"""
+"""
 Text Preprocessing & Splitting Module for CARIVIX AI RAG Pipeline
 ==================================================================
 
@@ -83,8 +83,8 @@ class TextPreprocessor:
         # Normalize line breaks: \r\n → \n, \r → \n
         text = text.replace("\r\n", "\n").replace("\r", "\n")
 
-        # Remove null bytes and other control characters (except newlines/tabs)
-        text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+        # Remove null bytes and other control characters (except newlines/tabs), replacing with a space
+        text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]+", " ", text)
 
         # Collapse multiple blank lines into one
         text = re.sub(r"\n{3,}", "\n\n", text)

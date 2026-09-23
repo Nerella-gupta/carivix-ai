@@ -1,4 +1,4 @@
-﻿"""
+"""
 Document Loader Module for CARIVIX AI RAG Pipeline
 ====================================================
 
@@ -126,7 +126,7 @@ class DocumentLoader:
                         all_documents.extend(documents)
                         file_count += 1
                         logger.info(
-                        "Loaded %s -> %d document(s)",
+                            "Loaded %s -> %d document(s)",
                             filename,
                             len(documents),
                         )
@@ -134,6 +134,12 @@ class DocumentLoader:
                         logger.error(
                             "Failed to load '%s': %s", filename, exc
                         )
+                else:
+                    logger.warning(
+                        "Skipping unsupported file '%s' (extension: '%s').",
+                        filename,
+                        ext,
+                    )
 
         logger.info(
             "Document loading complete. %d file(s), %d document(s) loaded.",
