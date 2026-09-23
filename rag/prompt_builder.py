@@ -35,6 +35,8 @@ Usage:
 import logging
 from typing import Any, Dict, List, Optional
 
+from rag.context_builder import ContextBuilder
+
 logger = logging.getLogger("CARIVIX_AI")
 
 class PromptBuilder:
@@ -86,6 +88,7 @@ ANSWER:"""
         self.system_prompt = system_prompt or self.DEFAULT_SYSTEM_PROMPT
         self.template = template or self.DEFAULT_PROMPT_TEMPLATE
         self.include_metadata = include_metadata
+        self.context_builder = ContextBuilder(include_metadata=self.include_metadata)
 
         logger.info(
             "PromptBuilder initialized. "
@@ -183,7 +186,7 @@ ANSWER:"""
         max_length: Optional[int] = None,
     ) -> str:
         """
-        Format retrieved chunks into a structured context string.
+        Format retrieved chunks into a structured context string using ContextBuilder.
 
         Args:
             retrieved_chunks: List of result dictionaries.
@@ -192,49 +195,11 @@ ANSWER:"""
         Returns:
             Formatted context string.
         """
-        if not retrieved_chunks:
-            return "No relevant context available."
-
-        parts = []
-        total_length = 0
-        seen_texts = set()
-
-        for chunk in retrieved_chunks:
-            text = chunk.get("text", chunk.get("document", ""))
-            if hasattr(text, "page_content"):
-                text = text.page_content
-            text = str(text or "").strip()
-            if not text or text in seen_texts:
-                continue
-            seen_texts.add(text)
-
-            header = f"Source: {chunk.get('source', 'unknown')}"
-            if chunk.get("document_id"):
-                header += f" | Document ID: {chunk['document_id']}"
-            if chunk.get("page"):
-                header += f" (Page {chunk['page']})"
-            if chunk.get("chunk_id"):
-                header += f" | Chunk ID: {chunk['chunk_id']}"
-            if chunk.get("chunk_index") is not None:
-                header += f" | Chunk Index: {chunk['chunk_index']}"
-            if self.include_metadata:
-                header += f" | Relevance: {chunk.get('score', 0):.4f}"
-
-            chunk_text = f"{header}\n{text}"
-
-            if max_length and total_length + len(chunk_text) > max_length:
-                remaining = max_length - total_length
-                if remaining > 50:
-                    parts.append(chunk_text[:remaining] + "...")
-                break
-
-            parts.append(chunk_text)
-            total_length += len(chunk_text)
-
-        if not parts:
-            return "No relevant context available."
-
-        return "\n\n---\n\n".join(parts)
+        return self.context_builder.build(
+            retrieved_chunks=retrieved_chunks,
+            max_context_chars=max_length,
+            include_metadata=self.include_metadata,
+        )
 
     # ------------------------------------------------------------------
     # Utility

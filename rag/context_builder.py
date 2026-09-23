@@ -11,16 +11,27 @@ logger = logging.getLogger("CARIVIX_AI")
 class ContextBuilder:
     """Build and normalize retrieved context before sending it to an LLM."""
 
-    def __init__(self, max_context_chars: Optional[int] = None) -> None:
+    def __init__(
+        self,
+        max_context_chars: Optional[int] = None,
+        include_metadata: bool = False,
+    ) -> None:
         self.max_context_chars = max_context_chars
+        self.include_metadata = include_metadata
 
-    def build(self, retrieved_chunks: Iterable[Dict[str, Any]], max_context_chars: Optional[int] = None) -> str:
+    def build(
+        self,
+        retrieved_chunks: Iterable[Dict[str, Any]],
+        max_context_chars: Optional[int] = None,
+        include_metadata: Optional[bool] = None,
+    ) -> str:
         """Combine retrieved chunks into a single context string."""
         chunks = list(retrieved_chunks or [])
         if not chunks:
             return "No relevant context available."
 
         limit = max_context_chars if max_context_chars is not None else self.max_context_chars
+        include_meta = self.include_metadata if include_metadata is None else include_metadata
         context_parts: List[str] = []
         total_chars = 0
         seen_texts = set()
@@ -40,21 +51,22 @@ class ContextBuilder:
             document_id = chunk.get("document_id")
             page = chunk.get("page")
 
-            metadata_bits = [f"Source: {source}"]
+            header = f"Source: {source}"
             if document_id:
-                metadata_bits.append(f"Document ID: {document_id}")
+                header += f" | Document ID: {document_id}"
+            if page:
+                header += f" (Page {page})"
             if chunk_id is not None:
-                metadata_bits.append(f"Chunk ID: {chunk_id}")
+                header += f" | Chunk ID: {chunk_id}"
             if chunk_index is not None:
-                metadata_bits.append(f"Chunk Index: {chunk_index}")
-            if page is not None:
-                metadata_bits.append(f"Page: {page}")
+                header += f" | Chunk Index: {chunk_index}"
+            if include_meta:
+                header += f" | Relevance: {float(chunk.get('score', 0.0)):.4f}"
 
-            header = " | ".join(metadata_bits)
             formatted = f"{header}\n{text}"
             if limit is not None and total_chars + len(formatted) > limit:
                 remaining = max(limit - total_chars, 0)
-                if remaining > 80:
+                if remaining > 50:
                     context_parts.append(formatted[:remaining].rstrip() + "...")
                 break
             context_parts.append(formatted)
@@ -64,3 +76,4 @@ class ContextBuilder:
             return "No relevant context available."
 
         return "\n\n---\n\n".join(context_parts)
+
