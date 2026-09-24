@@ -55,3 +55,10 @@ Document
 
 10. Response output
    - The final result includes the generated answer, sources, retrieved chunks, model name, and latency summary.
+
+## Current implementation status
+
+- Implemented and active: document loading, chunking, embeddings, FAISS indexing, retrieval, context formatting, prompt construction, and the AI route registration in `ai_integration.py`.
+- Partially implemented: NLP intent routing is heuristic-based rather than backed by a trained serialized classifier in the repo.
+- Implemented but intentionally conservative: ML inference is gated to structured model data and `auto_fill_missing` behavior, not free-form guessing.
+- Not yet implemented in the active runtime: a production-ready ML feature mapper from arbitrary natural language to all model features without explicit defaults or structured input.
