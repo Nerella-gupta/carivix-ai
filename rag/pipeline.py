@@ -1,4 +1,4 @@
-﻿"""
+"""
 End-to-End RAG Pipeline Module for CARIVIX AI
 ===============================================
 
@@ -48,6 +48,7 @@ from rag.vector_store import VectorStore
 from rag.retriever import Retriever
 from rag.prompt_builder import PromptBuilder
 from rag.generator import ResponseGenerator
+from rag.interpretation_detector import InterpretationDetector
 
 logger = logging.getLogger("CARIVIX_AI")
 
@@ -92,6 +93,8 @@ class RAGPipeline:
         # Retriever config
         retrieval_k: Optional[int] = None,
         score_threshold: Optional[float] = None,
+        # Interpretation detection config
+        detect_interpretations: bool = False,
     ) -> None:
         """
         Initialize the RAGPipeline with all components.
@@ -110,6 +113,7 @@ class RAGPipeline:
             include_metadata: Include metadata in prompt context.
             retrieval_k: Number of chunks to retrieve per query.
             score_threshold: Minimum similarity score for retrieval.
+            detect_interpretations: Enable two-pass interpretation detection.
         """
         config = DEFAULT_RAG_CONFIG
         self.documents_dir = documents_dir
@@ -118,6 +122,7 @@ class RAGPipeline:
         self.chunk_overlap = chunk_overlap if chunk_overlap is not None else config.chunk_overlap
         self.retrieval_k = retrieval_k if retrieval_k is not None else config.retrieval_k
         self.score_threshold = score_threshold if score_threshold is not None else config.score_threshold
+        self.detect_interpretations = detect_interpretations
 
         # Initialize components
         self.loader = DocumentLoader(documents_dir=documents_dir)
@@ -150,6 +155,7 @@ class RAGPipeline:
         if self._llm_backend == "ollama" and "base_url" not in self._llm_kwargs:
             self._llm_kwargs["base_url"] = config.ollama_base_url
         self._generator: Optional[ResponseGenerator] = None
+        self._interpretation_detector: Optional[InterpretationDetector] = None
 
         # Pipeline state
         self._is_indexed = False
@@ -169,7 +175,7 @@ class RAGPipeline:
         )
 
     # ------------------------------------------------------------------
-    # Generator (lazy-loaded)
+    # Generator & Detector (lazy-loaded)
     # ------------------------------------------------------------------
 
     @property
@@ -182,6 +188,13 @@ class RAGPipeline:
                 **self._llm_kwargs,
             )
         return self._generator
+
+    @property
+    def interpretation_detector(self) -> InterpretationDetector:
+        """Lazy-loaded InterpretationDetector."""
+        if self._interpretation_detector is None:
+            self._interpretation_detector = InterpretationDetector(generator=self.generator)
+        return self._interpretation_detector
 
     # ------------------------------------------------------------------
     # Indexing Pipeline
@@ -309,6 +322,7 @@ class RAGPipeline:
         max_tokens: int = 512,
         temperature: float = 0.7,
         verbose: bool = True,
+        detect_interpretations: Optional[bool] = None,
     ) -> Dict[str, Any]:
         """
         Run the full query pipeline: retrieve → build prompt → generate response.
@@ -319,6 +333,7 @@ class RAGPipeline:
             max_tokens: Maximum tokens for LLM response.
             temperature: LLM sampling temperature.
             verbose: If True, logs detailed pipeline information.
+            detect_interpretations: Enable two-pass interpretation detection for this query.
 
         Returns:
             Dictionary with:
@@ -328,7 +343,10 @@ class RAGPipeline:
                 - prompt: The prompt sent to the LLM
                 - retrieval_time: Time for retrieval in seconds
                 - generation_time: Time for generation in seconds
+                - detection_time: Time for interpretation detection in seconds
                 - total_time: Total query time in seconds
+                - two_pass_triggered: Whether two-pass interpretation was triggered
+                - interpretations_detected: List of detected interpretations
         """
         if not self._is_indexed:
             if not self.load_index():
@@ -365,19 +383,51 @@ class RAGPipeline:
                 "model": self.generator.model_name,
                 "retrieval_time": round(retrieval_time, 4),
                 "generation_time": 0.0,
+                "detection_time": 0.0,
                 "context_construction_time": 0.0,
                 "total_time": round(time.time() - total_start, 4),
-                "latency": {"query_embedding_latency": 0.0, "retrieval_latency": round(retrieval_time, 4), "context_construction_latency": 0.0, "llm_generation_latency": 0.0, "total_latency": round(time.time() - total_start, 4)},
+                "two_pass_triggered": False,
+                "interpretations_detected": [],
+                "latency": {"query_embedding_latency": 0.0, "retrieval_latency": round(retrieval_time, 4), "context_construction_latency": 0.0, "interpretation_detection_latency": 0.0, "llm_generation_latency": 0.0, "total_latency": round(time.time() - total_start, 4)},
             }
 
         context_start = time.time()
         context = self.context_builder.build(retrieved_chunks)
         context_construction_time = time.time() - context_start
 
+        should_detect = (
+            self.detect_interpretations
+            if detect_interpretations is None
+            else detect_interpretations
+        )
+
+        detection_time = 0.0
+        two_pass_triggered = False
+        interpretations_detected: List[str] = []
+
+        if should_detect and context and context.strip() != "No relevant context available.":
+            det_start = time.time()
+            try:
+                detection = self.interpretation_detector.detect(question=question, context=context)
+                detection_time = time.time() - det_start
+                if detection.get("has_multiple_interpretations"):
+                    interpretations_detected = detection.get("interpretations", [])
+                    two_pass_triggered = len(interpretations_detected) >= 2
+                    if verbose:
+                        logger.info(
+                            "Distinct interpretations detected: %s (detection time: %.4fs)",
+                            interpretations_detected,
+                            detection_time,
+                        )
+            except Exception as exc:
+                detection_time = time.time() - det_start
+                logger.warning("Interpretation detection error: %s", exc)
+
         prompt = self.prompt_builder.build_prompt(
             query=question,
             retrieved_chunks=retrieved_chunks,
             max_context_length=4000,
+            interpretations=interpretations_detected if two_pass_triggered else None,
         )
 
         if verbose:
@@ -417,18 +467,24 @@ class RAGPipeline:
             "model": self.generator.model_name,
             "retrieval_time": round(retrieval_time, 4),
             "generation_time": round(generation_time, 4),
+            "detection_time": round(detection_time, 4),
             "context_construction_time": round(context_construction_time, 4),
             "total_time": round(total_time, 4),
+            "two_pass_triggered": two_pass_triggered,
+            "interpretations_detected": interpretations_detected,
             "latency": {
                 "query_embedding_latency": 0.0,
                 "retrieval_latency": round(retrieval_time, 4),
                 "context_construction_latency": round(context_construction_time, 4),
+                "interpretation_detection_latency": round(detection_time, 4),
                 "llm_generation_latency": round(generation_time, 4),
                 "total_latency": round(total_time, 4),
             },
         }
 
         if verbose:
+            if detection_time > 0:
+                logger.info("Interpretation detection time: %.4f seconds.", detection_time)
             logger.info("Response generated in %.4f seconds.", generation_time)
             logger.info("Total query time: %.4f seconds.", total_time)
             logger.info("=" * 60)

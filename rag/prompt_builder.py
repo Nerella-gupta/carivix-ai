@@ -105,6 +105,7 @@ ANSWER:"""
         query: str,
         retrieved_chunks: List[Dict[str, Any]],
         max_context_length: Optional[int] = None,
+        interpretations: Optional[List[str]] = None,
     ) -> str:
         """
         Build a complete prompt from a query and retrieved chunks.
@@ -114,15 +115,26 @@ ANSWER:"""
             retrieved_chunks: List of result dictionaries from the Retriever.
             max_context_length: Maximum characters for context.
                 If None, no limit is applied.
+            interpretations: Optional list of distinct interpretations detected in context.
 
         Returns:
             Formatted prompt string ready for LLM inference.
         """
         context = self._format_context(retrieved_chunks, max_context_length)
+        question_text = query.strip()
+        if interpretations:
+            interp_list = "\n".join(f"- {item}" for item in interpretations)
+            question_text = (
+                f"{question_text}\n\n"
+                f"IMPORTANT: The context provides information covering multiple distinct interpretations/facets:\n"
+                f"{interp_list}\n"
+                f"Your answer MUST explicitly address each of these distinct aspects based on the context."
+            )
+
         prompt = self.template.format(
             system_prompt=self.system_prompt,
             context=context,
-            question=query.strip(),
+            question=question_text,
         )
 
         logger.debug(

@@ -73,6 +73,7 @@ def main():
         if fact_result["unsupported_claims"]:
             print(f"  -> Potential hallucinations: {fact_result['unsupported_claims']}")
         print(f"Missing context:   {fact_result['missing_context']}")
+        print(f"Detection time:    {result.get('detection_time', 0.0)}s")
 
     print(f"\n{'=' * 70}")
     print("  EVALUATION COMPLETE")
