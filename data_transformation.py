@@ -51,7 +51,7 @@ class DataTransformer:
             mean = series.mean()
             std = series.std(ddof=0)
             if pd.isna(std) or std == 0:
-                normalized = 0.0
+                normalized = pd.Series(0.0, index=series.index)
             else:
                 normalized = (series - mean) / std
             result[column] = normalized.fillna(0.0)
