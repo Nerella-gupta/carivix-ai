@@ -19,10 +19,12 @@ The configuration is centralized in `rag/config.py` and defaults to:
 
 - model: `sentence-transformers/all-MiniLM-L6-v2`
 - embedding dimension: `384`
-- chunk size: `500`
+- chunk size: `300`
 - chunk overlap: `50`
-- retrieval k: `5`
+- retrieval k: `3`
 - Ollama base URL: `http://localhost:11434`
+
+These values were selected from a 27-configuration sweep across chunk size, overlap, and top-k (composite score 0.5603), reviewed and approved before being applied. See rag/evaluation/ and the Day 3 test report for the underlying data.
 
 ## Retrieval Behavior
 
