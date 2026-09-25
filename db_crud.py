@@ -19,6 +19,13 @@ class DatabaseManager:
         self.conn.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_sql})")
         self.conn.commit()
 
+    def drop_table(self, table_name: str, if_exists: bool = False) -> None:
+        if not table_name:
+            raise ValueError("table_name is required")
+        clause = "IF EXISTS " if if_exists else ""
+        self.conn.execute(f"DROP TABLE {clause}{table_name}")
+        self.conn.commit()
+
     def insert(self, table_name: str, row: Dict[str, Any]) -> int:
         columns = list(row.keys())
         placeholders = ", ".join("?" for _ in columns)
